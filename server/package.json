@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.1",
+    "needle": "^3.1.0",
+    "query-string": "^7.1.1",
+    "ym-api": "^1.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
