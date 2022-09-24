@@ -15,14 +15,31 @@ const AppAbout = ({ dataAbout }) => {
                 <div className={`about-wrapper_descr ${isAboutTwo ? "order1" : ""}`}>
                     <div className="descr">
 
-                        <div className="descr_firstText">
+                        <h2 className="descr_firstText">
                             {dataAbout.descrFirstText}
 
-                        </div>
+                        </h2>
                         <div className="descr_secondText">
                             {dataAbout.descrSecondText}
                         </div>
+
+                        {
+                            isAboutTwo ?
+                                <div className="descr_bottomText">
+                                    {dataAbout.descrBottomText}
+                                </div>
+                                : null
+                        }
                     </div>
+
+
+                    {
+                        isAboutTwo ?
+                            <button className="btn2 btn-about">
+                                Show All
+                            </button>
+                            : null
+                    }
                 </div>
             </div>
         </section>

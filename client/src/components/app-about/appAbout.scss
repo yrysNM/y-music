@@ -1,5 +1,7 @@
-.about {
+.about,
+.appAboutOne {
     padding: 0 0 190px 0;
+    position: relative;
 
     &-wrapper {
         display: flex;
@@ -33,4 +35,10 @@
             }
         }
     }
+}
+
+.blockSearch {
+    position: absolute;
+    left: 350px;
+    top: 300px;
 }

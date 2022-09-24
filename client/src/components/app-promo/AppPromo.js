@@ -12,10 +12,10 @@ const AppPromo = () => {
                     </div>
                     <div className="title">
 
-                        <div className="title_firstText">
+                        <h2 className="title_firstText">
                             Enjoy your life by
                             listening to music
-                        </div>
+                        </h2>
                         <div className="title_secondText mt39">
                             Simple Music with the traditional arransmen for
                             new event in the World

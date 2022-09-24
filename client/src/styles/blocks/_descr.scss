@@ -12,7 +12,8 @@
         color: $text-color;
     }
 
-    &_secondText {
+    &_secondText,
+    &_bottomText {
         margin-top: 27px;
         font-weight: 400;
         font-size: 15px;
@@ -22,4 +23,6 @@
 
         color: $subText-color;
     }
+
+
 }
