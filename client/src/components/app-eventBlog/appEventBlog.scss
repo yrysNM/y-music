@@ -1,0 +1,69 @@
+.eventBlog {
+    padding-bottom: 116px;
+
+    &-title {
+        text-align: center;
+    }
+
+    &-firstText {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 46px;
+        color: #03014C;
+    }
+
+    &-secondText {
+        margin-top: 20px;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 30px;
+        color: #03014C;
+        mix-blend-mode: normal;
+        opacity: 0.7;
+    }
+
+    &-blocks {
+        margin-top: 66px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    &-infoEvent {
+        display: flex;
+        flex-direction: column;
+
+        .eventImg {
+            width: 250px;
+            height: 325px;
+            object-fit: cover;
+        }
+    }
+
+    &-descr {
+        display: flex;
+        flex-direction: column;
+
+        &_headText {
+            margin-top: 27px;
+            font-weight: 700;
+            font-size: 19.999px;
+            line-height: 30px;
+            color: #222222;
+
+            mix-blend-mode: normal;
+        }
+
+        &_subText {
+            margin-top: 10px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #444444;
+            mix-blend-mode: normal;
+            opacity: 0.7;
+        }
+    }
+}
