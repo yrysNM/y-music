@@ -1,0 +1,25 @@
+.descr {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &_firstText {
+        font-weight: 700;
+        font-size: 41px;
+        line-height: 57px;
+        letter-spacing: 0.5px;
+        white-space: break-spaces;
+        color: $text-color;
+    }
+
+    &_secondText {
+        margin-top: 27px;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 34px;
+
+        letter-spacing: 0.5px;
+
+        color: $subText-color;
+    }
+}
