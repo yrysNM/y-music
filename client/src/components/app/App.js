@@ -4,6 +4,7 @@ import AppAboutOne from "../app-about/AppAboutOne";
 import AppAboutTwo from "../app-aboutTwo/AppAboutTwo";
 import AppEvent from "../app-events/AppEvents";
 import AppEventBlog from "../app-eventBlog/AppEventBlog";
+import AppFooter from "../app-footer/AppFooter";
 const App = () => {
 
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <AppEvent />
                 <AppEventBlog />
             </div>
+            <AppFooter />
         </div>
     );
 }

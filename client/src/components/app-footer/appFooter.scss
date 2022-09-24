@@ -1,0 +1,90 @@
+.footer {
+    padding: 100px 0 0 0;
+    min-height: 550px;
+    background-color: #F5F5FF;
+
+    &_subBlock {
+        text-align: center;
+        margin-top: 185px;
+        border: none;
+        mix-blend-mode: normal;
+        opacity: 0.4;
+        border-top: 1.66658px solid #979797;
+
+        .bottomText {
+            margin-top: 51px;
+            font-weight: 600;
+            font-size: 13.9993px;
+            line-height: 24px;
+            letter-spacing: 1.9999px;
+            color: #000000;
+            mix-blend-mode: normal;
+            opacity: 0.5;
+        }
+    }
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .footerImg {
+        width: 37px;
+        height: 37px;
+        object-fit: cover;
+        margin-right: 28px;
+    }
+}
+
+.navPage {
+    margin-left: 185px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__headeTitle {
+        font-weight: 600;
+        font-size: 13.9993px;
+        line-height: 24px;
+        letter-spacing: 1.9999px;
+        color: #000000;
+    }
+
+    &__subLinks {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &__item {
+        font-weight: 600;
+        margin-top: 9px;
+        font-size: 13.9993px;
+        line-height: 24px;
+        letter-spacing: 1px;
+        color: #000000;
+        mix-blend-mode: normal;
+        opacity: 0.4;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.logoBlock {
+    display: flex;
+    align-items: center;
+
+    span {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 17.9991px;
+        line-height: 25px;
+        text-align: center;
+
+        color: #353535;
+    }
+}

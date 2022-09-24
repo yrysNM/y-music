@@ -3,7 +3,7 @@ import "./appEventBlog.scss";
 
 const AppEventBlog = () => {
 
-    const [dataEvent, setEventData] = useState([
+    const [dataEvent] = useState([
         {
             imgUrl: "https://i.ytimg.com/vi/bH2bN5MGG0Y/maxresdefault.jpg",
             headText: "Great Music for Mood",
@@ -42,9 +42,9 @@ const AppEventBlog = () => {
 
             <div className="eventBlog-blocks">
 
-                {dataEvent.map(data => (
+                {dataEvent.map((data, i) => (
 
-                    <EventBlogsViewr dataEvent={data} />
+                    <EventBlogsViewr key={i} dataEvent={data} />
                 ))}
             </div>
 
