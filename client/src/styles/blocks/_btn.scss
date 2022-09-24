@@ -1,0 +1,38 @@
+.btn {
+    padding: 19px 70px;
+    background: $text-color;
+    outline: none;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn2 {
+    display: flex;
+    background: none;
+    border: none;
+    outline: none;
+    align-items: center;
+    margin-left: 53px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: $text-color;
+    text-align: center;
+    cursor: pointer;
+
+    & .iconPlay {
+        margin-left: 19px;
+        width: 27px;
+        height: 27px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000;
+        border-radius: 100%;
+    }
+}

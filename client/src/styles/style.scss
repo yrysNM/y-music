@@ -1,9 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans:wght@500&display=swap');
 
+@import "./base/vaiables.scss";
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-padding-top: 9rem;
+}
+
+html::-webkit-scrollbar {
+    width: 0.3rem;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: rgba(167, 165, 159, 0.7);
+    border-radius: 5rem;
 }
 
 body {
@@ -29,7 +48,10 @@ a {
 }
 
 .container {
-    max-width: 1150px;
+    max-width: 1453px;
     margin: 0 auto;
 
 }
+
+@import "./blocks/title";
+@import "./blocks//btn";

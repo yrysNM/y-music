@@ -1,0 +1,22 @@
+.title {
+    &_firstText {
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 65px;
+
+        color: $text-color;
+    }
+
+    &_secondText {
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 46px;
+        letter-spacing: 0.03em;
+        color: $subText-color;
+        opacity: 0.8;
+
+        &.mt39 {
+            margin-top: 39px;
+        }
+    }
+}

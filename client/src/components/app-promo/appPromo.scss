@@ -1,0 +1,28 @@
+.promo {
+    padding: 231px 0 0 0;
+    min-height: 500px;
+
+    &-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        &_firstBlock {
+            width: 400px;
+        }
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 8.5px;
+        color: #222222;
+        margin-bottom: 43px;
+    }
+
+    &__btns {
+        margin-top: 41px;
+        display: flex;
+        align-items: center;
+    }
+
+}
