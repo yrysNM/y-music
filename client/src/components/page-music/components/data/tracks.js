@@ -1,8 +1,9 @@
+import thisJapan from "../../../../resources/audio/This Is Japan.mp3";
 export default [
     {
         title: "Cali",
         artist: "Wataboi",
-        audioSrc: "https://music.yandex.kz/album/16273827/track/85335132",
+        audioSrc: thisJapan,
         image: "https://i.pinimg.com/236x/2c/67/80/2c678002e587299b3511cec86382daf1.jpg",
         color: "#00aeb0"
     },
