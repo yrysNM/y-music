@@ -1,24 +1,19 @@
-import AppHeader from "../app-header/AppHeader";
-import AppPromo from "../app-promo/AppPromo";
-import AppAboutOne from "../app-about/AppAboutOne";
-import AppAboutTwo from "../app-aboutTwo/AppAboutTwo";
-import AppEvent from "../app-events/AppEvents";
-import AppEventBlog from "../app-eventBlog/AppEventBlog";
-import AppFooter from "../app-footer/AppFooter";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { MainPage } from "../pages";
+import { MusicPage } from "../pages";
+
 const App = () => {
 
     return (
-        <div className="app">
-            <AppHeader />
-            <div className="container">
-                <AppPromo />
-                <AppAboutOne />
-                <AppAboutTwo />
-                <AppEvent />
-                <AppEventBlog />
+        <Router>
+            <div className="app">
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+
+                    <Route path="/music" element={<MusicPage />} />
+                </Routes>
             </div>
-            <AppFooter />
-        </div>
+        </Router>
     );
 }
 

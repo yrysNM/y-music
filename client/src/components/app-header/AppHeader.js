@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./appHeader.scss";
 
 const AppHeader = () => {
@@ -12,9 +13,11 @@ const AppHeader = () => {
 
                     <ul className="menu">
                         <li className="menu_item">
-                            <a href="#" className="menu_link" >
-                                Music
-                            </a>
+                            <Link to="/music">
+                                <span className="menu_link" >
+                                    Music
+                                </span>
+                            </Link>
                         </li>
                         <li className="menu_item">
                             <a href="#" className="menu_link" >
