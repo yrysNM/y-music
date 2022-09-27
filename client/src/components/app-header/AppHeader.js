@@ -8,7 +8,10 @@ const AppHeader = () => {
 
                 <div className="nav">
                     <div className="header__logo">
-                        <h1 className="header__logo-text">Yrys Musics</h1>
+                        <Link to="/">
+
+                            <h1 className="header__logo-text">Yrys Musics</h1>
+                        </Link>
                     </div>
 
                     <ul className="menu">

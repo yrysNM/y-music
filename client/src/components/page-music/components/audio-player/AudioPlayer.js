@@ -15,13 +15,63 @@ const AudioPlayer = ({ tracks }) => {
 
     const { duration } = audioRef.current;
 
+    const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
+    const trackStyling = `
+  -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
+`;
+
+    function startTimer() {
+        clearInterval(intervalRef.current);
+
+        intervalRef.current = setInterval(() => {
+            if (audioRef.current.ended) {
+                toNextTrack();
+            } else {
+                setTrackProgress(audioRef.current.currentTime);
+            }
+        }, [1000]);
+    }
+
+
+    const onScrub = (value) => {
+        // Clear any timers already running
+        clearInterval(intervalRef.current);
+        audioRef.current.currentTime = value;
+        setTrackProgress(audioRef.current.currentTime);
+    }
+
+    const onScrubEnd = () => {
+        // If not already playing, start
+        if (!isPlaying) {
+            setIsPlaying(true);
+        }
+        startTimer();
+    }
+
+    const toPrevTrack = () => {
+        if (trackIndex - 1 < 0) {
+            setTrackIndex(tracks.length - 1);
+        } else {
+            setTrackIndex(trackIndex - 1);
+        }
+    }
+
+    const toNextTrack = () => {
+        if (trackIndex < tracks.length - 1) {
+            setTrackIndex(trackIndex + 1);
+        } else {
+            setTrackIndex(0);
+        }
+    }
+
+
 
     useEffect(() => {
         if (isPlaying) {
             audioRef.current.play();
             startTimer();
         } else {
-            clearInterval(intervalRef.current);
+            // clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
     }, [isPlaying]);
@@ -43,59 +93,17 @@ const AudioPlayer = ({ tracks }) => {
     }, [trackIndex]);
 
     useEffect(() => {
+        setIsPlaying(!audioRef.current.paused);
+    }, [audioRef.current.paused])
+
+    useEffect(() => {
         return () => {
             audioRef.current.pause();
             clearInterval(intervalRef.current);
         }
     }, []);
 
-    function startTimer() {
-        clearInterval(intervalRef.current);
 
-        intervalRef.current = setInterval(() => {
-            if (audioRef.current.ended) {
-                toNextTrack();
-            } else {
-                setTrackProgress(audioRef.current.currentTime);
-            }
-        }, [1000]);
-    }
-
-    const toPrevTrack = () => {
-        if (trackIndex - 1 < 0) {
-            setTrackIndex(tracks.length - 1);
-        } else {
-            setTrackIndex(trackIndex - 1);
-        }
-    }
-
-    const toNextTrack = () => {
-        if (trackIndex < tracks.length - 1) {
-            setTrackIndex(trackIndex + 1);
-        } else {
-            setTrackIndex(0);
-        }
-    }
-
-    const onScrub = (value) => {
-        // Clear any timers already running
-        clearInterval(intervalRef.current);
-        audioRef.current.currentTime = value;
-        setTrackProgress(audioRef.current.currentTime);
-    }
-
-    const onScrubEnd = () => {
-        // If not already playing, start
-        if (!isPlaying) {
-            setIsPlaying(true);
-        }
-        startTimer();
-    }
-
-    const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
-    const trackStyling = `
-  -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
-`;
 
     return (
         <div className="audio-player">
@@ -105,8 +113,8 @@ const AudioPlayer = ({ tracks }) => {
                     src={image}
                     alt={`track artwork for ${title} by ${artist}`}
                 />
-                <h2 className="title">{title}</h2>
-                <h3 className="artist">{artist}</h3>
+                <h2 className="audio-title">{title}</h2>
+                <h3 className="audio-artist">{artist}</h3>
                 <AudioControls
                     isPlaying={isPlaying}
                     onPrevClick={toPrevTrack}

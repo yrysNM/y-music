@@ -1,10 +1,11 @@
 .audio-player {
-    max-width: 350px;
+    width: 350px;
     border-radius: 20px;
     padding: 24px;
     box-shadow: 0 28px 28px rgba(0, 0, 0, 0.2);
     margin: auto;
     color: var(--white);
+    margin-top: 50px;
 }
 
 .artwork {
@@ -21,12 +22,16 @@
     position: relative;
 }
 
-.title {
+.audio-title {
+    margin-top: 20px;
     font-weight: 700;
     margin-bottom: 4px;
 }
 
-.artist {
+
+
+.audio-artist {
+    margin-top: 20px;
     font-weight: 300;
     margin-top: 0;
 }
