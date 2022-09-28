@@ -12,9 +12,12 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "gridfs-stream": "^1.1.1",
+    "mongodb": "^4.10.0",
     "mongoose": "^6.6.1",
-    "needle": "^3.1.0",
+    "multer": "^1.4.5-lts.1",
     "query-string": "^7.1.1",
     "ym-api": "^1.2.1"
   },

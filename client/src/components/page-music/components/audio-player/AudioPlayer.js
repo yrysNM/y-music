@@ -7,7 +7,7 @@ const AudioPlayer = ({ tracks }) => {
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
 
-    const { title, artist, color, image, audioSrc } = tracks[trackIndex];
+    const { title, artist, image, audioSrc } = tracks[trackIndex];
 
     const audioRef = useRef(new Audio(audioSrc));
     const intervalRef = useRef();
@@ -16,8 +16,7 @@ const AudioPlayer = ({ tracks }) => {
     const { duration } = audioRef.current;
 
     const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
-    const trackStyling = `
-  -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
+    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
 `;
 
     function startTimer() {
@@ -74,6 +73,7 @@ const AudioPlayer = ({ tracks }) => {
             // clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPlaying]);
 
 
@@ -90,6 +90,7 @@ const AudioPlayer = ({ tracks }) => {
         } else {
             isReady.current = true;
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [trackIndex]);
 
     useEffect(() => {
