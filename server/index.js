@@ -6,7 +6,8 @@ const multer = require("multer");
 const { Readable } = require("stream");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectId;
-// const db = require("./db");
+const trackClassRouter = require("./routes/track.router");
+const { main } = require("./db");
 
 const trackRouter = express.Router();
 const PORT = process.env.PORT || 4000;
@@ -14,8 +15,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/tracks", trackRouter);
+app.use("/song", trackClassRouter);
 
-// db();
+main();
 const DB = process.env.MONGO_URI;
 var _db;
 MongoClient.connect(DB, (err, database) => {
