@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const multer = require("multer");
 const ObjectID = require("mongodb").ObjectId;
-const { _db } = require("../db");
+const _db = require("../db");
 const { Readable } = require("stream");
 
 class TrackController {
@@ -13,11 +13,11 @@ class TrackController {
                 message: "Invalid trackid in URL paramater."
             })
         }
-        res.set("content-type", "audio.mp3");
+        res.set("content-type", "audio/mp3");
         res.set("accept-ranges", "bytes");
 
 
-        let buckekt = new mongoose.mongo.GridFSBucket(_db, {
+        let buckekt = new mongoose.mongo.GridFSBucket(_db.getDb(), {
             bucketName: 'tracks'
         });
 
@@ -63,7 +63,23 @@ class TrackController {
 
             //convert to buffer
             const readableTeackStream = new Readable();
-        })
+            readableTeackStream.push(req.file.buffer);
+            readableTeackStream.push(null);
+
+            let bucket = new mongoose.mongo.GridFSBucket(_db.getDb(), {
+                bucketName: "tracks"
+            });
+
+            let uploadStream = bucket.openUploadStream(trackName);
+            let id = uploadStream.id;
+            readableTeackStream.pipe(uploadStream);
+
+            uploadStream.on("finish", () => {
+                return res.status(201).json({
+                    message: "File  upload succesfully, stored under Mongo ObjectId: " + id
+                });
+            });
+        });
     }
 }
 

@@ -7,7 +7,7 @@ const { Readable } = require("stream");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectId;
 const trackClassRouter = require("./routes/track.router");
-const { main, _db } = require("./db");
+const dbo = require("./db");
 
 const trackRouter = express.Router();
 const PORT = process.env.PORT || 4000;
@@ -17,8 +17,7 @@ app.use(express.json());
 app.use("/tracks", trackRouter);
 app.use("/song", trackClassRouter);
 
-main();
-console.log(_db);
+dbo.main();
 // const DB = process.env.MONGO_URI;
 // var _db;
 // MongoClient.connect(DB, (err, database) => {
@@ -117,5 +116,10 @@ trackRouter.post("/", (req, res) => {
 
 
 app.listen(PORT, () => {
+    dbo.connectToServer((err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
     console.log(`Server started on ${PORT}`);
 })
