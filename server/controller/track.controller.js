@@ -7,15 +7,15 @@ const { Readable } = require("stream");
 class TrackController {
     getTrack(req, res) {
         try {
-            let trackID = new ObjectID(req.params.trackID);
+            var trackID = new ObjectID(req.params.trackID);
         } catch (err) {
             return res.status(400).json({
                 message: "Invalid trackid in URL paramater."
             })
         }
-
         res.set("content-type", "audio.mp3");
         res.set("accept-ranges", "bytes");
+
 
         let buckekt = new mongoose.mongo.GridFSBucket(_db, {
             bucketName: 'tracks'

@@ -7,7 +7,7 @@ const { Readable } = require("stream");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectId;
 const trackClassRouter = require("./routes/track.router");
-const { main } = require("./db");
+const { main, _db } = require("./db");
 
 const trackRouter = express.Router();
 const PORT = process.env.PORT || 4000;
@@ -18,16 +18,17 @@ app.use("/tracks", trackRouter);
 app.use("/song", trackClassRouter);
 
 main();
-const DB = process.env.MONGO_URI;
-var _db;
-MongoClient.connect(DB, (err, database) => {
-    if (err) {
-        console.log("MongoDB connection error. please make sure that. MongoDB is rinning");
-        process.exit(1);
-    }
-    _db = database.db("tracks");
-    console.log("connected with db: " + database.db("tracks"));
-});
+console.log(_db);
+// const DB = process.env.MONGO_URI;
+// var _db;
+// MongoClient.connect(DB, (err, database) => {
+//     if (err) {
+//         console.log("MongoDB connection error. please make sure that. MongoDB is rinning");
+//         process.exit(1);
+//     }
+//     _db = database.db("tracks");
+//     console.log("connected with db: " + database.db("tracks"));
+// });
 
 
 trackRouter.get("/:trackID", (req, res) => {
