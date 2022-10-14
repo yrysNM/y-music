@@ -15,13 +15,6 @@ const data = [
         image: "https://i.pinimg.com/474x/03/4b/de/034bde783ea726b922100c86547831e8.jpg",
         color: "#ffb77a"
     },
-    // {
-    //     title: "I Wonder",
-    //     artist: "DreamHeaven",
-    //     audioSrc: iwonder,
-    //     image: imgSrc3,
-    //     color: "#5f9fff"
-    // }
 ];
 
 export default data;
