@@ -3,7 +3,8 @@ const trackController = require("../controller/track.controller");
 
 const router = new Route();
 
-router.get("/:trackID", trackController.getTrack);
+router.get("/all", trackController.getAllTrack);
+router.get("/:trackID", trackController.getTrackID);
 router.post("/", trackController.setTrack);
 
 module.exports = router;

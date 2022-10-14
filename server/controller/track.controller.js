@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-const multer = require("multer");
 const ObjectID = require("mongodb").ObjectId;
-const _db = require("../db");
+const multer = require("multer");
+const _db = require("../db/db");
 const { Readable } = require("stream");
 
 class TrackController {
-    getTrack(req, res) {
+    getTrackID(req, res) {
         try {
             var trackID = new ObjectID(req.params.trackID);
         } catch (err) {
@@ -34,6 +34,13 @@ class TrackController {
         downloadStream.on("end", () => {
             res.end();
         });
+    }
+
+    async getAllTrack(req, res) {
+        const collection = _db.getDb().collection("tracks.files");
+        const allTracks = await collection.find().toArray();
+
+        res.send(allTracks);
     }
 
     async setTrack(req, res) {
