@@ -9,16 +9,18 @@
     "@testing-library/user-event": "^14.4.3",
     "axios": "^1.1.2",
     "buffer": "^6.0.3",
+    "crypto": "npm:crypto-browserify",
+    "querystring": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "serialize-query-params": "^2.0.1",
-    "web-vitals": "^2.1.4"
-  },
-  "browser": {
-    "crypto": false
+    "timers": "^0.1.1",
+    "url": "^0.11.0",
+    "web-vitals": "^2.1.4",
+    "ym-api": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,5 +45,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "crypto-browserify": "^3.12.0",
+    "stream": "^0.0.2"
+  },
+  "browser": {
+    "crypto": false
   }
 }
