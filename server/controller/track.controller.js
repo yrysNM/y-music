@@ -48,7 +48,7 @@ class TrackController {
         const upload = multer({
             storage: storage,
             limits: {
-                fields: 1,
+                fields: 3,
                 fileSize: 60000000,
                 files: 1,
                 parts: 5
@@ -63,6 +63,10 @@ class TrackController {
             } else if (!req.body.name) {
                 return res.status(400).json({
                     message: "No track name in request body"
+                });
+            } else if (!req.body.artistName) {
+                return res.status(400).json({
+                    message: "No artist name in request body"
                 });
             }
 
