@@ -23,12 +23,12 @@ const AppHeader = () => {
                             </Link>
                         </li>
                         <li className="menu_item">
-                            <a href="#" className="menu_link" >
-                                Podcast
+                            <a href="/playlist" className="menu_link" >
+                                PlayList
                             </a>
                         </li>
                         <li className="menu_item">
-                            <a href="#" className="menu_link" >
+                            <a href="/" className="menu_link" >
                                 Live
                             </a>
                         </li>

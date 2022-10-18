@@ -1,4 +1,4 @@
-import MainPage from "./MainPage";
-import MusicPage from "./MusicPage";
-
-export { MainPage, MusicPage };
+import Main from "./Main";
+import Music from "./Music";
+import PlayList from "./PlayList";
+export { Main, Music, PlayList };

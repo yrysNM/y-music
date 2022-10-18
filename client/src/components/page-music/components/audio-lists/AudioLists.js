@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import data from "../data/tracks";
+import "./audioLists.scss";
+
 
 const AudioLists = () => {
     const [tracks, setTracks] = useState([]);
@@ -12,11 +14,10 @@ const AudioLists = () => {
 
 
     return (
-        <div style={{ textAlign: "center", margin: "100px 200px" }}>
-            <table>
-                <thead>
-
-                    <tr>
+        <div className="audioList" style={{ textAlign: "center", margin: "100px 200px" }}>
+            <table className="table">
+                <thead className="thead">
+                    <tr className="tr">
                         <th></th>
                         <th>Name</th>
                         <th>Artist</th>
@@ -24,7 +25,7 @@ const AudioLists = () => {
                 </thead>
                 <tbody>
                     {data.map(tracks => (
-                        <tr key={tracks.title}>
+                        <tr key={tracks.title} className="table__tr">
                             <td>
                                 <img
                                     src={tracks.image}
@@ -46,7 +47,7 @@ const AudioLists = () => {
 
                     {tracks.map(value => {
                         return (
-                            <tr key={value._id}>
+                            <tr key={value._id} className="table__tr">
                                 <td>
                                     <img
                                         src="https://media.tenor.com/qbHav4TRIp0AAAAM/anime-music.gif"

@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { MainPage } from "../pages";
-import { MusicPage } from "../pages";
+import { Main, Music, PlayList } from "../pages";
 import AppHeader from "../app-header/AppHeader";
 
 
@@ -11,9 +10,10 @@ const App = () => {
             <div className="app">
                 <AppHeader />
                 <Routes>
-                    <Route path="/" element={<MainPage />} />
+                    <Route path="/" element={<Main />} />
 
-                    <Route path="/music" element={<MusicPage />} />
+                    <Route path="/music" element={<Music />} />
+                    <Route path="/playlist" element={<PlayList />} />
                 </Routes>
             </div>
         </Router>

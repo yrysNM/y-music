@@ -12,7 +12,6 @@ app.use("/tracks", trackClassRouter);
 
 dbo.main();
 
-
 app.listen(PORT, () => {
     dbo.connectToServer((err) => {
         if (err) {
