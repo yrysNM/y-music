@@ -1,4 +1,15 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+
 const PagePlaylist = () => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=rj&api_key=4f2f703708f16aaa796435d052ed3d51&format=json")
+            .then(res => console.log(res.data));
+    }, []);
+
     return (
         <iframe
             frameBorder="0"

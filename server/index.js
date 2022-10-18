@@ -4,8 +4,10 @@ const cors = require("cors");
 const trackClassRouter = require("./routes/track.router");
 const dbo = require("./db/db");
 
+
 const PORT = process.env.PORT || 4000;
 const app = express();
+const api = new YandexAudio();
 app.use(cors());
 app.use(express.json());
 app.use("/tracks", trackClassRouter);
