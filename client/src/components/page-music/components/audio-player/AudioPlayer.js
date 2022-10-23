@@ -7,13 +7,10 @@ const AudioPlayer = ({ tracks, musicData }) => {
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [binDataTrack, setBinDataTrack] = useState("");
 
 
-    // const { _id, filename, uploadDate } = musicData[trackIndex];
     const { title, artist, image, audioSrc } = tracks[trackIndex];
-
-    const audioRef = useRef(new Audio(`data:audio/mp3;base64,${binDataTrack}`));
+    const audioRef = useRef(new Audio(audioSrc));
     const intervalRef = useRef();
     const isReady = useRef(false);
 
@@ -23,13 +20,6 @@ const AudioPlayer = ({ tracks, musicData }) => {
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
 `;
 
-    async function getBinDataTrack() {
-        /**
-         * @TODO audio1.src = URL.createObjectURL(files[0]);  need to change a not converting base64 !!!
-         */
-        await axios.get(`http://localhost:4000/tracks/6333e8c12e109f0d744eaa91`)
-            .then(res => setBinDataTrack(btoa(escape(encodeURIComponent(res.data)))));
-    }
 
     function startTimer() {
         clearInterval(intervalRef.current);
@@ -78,10 +68,12 @@ const AudioPlayer = ({ tracks, musicData }) => {
 
 
     useEffect(() => {
+        console.log(audioRef);
         if (isPlaying) {
-
-            audioRef.current.play();
-            startTimer();
+            if (audioRef.current.play) {
+                audioRef.current.play();
+                startTimer();
+            }
 
         } else {
             // clearInterval(intervalRef.current);
@@ -94,8 +86,8 @@ const AudioPlayer = ({ tracks, musicData }) => {
     useEffect(() => {
         audioRef.current.pause();
 
-        audioRef.current = new Audio(`data:audio/mp3;base64,${binDataTrack}`);
 
+        audioRef.current = new Audio(`data:audio/mp3;base64,${audioSrc}`);
         setTrackProgress(audioRef.current.currentTime);
 
         if (isReady.current) {
@@ -114,7 +106,6 @@ const AudioPlayer = ({ tracks, musicData }) => {
 
 
     useEffect(() => {
-        getBinDataTrack();
         return () => {
             audioRef.current.pause();
             clearInterval(intervalRef.current);
