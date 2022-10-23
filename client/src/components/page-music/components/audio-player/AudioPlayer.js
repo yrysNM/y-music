@@ -1,25 +1,39 @@
-import axios from "axios";
 import { useState, useEffect, useRef } from "react"
 import AudioControls from "../audio-controls/AudioControls";
 import "./audioPlayer.scss";
+import data from "../data/tracks";
 
-const AudioPlayer = ({ tracks, musicData }) => {
+const AudioPlayer = ({ tracks, musicData = data }) => {
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [base64Track, setBase64Track] = useState("");
 
+    // if (musicData[trackIndex]) {
+    //     var tracksData = musicData[trackIndex];
+    //     console.log(convertBinToBase64(tracksData.tracksData));
 
-    const { title, artist, image, audioSrc } = tracks[trackIndex];
-    const audioRef = useRef(new Audio(audioSrc));
+    // }
+    const { title, artist, image, audioSrc, tracksData } = tracks[trackIndex];
+    const audioRef = useRef(new Audio("http://localhost:4000/tracks/6349befcfde82ff8b0227f16"));
     const intervalRef = useRef();
     const isReady = useRef(false);
-
     const { duration } = audioRef.current;
 
     const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
 `;
+    useEffect(() => {
+        convertBinToBase64(tracksData)
+    }, [trackIndex]);
+    async function convertBinToBase64(tracksData) {
+        // const convertBinToBase = btoa(escape(encodeURIComponent(tracksData[0].data)));
+        const base64Music = `data:audio/mp3;base64,${tracksData[0].data}`;
+        const base64Response = await fetch(base64Music);
+        const blob = await base64Response.blob();
+        setBase64Track(blob);
 
+    }
 
     function startTimer() {
         clearInterval(intervalRef.current);
@@ -68,7 +82,6 @@ const AudioPlayer = ({ tracks, musicData }) => {
 
 
     useEffect(() => {
-        console.log(audioRef);
         if (isPlaying) {
             if (audioRef.current.play) {
                 audioRef.current.play();
@@ -87,7 +100,8 @@ const AudioPlayer = ({ tracks, musicData }) => {
         audioRef.current.pause();
 
 
-        audioRef.current = new Audio(`data:audio/mp3;base64,${audioSrc}`);
+        audioRef.current = new Audio("http://localhost:4000/tracks/6349befcfde82ff8b0227f16");
+        console.log(audioRef);
         setTrackProgress(audioRef.current.currentTime);
 
         if (isReady.current) {
