@@ -8,7 +8,7 @@ const AudioLists = () => {
     const [tracks, setTracks] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:4000/tracks/all")
+        axios.get("http://localhost:4000/tracks/files")
             .then(res => setTracks(res.data));
     }, []);
 

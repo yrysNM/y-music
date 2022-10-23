@@ -36,7 +36,7 @@ class TrackController {
         });
     }
 
-    async getAllTrack(req, res) {
+    async getJoinTracksData(req, res) {
         const collection = _db.getDb().collection("tracks.files");
 
         const dataTracks = await collection.aggregate([
@@ -68,6 +68,13 @@ class TrackController {
         const updateTracksData = await dataTracks.toArray();
 
         res.send(JSON.stringify(updateTracksData));
+    }
+
+    async getTrackFiles(req, res) {
+        const collection = _db.getDb().collection("tracks.files");
+        const allTracks = await collection.find().toArray();
+
+        res.send(allTracks);
     }
 
     async setTrack(req, res) {

@@ -3,19 +3,19 @@ import AudioControls from "../audio-controls/AudioControls";
 import "./audioPlayer.scss";
 import data from "../data/tracks";
 
-const AudioPlayer = ({ tracks, musicData = data }) => {
+const AudioPlayer = ({ tracks, musicData }) => {
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [base64Track, setBase64Track] = useState("");
+    const [dataTrack, setDataTrack] = useState("6349211739789eec901abf45");
 
-    // if (musicData[trackIndex]) {
-    //     var tracksData = musicData[trackIndex];
-    //     console.log(convertBinToBase64(tracksData.tracksData));
+    useEffect(() => {
+        if (musicData.length > 0) {
+            setDataTrack(musicData[trackIndex]._id);
+        }
+    }, [trackIndex]);
 
-    // }
-    const { title, artist, image, audioSrc, tracksData } = tracks[trackIndex];
-    const audioRef = useRef(new Audio("http://localhost:4000/tracks/6349befcfde82ff8b0227f16"));
+    const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${dataTrack}`));
     const intervalRef = useRef();
     const isReady = useRef(false);
     const { duration } = audioRef.current;
@@ -23,17 +23,6 @@ const AudioPlayer = ({ tracks, musicData = data }) => {
     const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
 `;
-    useEffect(() => {
-        convertBinToBase64(tracksData)
-    }, [trackIndex]);
-    async function convertBinToBase64(tracksData) {
-        // const convertBinToBase = btoa(escape(encodeURIComponent(tracksData[0].data)));
-        const base64Music = `data:audio/mp3;base64,${tracksData[0].data}`;
-        const base64Response = await fetch(base64Music);
-        const blob = await base64Response.blob();
-        setBase64Track(blob);
-
-    }
 
     function startTimer() {
         clearInterval(intervalRef.current);
@@ -65,14 +54,14 @@ const AudioPlayer = ({ tracks, musicData = data }) => {
 
     const toPrevTrack = () => {
         if (trackIndex - 1 < 0) {
-            setTrackIndex(tracks.length - 1);
+            setTrackIndex(musicData.length - 1);
         } else {
             setTrackIndex(trackIndex - 1);
         }
     }
 
     const toNextTrack = () => {
-        if (trackIndex < tracks.length - 1) {
+        if (trackIndex < musicData.length - 1) {
             setTrackIndex(trackIndex + 1);
         } else {
             setTrackIndex(0);
@@ -99,9 +88,8 @@ const AudioPlayer = ({ tracks, musicData = data }) => {
     useEffect(() => {
         audioRef.current.pause();
 
+        audioRef.current = new Audio(`http://localhost:4000/tracks/${dataTrack}`);
 
-        audioRef.current = new Audio("http://localhost:4000/tracks/6349befcfde82ff8b0227f16");
-        console.log(audioRef);
         setTrackProgress(audioRef.current.currentTime);
 
         if (isReady.current) {
@@ -133,11 +121,11 @@ const AudioPlayer = ({ tracks, musicData = data }) => {
             <div className="track-info">
                 <img
                     className="artwork"
-                    src={image}
-                    alt={`track artwork for ${title} by ${artist}`}
+                    src={"https://i.pinimg.com/736x/db/f7/70/dbf7700c03f893c9ceaf8e4882df9225.jpg"}
+                    alt={`track artwork for `}
                 />
-                <h2 className="audio-title">{title}</h2>
-                <h3 className="audio-artist">{artist || "none"}</h3>
+                <h2 className="audio-title">{"default"}</h2>
+                <h3 className="audio-artist">{"none"}</h3>
                 <AudioControls
                     isPlaying={isPlaying}
                     onPrevClick={toPrevTrack}

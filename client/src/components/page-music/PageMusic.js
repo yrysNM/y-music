@@ -12,18 +12,14 @@ const PageMusic = () => {
         const obj = {
             data: "",
         };
-        // const res = await axios.get("http://localhost:4000/tracks/all");
-        // obj.data = res.data;
+        const res = await axios.get("http://localhost:4000/tracks/files");
+        obj.data = res.data;
 
-        // setMusicData(musicData => [...musicData, ...obj.data]);
+        setMusicData(obj.data);
     }
 
     useEffect(() => {
-        axios.get("http://localhost:4000/tracks/all")
-            .then(res => setMusicData(res.data));
-
-        axios.get("http://localhost:4000/tracks/6349befcfde82ff8b0227f16")
-            .then(res => console.log(res.data));
+        getData();
     }, []);
 
     return (
