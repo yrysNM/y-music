@@ -38,39 +38,34 @@ class TrackController {
 
     async getAllTrack(req, res) {
         const collection = _db.getDb().collection("tracks.files");
-        const tracksData = await collection.aggregate([
+
+        const dataTracks = await collection.aggregate([
             {
                 $lookup: {
                     from: "tracks.chunks",
-                    localField: "_id",
-                    foreignField: "files_id",
-                    as: "tracksData"
-                }
+                    // localField: "_id",
+                    // foreignField: "files_id",
+                    as: "tracksData",
+                    let: {
+                        file_id: "$_id",
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ['$files_id', '$$file_id']
+                                }
+                            }
+                        },
+                        {
+                            $limit: 1
+                        }
+                    ]
+                },
             },
-            {
-                $unwind: "$tracksData"
-            },
-            {
-                $group: {
-                    _id: {
-                        id: "$_id",
-                        files_id: "$files_id",
-                        data: "$data",
-                    }
-                    // "_id": {
-                    //     "$first": "$tracksData"
-                    // }
-                }
-            }
         ]);
 
-        const updateTracksData = await tracksData.toArray();
-
-        // for await (const doc of tracksData) {
-        //     console.log(doc);
-        // }
-
-        // const allTracks = await collection.find().toArray();
+        const updateTracksData = await dataTracks.toArray();
 
         res.send(JSON.stringify(updateTracksData));
     }
