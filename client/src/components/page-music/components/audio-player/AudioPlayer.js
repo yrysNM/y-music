@@ -1,41 +1,54 @@
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { tracksFetching, tracksFetchingError, tracksFetchedId3 } from "../../../../actions";
+import { tracksFetching, tracksFetchedId3 } from "../../../../actions";
 import axios from "axios";
 import AudioControls from "../audio-controls/AudioControls";
 import "./audioPlayer.scss";
 
-const AudioPlayer = ({ musicData }) => {
+const AudioPlayer = () => {
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [dataTrack, setDataTrack] = useState("6349211739789eec901abf45");
+    const [durationTrack, setDurationTrack] = useState("");
+
     const dispatch = useDispatch();
+    /**
+     * @TODO need loading for track (initial track) logic check id3 
+     *  if(id3) {
+     *    idle
+     * }else {
+     *  loading
+     * }
+     */
     const { tracksLoadingStatus, tracks, id3 } = useSelector(state => state.tracks);
+
     const { _id, filename, uploadDate } = tracks[trackIndex];
 
+    const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${_id}`));
+    const intervalRef = useRef();
+    const isReady = useRef(false);
+    const { duration } = audioRef.current;
     useEffect(() => {
-        console.log(_id);
-        // dispatch(tracksFetching());
+        if (duration && duration !== Infinity && !isNaN(duration)) {
+            setDurationTrack(duration);
+        }
+    }, [duration]);
+    const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
+    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
+`;
+
+    useEffect(() => {
+
         axios.get(`http://localhost:4000/tracks/${_id}`,
             {
                 "Content-Type": "audio/mp3",
                 "Accept-Ranges": "bytes",
             })
-            .then(res => dispatch(tracksFetchedId3(res.data)));
-        // .catch(dispatch(tracksFetchingError()));
+            .then(res => dispatch(tracksFetchedId3(res.data)))
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [trackIndex]);
 
-    const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${dataTrack}`));
-    const intervalRef = useRef();
-    const isReady = useRef(false);
-    const { duration } = audioRef.current;
-
-    const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
-    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
-`;
 
     function startTimer() {
         clearInterval(intervalRef.current);
@@ -67,14 +80,14 @@ const AudioPlayer = ({ musicData }) => {
 
     const toPrevTrack = () => {
         if (trackIndex - 1 < 0) {
-            setTrackIndex(musicData.length - 1);
+            setTrackIndex(tracks.length - 1);
         } else {
             setTrackIndex(trackIndex - 1);
         }
     }
 
     const toNextTrack = () => {
-        if (trackIndex < musicData.length - 1) {
+        if (trackIndex < tracks.length - 1) {
             setTrackIndex(trackIndex + 1);
         } else {
             setTrackIndex(0);
@@ -85,13 +98,9 @@ const AudioPlayer = ({ musicData }) => {
 
     useEffect(() => {
         if (isPlaying) {
-            if (audioRef.current.play) {
-                audioRef.current.play();
-                startTimer();
-            }
-
+            audioRef.current.play();
+            startTimer();
         } else {
-            // clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,26 +108,27 @@ const AudioPlayer = ({ musicData }) => {
 
 
     useEffect(() => {
-        audioRef.current.pause();
-
-        audioRef.current = new Audio(`http://localhost:4000/tracks/${dataTrack}`);
-
-        setTrackProgress(audioRef.current.currentTime);
-
-        if (isReady.current) {
-            audioRef.current.play();
-            setIsPlaying(true);
-            startTimer();
+        if (audioRef.current.src.length < 0) {
+            dispatch(tracksFetching());
         } else {
-            isReady.current = true;
+
+            audioRef.current.pause();
+
+            audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
+
+            setTrackProgress(audioRef.current.currentTime);
+
+
+            if (isReady.current && audioRef.current) {
+                audioRef.current.play();
+                setIsPlaying(true);
+                startTimer();
+            } else {
+                isReady.current = true;
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [trackIndex]);
-
-    useEffect(() => {
-        setIsPlaying(!audioRef.current.paused);
-    }, [audioRef.current.paused])
-
 
     useEffect(() => {
         return () => {
@@ -126,8 +136,6 @@ const AudioPlayer = ({ musicData }) => {
             clearInterval(intervalRef.current);
         }
     }, []);
-
-
 
     return (
         <div className="audio-player">
@@ -137,8 +145,8 @@ const AudioPlayer = ({ musicData }) => {
                     src={"https://i.pinimg.com/736x/db/f7/70/dbf7700c03f893c9ceaf8e4882df9225.jpg"}
                     alt={`track artwork for `}
                 />
-                <h2 className="audio-title">{"default"}</h2>
-                <h3 className="audio-artist">{"none"}</h3>
+                <h2 className="audio-title">{filename}</h2>
+                <h3 className="audio-artist">{new Date(uploadDate).toDateString()}</h3>
                 <AudioControls
                     isPlaying={isPlaying}
                     onPrevClick={toPrevTrack}
@@ -149,7 +157,7 @@ const AudioPlayer = ({ musicData }) => {
                     value={trackProgress}
                     step="1"
                     min="0"
-                    max={duration ? duration : `${duration}`}
+                    max={durationTrack ? durationTrack : `${durationTrack}`}
                     className="progess"
                     onChange={(e) => onScrub(e.target.value)}
                     onMouseUp={onScrubEnd}

@@ -36,7 +36,7 @@ const PageMusic = () => {
         }
 
         if (tracks && tracks.length > 0) {
-            return <AudioPlayer musicData={tracks} />
+            return <AudioPlayer />
         }
     }
 
