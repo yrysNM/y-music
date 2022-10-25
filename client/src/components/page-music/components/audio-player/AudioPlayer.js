@@ -1,19 +1,32 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
+import { useSelector, useDispatch } from "react-redux";
+import { tracksFetching, tracksFetchingError, tracksFetchedId3 } from "../../../../actions";
+import axios from "axios";
 import AudioControls from "../audio-controls/AudioControls";
 import "./audioPlayer.scss";
-import data from "../data/tracks";
 
-const AudioPlayer = ({ tracks, musicData }) => {
+const AudioPlayer = ({ musicData }) => {
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [dataTrack, setDataTrack] = useState("6349211739789eec901abf45");
+    const dispatch = useDispatch();
+    const { tracksLoadingStatus, tracks, id3 } = useSelector(state => state.tracks);
+    const { _id, filename, uploadDate } = tracks[trackIndex];
 
     useEffect(() => {
-        if (musicData.length > 0) {
-            setDataTrack(musicData[trackIndex]._id);
-        }
-    }, [trackIndex]);
+        console.log(_id);
+        // dispatch(tracksFetching());
+        axios.get(`http://localhost:4000/tracks/${_id}`,
+            {
+                "Content-Type": "audio/mp3",
+                "Accept-Ranges": "bytes",
+            })
+            .then(res => dispatch(tracksFetchedId3(res.data)));
+        // .catch(dispatch(tracksFetchingError()));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${dataTrack}`));
     const intervalRef = useRef();
