@@ -36,7 +36,41 @@ class TrackController {
         });
     }
 
-    async getAllTrack(req, res) {
+    async getJoinTracksData(req, res) {
+        const collection = _db.getDb().collection("tracks.files");
+
+        const dataTracks = await collection.aggregate([
+            {
+                $lookup: {
+                    from: "tracks.chunks",
+                    // localField: "_id",
+                    // foreignField: "files_id",
+                    as: "tracksData",
+                    let: {
+                        file_id: "$_id",
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ['$files_id', '$$file_id']
+                                }
+                            }
+                        },
+                        {
+                            $limit: 1
+                        }
+                    ]
+                },
+            },
+        ]);
+
+        const updateTracksData = await dataTracks.toArray();
+
+        res.send(JSON.stringify(updateTracksData));
+    }
+
+    async getTrackFiles(req, res) {
         const collection = _db.getDb().collection("tracks.files");
         const allTracks = await collection.find().toArray();
 
