@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tracks from "../reducers/tracks";
-
+import songs from "../reducers/songs";
 
 
 const stringMiddleware = (store) => (next) => (action) => {
@@ -15,7 +15,7 @@ const stringMiddleware = (store) => (next) => (action) => {
 
 
 const store = configureStore({
-    reducer: { tracks, },
+    reducer: { tracks, songs },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware),
     devTools: process.env.NODE_ENV !== "production",
 });
