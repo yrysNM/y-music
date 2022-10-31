@@ -31,12 +31,13 @@ const AudioPlayer = () => {
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
     `;
 
-    const loadDurationtrack = (durationTrackLoaded) => {
-        console.log(durationTrackLoaded);
-        if (durationTrackLoaded && durationTrackLoaded !== Infinity && !isNaN(durationTrackLoaded)) {
-            console.log(durationTrackLoaded);
+    const loadDurationtrack = async (durationTrackLoaded = "200.0") => {
+        if (durationTrackLoaded !== Infinity && !isNaN(durationTrackLoaded)) {
             dispatch(songsFetched());
             setDurationTrack(durationTrack => durationTrackLoaded);
+        } else {
+            setDurationTrack("200.0");
+            dispatch(songsFetching());
         }
     }
 
@@ -175,6 +176,10 @@ const AudioPlayer = () => {
                         onMouseUp={onScrubEnd}
                         onKeyUp={onScrubEnd}
                         style={{ background: trackStyling }} />
+
+                    <div className="audio-duration">
+                        {durationTrack}
+                    </div>
                 </div>
             </div>
         );

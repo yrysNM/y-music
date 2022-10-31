@@ -65,7 +65,9 @@
     background: #3A3A3B;
     border-radius: 10px;
     border: none;
+    width: 208px;
     padding: 10px 19.5px 11px 13px;
+    position: relative;
 
     &_img {
         width: 34px;
@@ -80,6 +82,13 @@
         }
     }
 
+    &_arrowDrop {
+        cursor: pointer;
+    }
+
+    &_addIcon {
+        color: #fff;
+    }
 
     &_text {
         font-family: 'Lato';
@@ -88,5 +97,59 @@
         letter-spacing: 0.02em;
         color: #FFFFFF;
         margin-right: 27px;
+    }
+
+    &__anotherServices {
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+
+        &-list {
+            border-radius: 0 0 10px 10px;
+            position: relative;
+        }
+
+        &-true {
+            bottom: -50px
+        }
+
+        &-false {
+            bottom: 200px;
+        }
+
+
+        &_active {
+            &-true {
+                border-radius: 10px 10px 0 0;
+            }
+
+            &-false {
+                border-radius: 10px;
+            }
+        }
+
+        &_text {
+            &-true {
+                position: absolute;
+                left: 29%;
+            }
+
+            &-false {
+                position: absolute;
+                left: 500px;
+            }
+        }
+
+        &_icon {
+            &-true {
+                position: absolute;
+                right: 19.5px;
+            }
+
+            &-false {
+                position: absolute;
+                left: 500px;
+            }
+        }
     }
 }
