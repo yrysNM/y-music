@@ -4,6 +4,7 @@ import { useHttp } from "../../hooks/http.hook";
 import { tracksFetched, tracksFetching, tracksFetchingError } from "../../actions";
 import AudioPlayer from "./components/audio-player/AudioPlayer";
 import AudioLists from "./components/audio-lists/AudioLists";
+import AudioAdd from "./components/audio-add/AudioAdd";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../error-message/ErrorMessage";
 
@@ -46,6 +47,7 @@ const PageMusic = () => {
                 renderTracks(tracksLoadingStatus, tracks)
             }
             <AudioLists />
+            <AudioAdd />
         </div>
     );
 }
