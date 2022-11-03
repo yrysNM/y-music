@@ -22,7 +22,9 @@ const AudioPlayer = () => {
     const { _id, filename, uploadDate } = tracks[trackIndex];
 
     const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${_id}`));
-
+    /**
+     * @todo need to check audioRef is loaded or not 
+     */
     const intervalRef = useRef();
     const isReady = useRef(false);
     const { duration } = audioRef.current;
@@ -31,13 +33,13 @@ const AudioPlayer = () => {
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
     `;
 
-    const loadDurationtrack = async (durationTrackLoaded = "200.0") => {
+    const loadDurationtrack = async (durationTrackLoaded = 200.0) => {
         if (durationTrackLoaded !== Infinity && !isNaN(durationTrackLoaded)) {
-            dispatch(songsFetched());
+            // dispatch(songsFetched());
             setDurationTrack(durationTrack => durationTrackLoaded);
         } else {
-            setDurationTrack("200.0");
-            dispatch(songsFetching());
+            setDurationTrack('200.0');
+            // dispatch(songsFetching());
         }
     }
 
@@ -47,14 +49,16 @@ const AudioPlayer = () => {
         axios.get(`http://localhost:4000/tracks/${_id}`, {
             "Content-type": "audio/mp3",
             "Accept-Ranges": "bytes"
-        }).then(res => dispatch(songsFetched()))
-            .catch(e => dispatch(songsFetchingError()));
+        }).then(res => {
+            dispatch(songsFetched());
+            // audioRef.current = new Audio(res);
+        }).catch(e => dispatch(songsFetchingError()));
 
         /**
          * @TODO need to make duration loading
          */
         // audioRef.current.onloadedmetadata = function () {
-        loadDurationtrack(audioRef.current.duration);
+        // loadDurationtrack(audioRef.current.duration);
         // dispatch(tracksFetchedId3Loading());
         // }
     }
@@ -91,14 +95,20 @@ const AudioPlayer = () => {
     const toPrevTrack = () => {
         if (trackIndex - 1 < 0) {
             setTrackIndex(tracks.length - 1);
+
+        } else if (isPlaying) {
+            setIsPlaying(false);
         } else {
             setTrackIndex(trackIndex - 1);
+
         }
     }
 
     const toNextTrack = () => {
         if (trackIndex < tracks.length - 1) {
             setTrackIndex(trackIndex + 1);
+        } else if (isPlaying) {
+            setIsPlaying(false);
         } else {
             setTrackIndex(0);
         }
@@ -116,16 +126,45 @@ const AudioPlayer = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPlaying]);
 
-
-    useEffect(() => {
-        getDataID3();
+    const initialTrack = () => {
         audioRef.current.pause();
-
         audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
+        audioRef.current.setAttribute("type", "audio/mp3");
+        audioRef.current.setAttribute("codecs", "mp3");
 
         setTrackProgress(audioRef.current.currentTime);
 
-        if (isReady.current && audioRef.current) {
+        audioRef.current.onloadeddata = function () {
+            console.log(audioRef.current.duration);
+            setDurationTrack(audioRef.current.duration);
+            if (audioRef.current.duration === Infinity) {
+                getDataID3();
+                initialTrack();
+            }
+        }
+    }
+
+    useEffect(() => {
+        getDataID3();
+        // audioRef.current.pause();
+        // audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
+        // audioRef.current.setAttribute("type", "audio/mp3");
+        // audioRef.current.setAttribute("codecs", 'mp3');
+        // setTrackProgress(audioRef.current.currentTime);
+
+        initialTrack();
+
+        audioRef.current.onloadeddata = function () {
+            setDurationTrack(audioRef.current.duration);
+            console.log(audioRef.current.duration, audioRef, durationTrack === Infinity);
+            if (audioRef.current.duration === Infinity) {
+                getDataID3();
+                initialTrack();
+            }
+            // setDurationTrack(audioRef.current.duration);
+        }
+
+        if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
             audioRef.current.play();
             setIsPlaying(true);
             startTimer();
