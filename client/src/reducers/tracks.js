@@ -26,11 +26,6 @@ const tracks = (state = initialState, action) => {
             return {
                 ...state,
                 id3: action.payload,
-            }
-        case "TRACKS_FETCHED_ID3Loading":
-            return {
-                ...state,
-                id3: action.payload,
                 tracksLoadingStatus: "idle"
             }
         default: return state;

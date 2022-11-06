@@ -27,12 +27,6 @@ export const tracksFetchedId3 = (id3) => {
     }
 }
 
-export const tracksFetchedId3Loading = (id3 = "") => {
-    return {
-        type: "TRACKS_FETCHED_ID3Loading",
-        payload: id3
-    }
-}
 
 export const songsFetching = () => {
     return {
