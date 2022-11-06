@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ModalContext } from "../../context/ModalContext";
 import "./appHeader.scss";
 
 const AppHeader = () => {
     const [toggleAnotherService, setToggleAnotherService] = useState(false);
+    const { openModal } = useContext(ModalContext);
 
     return (
         <header className="header">
@@ -62,7 +64,9 @@ const AppHeader = () => {
                                     Add track
                                 </div>
 
-                                <div className={`selectPages_addIcon selectPages__anotherServices_icon-${toggleAnotherService}`}>
+                                <div
+                                    className={`selectPages_addIcon selectPages__anotherServices_icon-${toggleAnotherService}`}
+                                    onClick={openModal}>
                                     +
                                 </div>
                             </div>

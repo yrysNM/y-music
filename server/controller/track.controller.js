@@ -83,7 +83,7 @@ class TrackController {
             storage: storage,
             limits: {
                 fields: 3,
-                fileSize: 60000000,
+                fileSize: 52428800,
                 files: 1,
                 parts: 5
             }
@@ -98,13 +98,19 @@ class TrackController {
                 return res.status(400).json({
                     message: "No track name in request body"
                 });
-            } else if (!req.body.artistName) {
-                return res.status(400).json({
-                    message: "No artist name in request body"
-                });
             }
 
             let trackName = req.body.name;
+
+            /**
+             * @TODO some change in tracks.file 
+             */
+            // const metaData = {
+            //     trackName: req.body.name,
+            //     fileName: req.body.file,
+            //     artistName: req.body.artist,
+            //     genreName: req.body.genre
+            // }
 
             //convert to buffer
             const readableTeackStream = new Readable();

@@ -1,0 +1,35 @@
+.overlay {
+    opacity: 0;
+    visibility: hiden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(17, 17, 17, .8);
+    transition: all 0.5s ease-in-out;
+    z-index: 100;
+
+    &__active {
+        &-true {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &-false {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 380px;
+    padding: 40px 60px 60px;
+    border-radius: 3px;
+    background-color: #fff;
+    text-align: center;
+}
