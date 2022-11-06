@@ -11,7 +11,6 @@ const AudioPlayer = () => {
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isLoaded, setIsLoaded] = useState(false);
     const [durationTrack, setDurationTrack] = useState("");
 
     const dispatch = useDispatch();
@@ -22,26 +21,13 @@ const AudioPlayer = () => {
     const { _id, filename, uploadDate } = tracks[trackIndex];
 
     const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${_id}`));
-    /**
-     * @todo need to check audioRef is loaded or not 
-     */
     const intervalRef = useRef();
     const isReady = useRef(false);
-    const { duration } = audioRef.current;
 
     const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
     `;
 
-    const loadDurationtrack = async (durationTrackLoaded = 200.0) => {
-        if (durationTrackLoaded !== Infinity && !isNaN(durationTrackLoaded)) {
-            // dispatch(songsFetched());
-            setDurationTrack(durationTrack => durationTrackLoaded);
-        } else {
-            setDurationTrack('200.0');
-            // dispatch(songsFetching());
-        }
-    }
 
     function getDataID3() {
         dispatch(songsFetching());
@@ -53,14 +39,6 @@ const AudioPlayer = () => {
             dispatch(songsFetched());
             // audioRef.current = new Audio(res);
         }).catch(e => dispatch(songsFetchingError()));
-
-        /**
-         * @TODO need to make duration loading
-         */
-        // audioRef.current.onloadedmetadata = function () {
-        // loadDurationtrack(audioRef.current.duration);
-        // dispatch(tracksFetchedId3Loading());
-        // }
     }
 
 
@@ -95,26 +73,42 @@ const AudioPlayer = () => {
     const toPrevTrack = () => {
         if (trackIndex - 1 < 0) {
             setTrackIndex(tracks.length - 1);
-
-        } else if (isPlaying) {
-            setIsPlaying(false);
         } else {
             setTrackIndex(trackIndex - 1);
-
         }
     }
 
     const toNextTrack = () => {
         if (trackIndex < tracks.length - 1) {
             setTrackIndex(trackIndex + 1);
-        } else if (isPlaying) {
-            setIsPlaying(false);
         } else {
             setTrackIndex(0);
         }
     }
 
+    const initialTrack = () => {
 
+        audioRef.current.pause();
+
+        audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
+        audioRef.current.setAttribute("type", "audio/mp3");
+        audioRef.current.setAttribute("codecs", "mp3");
+        audioRef.current.setAttribute("preload", "metadata");
+
+        audioRef.current.load();
+
+        setTrackProgress(audioRef.current.currentTime);
+
+        audioRef.current.addEventListener('loadedmetadata', function (e) {
+            // console.log(audioRef.current.duration);
+            if (audioRef.current.duration === Infinity || isNaN(audioRef.current.duration)) {
+                initialTrack();
+                setIsPlaying(isPlaying => !isPlaying);
+            } else {
+                setDurationTrack(audioRef.current.duration);
+            }
+        });
+    }
 
     useEffect(() => {
         if (isPlaying) {
@@ -126,43 +120,17 @@ const AudioPlayer = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPlaying]);
 
-    const initialTrack = () => {
-        audioRef.current.pause();
-        audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
-        audioRef.current.setAttribute("type", "audio/mp3");
-        audioRef.current.setAttribute("codecs", "mp3");
-
-        setTrackProgress(audioRef.current.currentTime);
-
-        audioRef.current.onloadeddata = function () {
-            console.log(audioRef.current.duration);
-            setDurationTrack(audioRef.current.duration);
-            if (audioRef.current.duration === Infinity) {
-                getDataID3();
-                initialTrack();
-            }
+    useEffect(() => {
+        if (audioRef.current.paused) {
+            setIsPlaying(false);
+        } else {
+            setIsPlaying(true);
         }
-    }
+    }, [audioRef.current.paused])
 
     useEffect(() => {
         getDataID3();
-        // audioRef.current.pause();
-        // audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
-        // audioRef.current.setAttribute("type", "audio/mp3");
-        // audioRef.current.setAttribute("codecs", 'mp3');
-        // setTrackProgress(audioRef.current.currentTime);
-
         initialTrack();
-
-        audioRef.current.onloadeddata = function () {
-            setDurationTrack(audioRef.current.duration);
-            console.log(audioRef.current.duration, audioRef, durationTrack === Infinity);
-            if (audioRef.current.duration === Infinity) {
-                getDataID3();
-                initialTrack();
-            }
-            // setDurationTrack(audioRef.current.duration);
-        }
 
         if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
             audioRef.current.play();
@@ -171,10 +139,12 @@ const AudioPlayer = () => {
         } else {
             isReady.current = true;
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [trackIndex]);
 
     useEffect(() => {
+
         return () => {
             audioRef.current.pause();
             clearInterval(intervalRef.current);
@@ -182,50 +152,68 @@ const AudioPlayer = () => {
     }, []);
 
 
-    const RenderAudioPlayer = () => {
-        if (songsLoadingStatus === "loading") {
-            return <Spinner />
-        } else if (songsLoadingStatus === "error") {
-            return <ErrorMessage />
-        }
 
-        return (
-            <div className="audio-player">
-                <div className="track-info">
-                    <img
-                        className="artwork"
-                        src={"https://i.pinimg.com/736x/db/f7/70/dbf7700c03f893c9ceaf8e4882df9225.jpg"}
-                        alt={`track artwork for `}
-                    />
-                    <h2 className="audio-title">{filename}</h2>
-                    <h3 className="audio-artist">{new Date(uploadDate).toDateString()}</h3>
-                    <AudioControls
-                        isPlaying={isPlaying}
-                        onPrevClick={toPrevTrack}
-                        onNextClick={toNextTrack}
-                        onPlayPauseClick={setIsPlaying} />
 
-                    <input type="range"
-                        value={trackProgress}
-                        step="1"
-                        min="0"
-                        max={durationTrack ? durationTrack : `${durationTrack}`}
-                        className="progess"
-                        onChange={(e) => onScrub(e.target.value)}
-                        onMouseUp={onScrubEnd}
-                        onKeyUp={onScrubEnd}
-                        style={{ background: trackStyling }} />
+    return (
+        <RenderAudioPlayer data={
+            {
+                songsLoadingStatus,
+                filename,
+                uploadDate,
+                isPlaying,
+                trackStyling,
+                trackProgress,
+                durationTrack,
+                toPrevTrack,
+                toNextTrack,
+                setIsPlaying,
+                onScrubEnd,
+                onScrub,
 
-                    <div className="audio-duration">
-                        {durationTrack}
-                    </div>
-                </div>
-            </div>
-        );
+            }
+        } />
+    );
+}
+
+const RenderAudioPlayer = ({ data }) => {
+    if (data.songsLoadingStatus === "loading") {
+        return <Spinner />
+    } else if (data.songsLoadingStatus === "error") {
+        return <ErrorMessage />
     }
 
     return (
-        <RenderAudioPlayer />
+        <div className="audio-player">
+            <div className="track-info">
+                <img
+                    className="artwork"
+                    src={"https://i.pinimg.com/736x/db/f7/70/dbf7700c03f893c9ceaf8e4882df9225.jpg"}
+                    alt={`track artwork for `}
+                />
+                <h2 className="audio-title">{data.filename}</h2>
+                <h3 className="audio-artist">{new Date(data.uploadDate).toDateString()}</h3>
+                <AudioControls
+                    isPlaying={data.isPlaying}
+                    onPrevClick={data.toPrevTrack}
+                    onNextClick={data.toNextTrack}
+                    onPlayPauseClick={data.setIsPlaying} />
+
+                <input type="range"
+                    value={data.trackProgress}
+                    step="1"
+                    min="0"
+                    max={data.durationTrack ? data.durationTrack : `${data.durationTrack}`}
+                    className="progess"
+                    onChange={(e) => data.onScrub(e.target.value)}
+                    onMouseUp={data.onScrubEnd}
+                    onKeyUp={data.onScrubEnd}
+                    style={{ background: data.trackStyling }} />
+
+                <div className="audio-duration">
+                    {data.durationTrack}
+                </div>
+            </div>
+        </div>
     );
 }
 
