@@ -47,7 +47,6 @@ const PageMusic = () => {
                 renderTracks(tracksLoadingStatus, tracks)
             }
             <AudioLists />
-            <AudioAdd />
         </div>
     );
 }
