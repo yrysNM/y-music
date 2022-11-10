@@ -49,7 +49,7 @@ const FileUpload = ({ files, setFiles }) => {
                 {
                     (text.length > 0)
                         ? <p>Succesfully uploaded</p>
-                        : <p>Something wrong</p>
+                        : <p></p>
                 }
             </div>
         )

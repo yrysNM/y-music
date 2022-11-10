@@ -1,5 +1,7 @@
 import { useState } from "react";
 import FileUpload from "./file-upload/FileUpload";
+import "./audioAdd.scss";
+
 const AudioAdd = () => {
     const [files, setFiles] = useState([{
         name: 'testMusic.mp3'
