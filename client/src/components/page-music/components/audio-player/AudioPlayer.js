@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { songsFetched, songsFetchingError, songsFetching } from "../../../../actions";
-import axios from "axios";
+import { songsFetched, songsFetching } from "../../../../actions";
 import AudioControls from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
 import ErrorMessage from "../../../error-message/ErrorMessage";
@@ -27,20 +26,6 @@ const AudioPlayer = () => {
     const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
     `;
-
-
-    function getDataID3() {
-        dispatch(songsFetching());
-
-        axios.get(`http://localhost:4000/tracks/${_id}`, {
-            "Content-type": "audio/mp3",
-            "Accept-Ranges": "bytes"
-        }).then(res => {
-            dispatch(songsFetched());
-            // audioRef.current = new Audio(res);
-        }).catch(e => dispatch(songsFetchingError()));
-    }
-
 
     function startTimer() {
         clearInterval(intervalRef.current);
@@ -98,16 +83,29 @@ const AudioPlayer = () => {
         audioRef.current.load();
 
         setTrackProgress(audioRef.current.currentTime);
+        dispatch(songsFetching());
 
-        audioRef.current.addEventListener('loadedmetadata', function (e) {
-            // console.log(audioRef.current.duration);
-            if (audioRef.current.duration === Infinity || isNaN(audioRef.current.duration)) {
-                initialTrack();
-                setIsPlaying(isPlaying => !isPlaying);
-            } else {
-                setDurationTrack(audioRef.current.duration);
-            }
+        getDuration(`http://localhost:4000/tracks/${_id}`, function (duration) {
+            // if (durationTrack && !isNaN(durationTrack)) {
+            setDurationTrack(duration);
+            dispatch(songsFetched());
+            // }
         });
+    }
+
+    function getDuration(url, next) {
+        let _player = new Audio(url);
+        _player.addEventListener("durationchange", function (e) {
+            if (this.duration !== Infinity) {
+                let duration = this.duration;
+                _player.remove();
+                next(duration);
+            };
+        }, false);
+
+        _player.load();
+        _player.currentTime = 24 * 60 * 60;
+        _player.volume = 0;
     }
 
     useEffect(() => {
@@ -129,7 +127,7 @@ const AudioPlayer = () => {
     }, [audioRef.current.paused])
 
     useEffect(() => {
-        getDataID3();
+
         initialTrack();
 
         if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
