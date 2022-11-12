@@ -106,13 +106,31 @@
         bottom: -60px;
         left: 0;
 
-        &-list {
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             border-radius: 0 0 10px 10px;
             position: relative;
+            padding-top: 15px;
+
+            &:before {
+                content: "";
+                width: 100vw;
+                border-top: 1px solid #fff;
+            }
+        }
+
+        &-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
         }
 
         &-true {
-            bottom: -50px
+            bottom: -110px
         }
 
         &-false {

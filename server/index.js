@@ -2,6 +2,7 @@ require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const cors = require("cors");
 const trackClassRouter = require("./routes/track.router");
+const lyricsClassRouter = require("./routes/lyrics.router");
 const dbo = require("./db/db");
 
 
@@ -10,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/tracks", trackClassRouter);
-
+app.use("/track", lyricsClassRouter);
 dbo.main();
 
 app.listen(PORT, () => {

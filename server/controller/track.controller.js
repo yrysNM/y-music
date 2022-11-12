@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectID = require("mongodb").ObjectId;
 const multer = require("multer");
+const jsmediatags = require("jsmediatags");
 const _db = require("../db/db");
 const { Readable } = require("stream");
 
@@ -37,16 +38,17 @@ class TrackController {
     }
 
     async getJoinTracksData(req, res) {
-        const collection = _db.getDb().collection("tracks.files");
+        const collection = _db.getDb().collection("tracks");
 
+        //error in left side
         const dataTracks = await collection.aggregate([
             {
                 $lookup: {
-                    from: "tracks.chunks",
-                    // localField: "_id",
-                    // foreignField: "files_id",
-                    as: "tracksData",
-                    let: {
+                    from: "tracks.files",
+                    localField: "trackId",
+                    foreignField: "_id",
+                    as: "tracks.data",
+                    left: {
                         file_id: "$_id",
                     },
                     pipeline: [
@@ -77,8 +79,24 @@ class TrackController {
         res.send(allTracks);
     }
 
+    async getTrackData(req, res) {
+
+        const collection = _db.getDb().collection("tracks");
+
+        const track = await collection.findOne({
+            trackId: new ObjectID(req.params.trackID)
+        });
+
+        if (track) {
+            res.send(track);
+        } else {
+            res.sendStatus(404);
+        }
+    }
+
     async setTrack(req, res) {
         const storage = multer.memoryStorage();
+
         const upload = multer({
             storage: storage,
             limits: {
@@ -88,6 +106,7 @@ class TrackController {
                 parts: 5
             }
         });
+        const collection = _db.getDb().collection("tracks");
 
         await upload.single("track")(req, res, (err) => {
             if (err) {
@@ -102,16 +121,6 @@ class TrackController {
 
             let trackName = req.body.name;
 
-            /**
-             * @TODO some change in tracks.file 
-             */
-            // const metaData = {
-            //     trackName: req.body.name,
-            //     fileName: req.body.file,
-            //     artistName: req.body.artist,
-            //     genreName: req.body.genre
-            // }
-
             //convert to buffer
             const readableTeackStream = new Readable();
             readableTeackStream.push(req.file.buffer);
@@ -124,6 +133,25 @@ class TrackController {
             let uploadStream = bucket.openUploadStream(trackName);
             let id = uploadStream.id;
             readableTeackStream.pipe(uploadStream);
+
+            //parse track data
+            jsmediatags.read(req.file.buffer, {
+                onSuccess: function (tag) {
+                    const { tags } = tag;
+                    collection.insertOne({
+                        trackId: id,
+                        title: tags.title,
+                        artistName: tags.artist,
+                        album: tags.album,
+                        year: tags.year,
+                        genre: tags.genre,
+                        picture: tags.picture
+                    })
+                },
+                onError: function (error) {
+                    console.log(":(", error.type, error.info);
+                }
+            });
 
             uploadStream.on("finish", () => {
                 return res.status(201).json({

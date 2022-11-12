@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { tracksFetchingError, tracksFetching, tracksFetchedId3 } from "../../../../../actions";
+import { tracksFetchingError, tracksFetching, tracIsUploadedkFetched } from "../../../../../actions";
 import axios from "axios";
 import Spinner from "../../../../spinner/Spinner";
 import ErrorMessage from "../../../../error-message/ErrorMessage";
@@ -8,7 +8,7 @@ import "./fileUpload.scss";
 const FileUpload = ({ files, setFiles }) => {
 
     const dispatch = useDispatch();
-    const { id3, tracksLoadingStatus } = useSelector(state => state.tracks);
+    const { isUpload, tracksLoadingStatus } = useSelector(state => state.tracks);
 
     const uploadHandlker = async (event) => {
 
@@ -37,7 +37,7 @@ const FileUpload = ({ files, setFiles }) => {
         if (obj.track.buffer.byteLength > 0) {
             dispatch(tracksFetching());
             axios.post(`http://localhost:4000/tracks/`, formData)
-                .then(res => dispatch(tracksFetchedId3(res.data.message)))
+                .then(res => dispatch(tracIsUploadedkFetched(res.data.message)))
                 .catch(e => dispatch(tracksFetchingError()));
         }
 
@@ -73,7 +73,7 @@ const FileUpload = ({ files, setFiles }) => {
                     />
                 </div>
 
-                <Viewer text={id3} />
+                <Viewer text={isUpload} />
             </div>
         )
     }

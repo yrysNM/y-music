@@ -55,26 +55,50 @@ const AppHeader = () => {
                         </div>
 
                         <div className={`selectPages__anotherServices selectPages__anotherServices-${toggleAnotherService}`}>
-                            <div className="selectPages selectPages__anotherServices-list">
-                                <div className="selectPages_img">
-                                    <img src="https://avatars.yandex.net/get-music-content/5207413/65a56b90.a.16273827-1/50x50" alt="img select pages" />
-                                </div>
-
-                                <div className={`selectPages_text selectPages__anotherServices_text-${toggleAnotherService}`}>
-                                    Add track
-                                </div>
-
-                                <div
-                                    className={`selectPages_addIcon selectPages__anotherServices_icon-${toggleAnotherService}`}
-                                    onClick={openModal}>
-                                    +
-                                </div>
+                            <div className="selectPages selectPages__anotherServices-wrapper">
+                                <DropHeaderNavigation data={{
+                                    imgUrl: "https://avatars.yandex.net/get-music-content/5207413/65a56b90.a.16273827-1/50x50",
+                                    text: "Add track",
+                                    icon: "https://cdn-icons-png.flaticon.com/512/1286/1286915.png",
+                                    toggleAnotherService,
+                                    openModal
+                                }} />
+                                <DropHeaderNavigation data={{
+                                    imgUrl: "https://i.pinimg.com/236x/55/42/74/554274e0ed20f74f051c49b107660fcf.jpg",
+                                    text: "Lyrics",
+                                    icon: "https://cdn-icons-png.flaticon.com/512/1754/1754193.png",
+                                    toggleAnotherService,
+                                    openModal
+                                }} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </header>
+    );
+}
+
+const DropHeaderNavigation = ({ data }) => {
+    return (
+        <div className="selectPages__anotherServices-list">
+            <div className="selectPages_img">
+                <img src={data.imgUrl} alt="img select pages" />
+            </div>
+
+            <div className={`selectPages_text selectPages__anotherServices_text-${data.toggleAnotherService}`}>
+                {data.text}
+            </div>
+
+            <div
+                className={`selectPages_addIcon selectPages__anotherServices_icon-${data.toggleAnotherService}`}
+                onClick={data.openModal}>
+                <img src={data.icon} alt="icon" style={{
+                    width: 30,
+                    height: 30,
+                }} />
+            </div>
+        </div>
     );
 }
 

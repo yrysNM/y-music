@@ -20,10 +20,10 @@ export const tracksFetchingError = () => {
     }
 }
 
-export const tracksFetchedId3 = (id3) => {
+export const tracIsUploadedkFetched = (textIsSucces) => {
     return {
-        type: "TRACKS_FETCHED_ID3",
-        payload: id3
+        type: "TRACK_IS_UPLOADED",
+        payload: textIsSucces
     }
 }
 
@@ -43,5 +43,12 @@ export const songsFetched = () => {
 export const songsFetchingError = () => {
     return {
         type: "SONGS_FETCHING_ERROR"
+    }
+}
+
+export const tracksDataFetched = (data) => {
+    return {
+        type: "TRACK_DATA_FETCHED",
+        payload: data
     }
 }

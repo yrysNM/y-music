@@ -72,10 +72,10 @@ const AudioPlayer = () => {
     }
 
     const initialTrack = () => {
-
+        const _url = `http://localhost:4000/tracks/${_id}`;
         audioRef.current.pause();
 
-        audioRef.current = new Audio(`http://localhost:4000/tracks/${_id}`);
+        audioRef.current = new Audio(_url);
         audioRef.current.setAttribute("type", "audio/mp3");
         audioRef.current.setAttribute("codecs", "mp3");
         audioRef.current.setAttribute("preload", "metadata");
@@ -85,12 +85,14 @@ const AudioPlayer = () => {
         setTrackProgress(audioRef.current.currentTime);
         dispatch(songsFetching());
 
-        getDuration(`http://localhost:4000/tracks/${_id}`, function (duration) {
-            // if (durationTrack && !isNaN(durationTrack)) {
+        getDuration(_url, function (duration) {
+
             setDurationTrack(duration);
             dispatch(songsFetched());
-            // }
+
         });
+
+
     }
 
     function getDuration(url, next) {
