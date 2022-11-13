@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import data from "../data/tracks";
 import "./audioLists.scss";
 
+export function getUrl(data8) {
+    const content = new Uint8Array(data8.data);
+    return URL.createObjectURL(
+        new Blob([content.buffer], {
+            type: data8.format
+        })
+    )
+}
 
 const AudioLists = () => {
-    const [tracks, setTracks] = useState([]);
-
-    useEffect(() => {
-        axios.get("http://localhost:4000/tracks/files")
-            .then(res => setTracks(res.data));
-    }, []);
+    const { tracks } = useSelector(state => state.tracks);
 
 
     return (
@@ -50,8 +52,8 @@ const AudioLists = () => {
                             <tr key={value._id} className="table__tr">
                                 <td>
                                     <img
-                                        src="https://media.tenor.com/qbHav4TRIp0AAAAM/anime-music.gif"
-                                        alt="track default img"
+                                        src={getUrl(value.picture)}
+                                        alt={value.picture.description}
                                         style={{
                                             width: "50px",
                                             height: "50px",
@@ -59,10 +61,10 @@ const AudioLists = () => {
                                         }} />
                                 </td>
                                 <td>
-                                    {value.filename}
+                                    {value.title}
                                 </td>
                                 <td>
-                                    {value.artist ? value.artist : "none"}
+                                    {value.artistName ? value.artistName : "none"}
                                 </td>
                             </tr>
                         );

@@ -1,13 +1,17 @@
+const _db = require("../db/db");
+const ObjectID = require("mongodb").ObjectId;
 const lyricsFinder = require("lyrics-finder");
 
 class Lyrics {
     async getLyrics(req, res) {
-        const artistName = req.body.artistName;
-        const title = req.body.trackName;
+        const collection = _db.getDb().collection('tracks');
+        const track = await collection.findOne({
+            trackId: new ObjectID(req.params.trackID)
+        });
 
-        let lyrics = await lyricsFinder(artistName, title) || "Not found";
+        let lyrics = await lyricsFinder(track.artistName, track.title) || "Not found";
 
-        res.send(lyrics);
+        res.json(lyrics);
     }
 }
 

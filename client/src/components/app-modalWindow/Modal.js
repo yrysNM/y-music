@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { ModalContext } from "../../context/ModalContext";
+import { DataContext } from "../../context/DataContext";
 import "./modal.scss";
 
 const Modal = ({ children }) => {
-    const { modal, closeModal } = useContext(ModalContext);
+    const { modal, closeModal } = useContext(DataContext);
 
     return (
         <div

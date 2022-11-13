@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { songsFetched, songsFetching } from "../../../../actions";
+import { songsFetched, songsFetching, tracksDataFetched } from "../../../../actions";
+import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
-import Spinner from "../../../spinner/Spinner";
+import Spinner2 from "../../../spinner/Spinner2";
 import ErrorMessage from "../../../error-message/ErrorMessage";
+
 import "./audioPlayer.scss";
 
 const AudioPlayer = () => {
@@ -17,9 +19,9 @@ const AudioPlayer = () => {
     const { tracks } = useSelector(state => state.tracks);
     const { songsLoadingStatus } = useSelector(state => state.songs);
 
-    const { _id, filename, uploadDate } = tracks[trackIndex];
+    const { trackId, title, artistName, year, picture } = tracks[trackIndex];
 
-    const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${_id}`));
+    const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${trackId}`));
     const intervalRef = useRef();
     const isReady = useRef(false);
 
@@ -72,7 +74,7 @@ const AudioPlayer = () => {
     }
 
     const initialTrack = () => {
-        const _url = `http://localhost:4000/tracks/${_id}`;
+        const _url = `http://localhost:4000/tracks/${trackId}`;
         audioRef.current.pause();
 
         audioRef.current = new Audio(_url);
@@ -129,6 +131,11 @@ const AudioPlayer = () => {
     }, [audioRef.current.paused])
 
     useEffect(() => {
+        dispatch(tracksDataFetched({
+            id: trackId,
+            artistName: artistName,
+            title: title,
+        }));
 
         initialTrack();
 
@@ -158,8 +165,10 @@ const AudioPlayer = () => {
         <RenderAudioPlayer data={
             {
                 songsLoadingStatus,
-                filename,
-                uploadDate,
+                title,
+                artistName,
+                picture,
+                year,
                 isPlaying,
                 trackStyling,
                 trackProgress,
@@ -177,7 +186,7 @@ const AudioPlayer = () => {
 
 const RenderAudioPlayer = ({ data }) => {
     if (data.songsLoadingStatus === "loading") {
-        return <Spinner />
+        return <Spinner2 />
     } else if (data.songsLoadingStatus === "error") {
         return <ErrorMessage />
     }
@@ -187,11 +196,14 @@ const RenderAudioPlayer = ({ data }) => {
             <div className="track-info">
                 <img
                     className="artwork"
-                    src={"https://i.pinimg.com/736x/db/f7/70/dbf7700c03f893c9ceaf8e4882df9225.jpg"}
-                    alt={`track artwork for `}
+                    src={getUrl(data.picture)}
+                    alt={data.picture.description}
                 />
-                <h2 className="audio-title">{data.filename}</h2>
-                <h3 className="audio-artist">{new Date(data.uploadDate).toDateString()}</h3>
+                <h2 className="audio-title">{`Title - ${data.title}`}</h2>
+                <h3 className="audio-artist">{`Artist - ${data.artistName}`}</h3>
+                <div className="audio-info">
+                    <p>{`Year - ${data.year}`}</p>
+                </div>
                 <AudioControls
                     isPlaying={data.isPlaying}
                     onPrevClick={data.toPrevTrack}

@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { ModalContext } from "../../context/ModalContext";
+import { DataContext } from "../../context/DataContext";
 import "./appHeader.scss";
 
 const AppHeader = () => {
     const [toggleAnotherService, setToggleAnotherService] = useState(false);
-    const { openModal } = useContext(ModalContext);
+    const { openModal, addLyricsComponent, } = useContext(DataContext);
 
     return (
         <header className="header">
@@ -68,7 +68,7 @@ const AppHeader = () => {
                                     text: "Lyrics",
                                     icon: "https://cdn-icons-png.flaticon.com/512/1754/1754193.png",
                                     toggleAnotherService,
-                                    openModal
+                                    addLyricsComponent
                                 }} />
                             </div>
                         </div>
@@ -92,7 +92,7 @@ const DropHeaderNavigation = ({ data }) => {
 
             <div
                 className={`selectPages_addIcon selectPages__anotherServices_icon-${data.toggleAnotherService}`}
-                onClick={data.openModal}>
+                onClick={data.openModal || data.addLyricsComponent}>
                 <img src={data.icon} alt="icon" style={{
                     width: 30,
                     height: 30,

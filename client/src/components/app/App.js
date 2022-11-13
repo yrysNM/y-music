@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Main, Music, PlayList } from "../pages";
-import ModalContextProvider from "../../context/ModalContext";
+import DataContextProvider from "../../context/DataContext";
 import AppHeader from "../app-header/AppHeader";
 import Modal from "../app-modalWindow/Modal";
 import AudioAdd from "../page-music/components/audio-add/AudioAdd";
@@ -8,7 +8,7 @@ import AudioAdd from "../page-music/components/audio-add/AudioAdd";
 const App = () => {
 
     return (
-        <ModalContextProvider>
+        <DataContextProvider>
             <Router>
                 <div className="app">
                     <AppHeader />
@@ -24,7 +24,7 @@ const App = () => {
             <Modal>
                 <AudioAdd />
             </Modal>
-        </ModalContextProvider>
+        </DataContextProvider>
     );
 }
 

@@ -32,7 +32,7 @@ const tracks = (state = initialState, action) => {
         case "TRACK_DATA_FETCHED":
             return {
                 ...state,
-                data: action.payload
+                dataTrack: action.payload
             }
         default: return state;
     }

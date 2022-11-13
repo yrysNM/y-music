@@ -94,6 +94,13 @@ class TrackController {
         }
     }
 
+    async getTracksData(req, res) {
+        const collection = _db.getDb().collection('tracks');
+        const allData = await collection.find().toArray();
+
+        res.send(allData);
+    }
+
     async setTrack(req, res) {
         const storage = multer.memoryStorage();
 
