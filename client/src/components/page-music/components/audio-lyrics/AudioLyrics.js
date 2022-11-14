@@ -22,7 +22,8 @@ const AudioLyrics = () => {
                 setLyrics(res);
                 dispatch(songsFetched());
             }).catch(e => dispatch(songsFetchingError()));
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dataTrack.id]);
 
     const View = () => {
         if (songsLoadingStatus === "loading") {
