@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { songsFetched, songsFetching, tracksDataFetched } from "../../../../actions";
 import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
-import Spinner from "../../../spinner/Spinner";
+import Spinner2 from "../../../spinner/Spinner2";
 import ErrorMessage from "../../../error-message/ErrorMessage";
 
 import "./audioPlayer.scss";
@@ -186,7 +186,7 @@ const AudioPlayer = () => {
 
 const RenderAudioPlayer = ({ data }) => {
     if (data.songsLoadingStatus === "loading") {
-        return <Spinner />
+        return <Spinner2 />
     } else if (data.songsLoadingStatus === "error") {
         return <ErrorMessage />
     }

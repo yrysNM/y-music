@@ -38,6 +38,9 @@ const FileUpload = ({ files, setFiles }) => {
             dispatch(tracksFetching());
             axios.post(`http://localhost:4000/tracks/`, formData)
                 .then(res => dispatch(tracIsUploadedkFetched(res.data.message)))
+                .then(res => setTimeout(() => {
+                    window.location.reload(false);
+                }, 2000))
                 .catch(e => dispatch(tracksFetchingError()));
         }
 
