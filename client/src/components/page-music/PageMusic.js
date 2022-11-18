@@ -20,7 +20,7 @@ const PageMusic = () => {
     async function getData() {
 
         dispatch(tracksFetching());
-        request("http://localhost:4000/tracks/data")
+        request("https://yrysmusic.onrender.com/tracks/data")
             .then(res => dispatch(tracksFetched(res)))
             .catch(dispatch(tracksFetchingError()));
 

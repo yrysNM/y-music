@@ -16,7 +16,7 @@ const AudioLyrics = () => {
 
     useEffect(() => {
         dispatch(songsFetching());
-        request(`http://localhost:4000/track/lyrics/${dataTrack.id}`)
+        request(`https://yrysmusic.onrender.com/track/lyrics/${dataTrack.id}`)
             .then(res => {
                 setLyrics(res);
                 dispatch(songsFetched());

@@ -36,7 +36,7 @@ const FileUpload = ({ files, setFiles }) => {
 
         if (obj.track.buffer.byteLength > 0) {
             dispatch(tracksFetching());
-            axios.post(`http://localhost:4000/tracks/`, formData)
+            axios.post(`https://yrysmusic.onrender.com/tracks/`, formData)
                 .then(res => dispatch(tracIsUploadedkFetched(res.data.message)))
                 .then(res => setTimeout(() => {
                     window.location.reload(false);

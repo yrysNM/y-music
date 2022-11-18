@@ -21,7 +21,7 @@ const AudioPlayer = () => {
 
     const { trackId, title, artistName, year, picture } = tracks[trackIndex];
 
-    const audioRef = useRef(new Audio(`http://localhost:4000/tracks/${trackId}`));
+    const audioRef = useRef(new Audio(`https://yrysmusic.onrender.com/tracks/${trackId}`));
     const intervalRef = useRef();
     const isReady = useRef(false);
 
@@ -74,7 +74,7 @@ const AudioPlayer = () => {
     }
 
     const initialTrack = () => {
-        const _url = `http://localhost:4000/tracks/${trackId}`;
+        const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
         audioRef.current.pause();
 
         audioRef.current = new Audio(_url);
