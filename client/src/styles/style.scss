@@ -52,6 +52,10 @@ a {
     max-width: 1453px;
     margin: 0 auto;
 
+    @media(max-width: 1200px) {
+        max-width: 900px;
+    }
+
 }
 
 @import "./blocks/title";
