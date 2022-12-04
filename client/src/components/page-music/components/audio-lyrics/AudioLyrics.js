@@ -3,7 +3,6 @@ import { useHttp } from "../../../../hooks/http.hook";
 import { useEffect, useState, useContext } from "react";
 import { songsFetched, songsFetching, songsFetchingError } from "../../../../actions";
 import { DataContext } from "../../../../context/DataContext";
-import Spinner2 from "../../../spinner/Spinner2";
 import ErrorMessage from "../../../error-message/ErrorMessage";
 import "./audioLyrics.scss";
 
@@ -17,7 +16,7 @@ const AudioLyrics = () => {
 
     useEffect(() => {
         dispatch(songsFetching());
-        request(`http://localhost:4000/track/lyrics/${dataTrack.id}`)
+        request(`https://yrysmusic.onrender.com/track/lyrics/${dataTrack.id}`)
             .then(res => {
                 setLyrics(res);
                 dispatch(songsFetched());
@@ -27,7 +26,7 @@ const AudioLyrics = () => {
 
     const View = () => {
         if (songsLoadingStatus === "loading") {
-            return <Spinner2 />
+            return;
         } else if (songsLoadingStatus === "error") {
             return <ErrorMessage />
         }

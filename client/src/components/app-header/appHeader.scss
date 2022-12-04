@@ -18,6 +18,11 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
+
+        @media(max-width: 1200px) {
+            justify-content: space-around;
+            flex-wrap: nowrap;
+        }
     }
 
     &__logo {
@@ -37,9 +42,30 @@
     display: flex;
     justify-content: space-between;
     padding: 0 70px;
-
+    transform: all 0.5s ease-in-out;
     margin: 0;
     margin-right: 300px;
+
+    @media (max-width: 1200px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        position: absolute;
+        left: -500px;
+        top: 0;
+        width: 30%;
+        height: 100vh;
+        padding: 20px;
+
+    }
+
+    &__hamburger {
+        padding-top: 50px;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        transform: all 0.5s ease-in-out;
+    }
 
     &_link {
         font-family: 'Lato';
@@ -48,6 +74,10 @@
         letter-spacing: 0.02em;
         text-transform: uppercase;
         color: #222222;
+
+        @media(max-width: 1200px) {
+            color: #fff;
+        }
     }
 
     &_item {
@@ -55,6 +85,11 @@
 
         &:last-child {
             margin-right: 0;
+        }
+
+        @media(max-width: 1200px) {
+            margin-right: 0;
+            margin-bottom: 10px;
         }
     }
 }
@@ -116,7 +151,7 @@
 
             &:before {
                 content: "";
-                width: 100vw;
+                width: 100%;
                 border-top: 1px solid #fff;
             }
         }
@@ -148,30 +183,30 @@
             }
         }
 
-        &_text {
-            transition: all 0.8s ease-out;
+        // &_text {
+        //     transition: all 0.8s ease-out;
 
-            &-true {
-                position: absolute;
-                left: 29%;
-            }
+        //     &-true {
+        //         position: absolute;
+        //         left: 29%;
+        //     }
 
-            &-false {
-                position: absolute;
-                left: 500px;
-            }
-        }
+        //     &-false {
+        //         position: absolute;
+        //         left: 500px;
+        //     }
+        // }
 
-        &_icon {
-            &-true {
-                position: absolute;
-                right: 19.5px;
-            }
+        // &_icon {
+        //     &-true {
+        //         position: absolute;
+        //         right: 19.5px;
+        //     }
 
-            &-false {
-                position: absolute;
-                left: 500px;
-            }
-        }
+        //     &-false {
+        //         position: absolute;
+        //         left: 500px;
+        //     }
+        // }
     }
 }
