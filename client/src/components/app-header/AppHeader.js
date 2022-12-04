@@ -1,11 +1,17 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
+import HamburgerComponent from "../hamburger";
 import "./appHeader.scss";
 
 const AppHeader = () => {
     const [toggleAnotherService, setToggleAnotherService] = useState(false);
     const { openModal, addLyricsComponent, } = useContext(DataContext);
+    const [active, setActive] = useState(false);
+
+    const activeHamburger = () => {
+        setActive(active => !active);
+    }
 
     return (
         <header className="header">
@@ -19,7 +25,7 @@ const AppHeader = () => {
                         </Link>
                     </div>
 
-                    <ul className="menu">
+                    <ul className={`menu ${active ? "menu__hamburger" : ""}`}>
                         <li className="menu_item">
                             <Link to="/music">
                                 <span className="menu_link" >
@@ -74,6 +80,7 @@ const AppHeader = () => {
                         </div>
                     </div>
                 </div>
+                <HamburgerComponent activeHamburger={activeHamburger} active={active} />
             </div>
         </header>
     );
