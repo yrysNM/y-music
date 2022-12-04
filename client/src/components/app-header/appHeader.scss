@@ -151,7 +151,7 @@
 
             &:before {
                 content: "";
-                width: 100vw;
+                width: 100%;
                 border-top: 1px solid #fff;
             }
         }
@@ -183,30 +183,30 @@
             }
         }
 
-        &_text {
-            transition: all 0.8s ease-out;
+        // &_text {
+        //     transition: all 0.8s ease-out;
 
-            &-true {
-                position: absolute;
-                left: 29%;
-            }
+        //     &-true {
+        //         position: absolute;
+        //         left: 29%;
+        //     }
 
-            &-false {
-                position: absolute;
-                left: 500px;
-            }
-        }
+        //     &-false {
+        //         position: absolute;
+        //         left: 500px;
+        //     }
+        // }
 
-        &_icon {
-            &-true {
-                position: absolute;
-                right: 19.5px;
-            }
+        // &_icon {
+        //     &-true {
+        //         position: absolute;
+        //         right: 19.5px;
+        //     }
 
-            &-false {
-                position: absolute;
-                left: 500px;
-            }
-        }
+        //     &-false {
+        //         position: absolute;
+        //         left: 500px;
+        //     }
+        // }
     }
 }

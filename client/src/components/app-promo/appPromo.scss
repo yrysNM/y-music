@@ -10,6 +10,20 @@
         &_firstBlock {
             width: 400px;
         }
+
+        &__secondBlock {
+
+            img {
+                background: transparent;
+
+                @media(max-width: 1200px) {
+                    width: 500px;
+                    height: auto;
+                    transform: rotate3d(0, -33, -2, -0.58turn);
+                }
+
+            }
+        }
     }
 
     &__title {

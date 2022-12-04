@@ -41,4 +41,8 @@
     position: absolute;
     left: 350px;
     top: 300px;
+
+    @media(max-width: 1200px) {
+        left: 100px;
+    }
 }
