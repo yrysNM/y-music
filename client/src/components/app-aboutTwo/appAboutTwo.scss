@@ -3,6 +3,10 @@
     left: 50%;
     bottom: 30px;
 
+    @media(max-width: 900px) {
+        left: -500px;
+    }
+
     &-block {
         padding: 30px 41px 30px 30px;
         background: #FFFFFF;

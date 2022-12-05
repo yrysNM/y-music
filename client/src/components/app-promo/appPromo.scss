@@ -7,8 +7,19 @@
         align-items: center;
         justify-content: space-between;
 
+        @media(max-width: 900px) {
+            width: 100%;
+            display: block;
+            position: relative;
+        }
+
         &_firstBlock {
             width: 400px;
+
+            @media(max-width: 900px) {
+                text-align: center;
+                width: 100%;
+            }
         }
 
         &__secondBlock {
@@ -20,6 +31,14 @@
                     width: 500px;
                     height: auto;
                     transform: rotate3d(0, -33, -2, -0.58turn);
+                }
+
+                @media(max-width: 900px) {
+                    position: absolute;
+                    top: -80px;
+                    left: 50%;
+                    z-index: -1;
+                    transform: rotate3d(0, 0, 0, 0turn) translateX(-50%);
                 }
 
             }

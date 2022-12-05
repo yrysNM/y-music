@@ -10,6 +10,11 @@
         letter-spacing: 0.5px;
         white-space: break-spaces;
         color: $text-color;
+
+        @media(max-width: 900px) {
+            font-size: 21px;
+        }
+
     }
 
     &_secondText,
@@ -22,6 +27,11 @@
         letter-spacing: 0.5px;
 
         color: $subText-color;
+
+        @media(max-width: 900px) {
+            font-size: 12px;
+        }
+
     }
 
 

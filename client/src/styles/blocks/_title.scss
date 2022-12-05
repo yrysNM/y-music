@@ -5,6 +5,10 @@
         line-height: 65px;
 
         color: $text-color;
+
+        @media(max-width: 900px) {
+            font-size: 28px;
+        }
     }
 
     &_secondText {
@@ -14,6 +18,11 @@
         letter-spacing: 0.03em;
         color: $subText-color;
         opacity: 0.8;
+
+        @media(max-width: 900px) {
+            font-size: 12px;
+            width: 100%;
+        }
 
         &.mt39 {
             margin-top: 39px;

@@ -37,6 +37,10 @@
             grid-template-columns: repeat(2, 1fr);
 
         }
+
+        @media(max-width: 900px) {
+            grid-gap: 50px;
+        }
     }
 
     &-infoEvent {
@@ -74,6 +78,7 @@
     &-descr {
         display: flex;
         flex-direction: column;
+        text-align: center;
 
         &_headText {
             margin-top: 27px;
