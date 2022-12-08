@@ -134,6 +134,10 @@
         letter-spacing: 0.02em;
         color: #FFFFFF;
         margin-right: 27px;
+
+        @media(max-width: 797px) {
+            font-size: 12px;
+        }
     }
 
     &__anotherServices {

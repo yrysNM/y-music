@@ -3,6 +3,10 @@
     flex-direction: column;
     justify-content: center;
 
+    @media(max-width: 797px) {
+        text-align: center;
+    }
+
     &_firstText {
         font-weight: 700;
         font-size: 41px;
@@ -13,6 +17,10 @@
 
         @media(max-width: 900px) {
             font-size: 21px;
+        }
+
+        @media(max-width: 797px) {
+            font-size: 15px;
         }
 
     }
@@ -30,6 +38,10 @@
 
         @media(max-width: 900px) {
             font-size: 12px;
+        }
+
+        @media(max-width: 797px) {
+            font-size: 10px;
         }
 
     }
