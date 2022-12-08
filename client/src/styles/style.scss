@@ -65,6 +65,10 @@ a {
         max-width: 400px;
     }
 
+    @media(max-width: 575px) {
+        max-width: 230px;
+    }
+
 }
 
 @import "./blocks/title";

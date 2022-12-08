@@ -34,6 +34,10 @@
 
             &.order2 {
                 order: 2;
+
+                @media(max-width: 597px) {
+                    order: 1;
+                }
             }
 
             img {
@@ -50,6 +54,11 @@
 
             @media(max-width: 900px) {
                 margin-left: 2rem;
+            }
+
+            @media(max-width: 575px) {
+                width: 100%;
+                margin-left: 0;
             }
 
             &.order1 {
