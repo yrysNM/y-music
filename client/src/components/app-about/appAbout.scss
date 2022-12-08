@@ -1,5 +1,8 @@
-.about,
 .appAboutOne {
+    position: relative;
+}
+
+.about {
     padding: 0 0 190px 0;
     position: relative;
 
@@ -8,12 +11,33 @@
         align-items: center;
         justify-content: space-around;
 
+        @media(max-width: 900px) {
+            position: relative;
+        }
+
+        @media(max-width: 797px) {
+            display: grid;
+
+        }
+
         &_img {
             width: 476px;
             height: 476px;
+            display: block;
+            margin: 0 auto;
+
+            @media(max-width: 797px) {
+                // need card animation
+                width: 300px;
+                height: 250px;
+            }
 
             &.order2 {
                 order: 2;
+
+                @media(max-width: 597px) {
+                    order: 1;
+                }
             }
 
             img {
@@ -28,10 +52,23 @@
             width: 576px;
             margin-left: 124px;
 
+            @media(max-width: 900px) {
+                margin-left: 2rem;
+            }
+
+            @media(max-width: 575px) {
+                width: 100%;
+                margin-left: 0;
+            }
+
             &.order1 {
                 order: 1;
                 margin-left: 0;
                 margin-right: 80px;
+
+                @media(max-width: 900px) {
+                    margin-right: 2rem;
+                }
             }
         }
     }
@@ -45,4 +82,14 @@
     @media(max-width: 1200px) {
         left: 100px;
     }
+
+    @media(max-width: 900px) {
+        left: -500px;
+    }
 }
+
+// @keyframes {
+//     0% {
+//         transition:
+//     }
+// }
