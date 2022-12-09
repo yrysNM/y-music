@@ -22,7 +22,7 @@ const PageMusic = () => {
         dispatch(tracksFetching());
         request("https://yrysmusic.onrender.com/tracks/data")
             .then(res => dispatch(tracksFetched(res)))
-            .catch(dispatch(tracksFetchingError()));
+            .catch(e => dispatch(tracksFetchingError()));
 
     }
 

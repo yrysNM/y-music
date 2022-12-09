@@ -7,3 +7,9 @@
         margin-top: 60px !important;
     }
 }
+
+tbody {
+    @media(max-width: 575px) {
+        font-size: 12px;
+    }
+}
