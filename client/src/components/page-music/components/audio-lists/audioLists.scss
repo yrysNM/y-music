@@ -1,4 +1,9 @@
 .audioList {
     text-align: center;
     margin: 100px 200px;
+
+    @media(max-width: 575px) {
+        margin: 0 !important;
+        margin-top: 60px !important;
+    }
 }
