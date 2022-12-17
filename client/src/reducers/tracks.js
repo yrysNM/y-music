@@ -2,7 +2,8 @@ const initialState = {
     tracks: [],
     isUpload: "",
     tracksLoadingStatus: "idle",
-    dataTrack: {}
+    indexTrack: 0,
+    dataForLyrics: {}
 };
 
 const tracks = (state = initialState, action) => {
@@ -29,10 +30,15 @@ const tracks = (state = initialState, action) => {
                 isUpload: action.payload,
                 tracksLoadingStatus: "idle"
             }
-        case "TRACK_DATA_FETCHED":
+        case "TRACK_INDEX_FETCHED":
             return {
                 ...state,
-                dataTrack: action.payload
+                indexTrack: action.payload
+            }
+        case "TRACK_DATAFORLYRICS_FETCHED":
+            return {
+                ...state,
+                dataForLyrics: action.payload
             }
         default: return state;
     }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { songsFetched, songsFetching, tracksDataFetched } from "../../../../actions";
+import { songsFetched, songsFetching, tracksDataForLyricsFetched } from "../../../../actions";
 import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
@@ -9,6 +9,11 @@ import ErrorMessage from "../../../error-message/ErrorMessage";
 import "./audioPlayer.scss";
 
 const AudioPlayer = () => {
+    // redux states
+    const { tracks, indexTrack } = useSelector(state => state.tracks);
+    const { songsLoadingStatus } = useSelector(state => state.songs);
+
+    //just states
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -16,8 +21,6 @@ const AudioPlayer = () => {
 
     const dispatch = useDispatch();
 
-    const { tracks } = useSelector(state => state.tracks);
-    const { songsLoadingStatus } = useSelector(state => state.songs);
 
     const { trackId, title, artistName, year, picture } = tracks[trackIndex];
 
@@ -113,6 +116,10 @@ const AudioPlayer = () => {
     }
 
     useEffect(() => {
+        setTrackIndex(indexTrack)
+    }, [indexTrack])
+
+    useEffect(() => {
         if (isPlaying) {
             audioRef.current.play();
             startTimer();
@@ -131,7 +138,10 @@ const AudioPlayer = () => {
     }, [audioRef.current.paused])
 
     useEffect(() => {
-        dispatch(tracksDataFetched({
+        /**
+         * @payload dispayth for get lyrics
+         */
+        dispatch(tracksDataForLyricsFetched({
             id: trackId,
             artistName: artistName,
             title: title,

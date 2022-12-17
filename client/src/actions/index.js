@@ -46,9 +46,16 @@ export const songsFetchingError = () => {
     }
 }
 
-export const tracksDataFetched = (data) => {
+export const tracksIndexFetched = (index) => {
     return {
-        type: "TRACK_DATA_FETCHED",
-        payload: data
+        type: "TRACK_INDEX_FETCHED",
+        payload: index
+    }
+}
+
+export const tracksDataForLyricsFetched = (dataForLyrics) => {
+    return {
+        type: "TRACK_DATAFORLYRICS_FETCHED",
+        payload: dataForLyrics
     }
 }
