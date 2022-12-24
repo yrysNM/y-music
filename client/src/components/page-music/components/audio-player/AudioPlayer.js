@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { songsFetched, songsFetching, tracksDataForLyricsFetched } from "../../../../actions";
 import { getUrl } from "../audio-lists/AudioLists";
@@ -115,7 +115,7 @@ const AudioPlayer = () => {
         _player.volume = 0;
     }
 
-    useEffect(() => {
+    useMemo(() => {
         setTrackIndex(indexTrack)
     }, [indexTrack])
 
@@ -138,6 +138,7 @@ const AudioPlayer = () => {
     }, [audioRef.current.paused])
 
     useEffect(() => {
+
         /**
          * @payload dispayth for get lyrics
          */

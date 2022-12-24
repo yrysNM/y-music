@@ -66,10 +66,10 @@ const AudioLists = () => {
                                         }} />
                                 </td>
                                 <td>
-                                    {value.title}
+                                    {`${value.title.slice(0, 25)}...`}
                                 </td>
                                 <td>
-                                    {value.artistName ? value.artistName : "none"}
+                                    {value.artistName ? `${value.artistName.slice(0, 25)}` : "none"}
                                 </td>
                             </tr>
                         );
