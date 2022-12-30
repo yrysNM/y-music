@@ -1,41 +1,47 @@
+import { createReducer } from "@reduxjs/toolkit";
+import {
+    tracksFetched,
+    tracksFetching,
+    tracksFetchingError,
+    tracIsUploadedkFetched,
+    tracksDataForLyricsFetched,
+    tracksIndexFetched
+} from "../actions";
+
+
 const initialState = {
     tracks: [],
     isUpload: "",
     tracksLoadingStatus: "idle",
-    dataTrack: {}
+    indexTrack: 0,
+    dataForLyrics: {}
 };
 
-const tracks = (state = initialState, action) => {
-    switch (action.type) {
-        case "TRACKS_FETCHING":
-            return {
-                ...state,
-                tracksLoadingStatus: "loading"
-            }
-        case "TRACKS_FETCHED":
-            return {
-                ...state,
-                tracks: action.payload,
-                tracksLoadingStatus: "idle",
-            }
-        case "TRACKS_FETCHING_ERROR":
-            return {
-                ...state,
-                tracksLoadingStatus: "error"
-            }
-        case "TRACK_IS_UPLOADED":
-            return {
-                ...state,
-                isUpload: action.payload,
-                tracksLoadingStatus: "idle"
-            }
-        case "TRACK_DATA_FETCHED":
-            return {
-                ...state,
-                dataTrack: action.payload
-            }
-        default: return state;
+const tracks = createReducer(initialState, {
+    [tracksFetching]: state => {
+        state.tracksLoadingStatus = "loading";
+    },
+    [tracksFetched]: (state, action) => {
+        state.tracksLoadingStatus = "idle";
+        state.tracks = action.payload;
+    },
+    [tracksFetchingError]: (state) => {
+        state.tracksLoadingStatus = 'error';
+    },
+    [tracIsUploadedkFetched]: (state, action) => {
+        state.tracksLoadingStatus = 'idle';
+        state.isUpload = action.payload;
+    },
+    [tracksDataForLyricsFetched]: (state, action) => {
+        state.dataForLyrics = action.payload
+    },
+    [tracksIndexFetched]: (state, action) => {
+        state.indexTrack = action.payload;
     }
-}
+},
+    [],
+    state => state
+)
+
 
 export default tracks;
