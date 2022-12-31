@@ -9,20 +9,20 @@ import "./audioLyrics.scss";
 const AudioLyrics = () => {
     const [lyrics, setLyrics] = useState("");
     const { request } = useHttp();
-    const { dataTrack } = useSelector(state => state.tracks);
+    const { dataForLyrics } = useSelector(state => state.tracks);
     const { songsLoadingStatus } = useSelector(state => state.songs);
     const { dropLyricsComponent } = useContext(DataContext);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(songsFetching());
-        request(`https://yrysmusic.onrender.com/track/lyrics/${dataTrack.id}`)
+        request(`https://yrysmusic.onrender.com/track/lyrics/${dataForLyrics.id}`)
             .then(res => {
                 setLyrics(res);
                 dispatch(songsFetched());
             }).catch(e => dispatch(songsFetchingError()));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataTrack.id]);
+    }, [dataForLyrics.id]);
 
     const View = () => {
         if (songsLoadingStatus === "loading") {

@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { tracksIndexFetched } from "../../../../actions";
 import data from "../data/tracks";
 import "./audioLists.scss";
 
@@ -13,7 +14,11 @@ export function getUrl(data8) {
 
 const AudioLists = () => {
     const { tracks } = useSelector(state => state.tracks);
+    const dispatch = useDispatch();
 
+    const selectMusic = (index) => {
+        dispatch(tracksIndexFetched(index));
+    }
 
     return (
         <div className="audioList" style={{ textAlign: "center", margin: "100px 200px" }}>
@@ -26,8 +31,8 @@ const AudioLists = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(tracks => (
-                        <tr key={tracks.title} className="table__tr">
+                    {data.map((tracks, i) => (
+                        <tr key={i} className="table__tr">
                             <td>
                                 <img
                                     src={tracks.image}
@@ -47,9 +52,9 @@ const AudioLists = () => {
                         </tr>
                     ))}
 
-                    {tracks.map(value => {
+                    {tracks.map((value, i) => {
                         return (
-                            <tr key={value._id} className="table__tr">
+                            <tr key={value._id} className="table__tr" onClick={() => selectMusic(i)}>
                                 <td>
                                     <img
                                         src={getUrl(value.picture)}
@@ -61,10 +66,10 @@ const AudioLists = () => {
                                         }} />
                                 </td>
                                 <td>
-                                    {value.title}
+                                    {`${value.title.slice(0, 25)}...`}
                                 </td>
                                 <td>
-                                    {value.artistName ? value.artistName : "none"}
+                                    {value.artistName ? `${value.artistName.slice(0, 25)}` : "none"}
                                 </td>
                             </tr>
                         );
