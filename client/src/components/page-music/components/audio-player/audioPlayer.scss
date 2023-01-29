@@ -45,3 +45,16 @@ input[type=range] {
     transition: background 0.2s ease;
     cursor: pointer;
 }
+
+.audio-time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.audio-currentTime,
+.audio-duration {
+    font-size: 15px;
+    font-weight: 400;
+}

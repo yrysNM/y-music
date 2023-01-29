@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useHttp } from "../../../../hooks/http.hook";
 import { useEffect, useState, useContext } from "react";
-import { songsFetched, songsFetching, songsFetchingError } from "../../../../actions";
+import { songsFetched, songsFetching, songsFetchingError } from "../../helpers/songsSlice";
 import { DataContext } from "../../../../context/DataContext";
 import ErrorMessage from "../../../error-message/ErrorMessage";
 import "./audioLyrics.scss";

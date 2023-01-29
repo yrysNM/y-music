@@ -2,11 +2,13 @@ import { createReducer } from "@reduxjs/toolkit";
 import {
     songsFetched,
     songsFetchingError,
-    songsFetching
+    songsFetching,
+    songsIndexFetched
 } from "../actions";
 
 const initialState = {
-    songsLoadingStatus: "idle"
+    songsLoadingStatus: "idle",
+    songIndex: ""
 };
 
 
@@ -19,6 +21,9 @@ const songs = createReducer(initialState, {
     },
     [songsFetchingError]: (state) => {
         state.songsLoadingStatus = 'error';
+    },
+    [songsIndexFetched]: (state, action) => {
+        state.songIndex = action.payload;
     }
 },
     [],
