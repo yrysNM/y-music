@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import tracks from "../components/page-music/tracksSlice";
-import songs from "../reducers/songs";
+import tracks from "../components/page-music/helpers/tracksSlice";
+import songs from "../components/page-music/helpers/songsSlice";
 
 
 const stringMiddleware = (store) => (next) => (action) => {

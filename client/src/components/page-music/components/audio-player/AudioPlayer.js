@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux";
 
 
-import { songsFetched, songsFetching } from "../../../../actions";
-import { tracksDataForLyricsFetched } from "../../tracksSlice";
+import { songsFetched, songsFetching } from "../../helpers/songsSlice";
+import { tracksDataForLyricsFetched } from "../../helpers/tracksSlice";
 import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
@@ -22,10 +22,10 @@ const AudioPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [durationTrack, setDurationTrack] = useState("");
 
-    const dispatch = useDispatch();
-
-
     const { trackId, title, artistName, year, picture } = tracks[trackIndex];
+
+
+    const dispatch = useDispatch();
 
     const audioRef = useRef(new Audio(`https://yrysmusic.onrender.com/tracks/${trackId}`));
     const intervalRef = useRef();
@@ -104,6 +104,7 @@ const AudioPlayer = () => {
 
     }
 
+
     function getDuration(url, next) {
         let _player = new Audio(url);
 
@@ -162,12 +163,12 @@ const AudioPlayer = () => {
             isReady.current = true;
         }
 
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [trackIndex]);
 
+
     useEffect(() => {
-
-
 
         return () => {
             audioRef.current.pause();
@@ -208,6 +209,13 @@ const RenderAudioPlayer = ({ data }) => {
         return <ErrorMessage />
     }
 
+    const calculateDurationTime = (seconds) => {
+        const calcMinute = Math.floor(seconds / 60);
+        const renderMinute = calcMinute < 10 ? `0${calcMinute}` : `${calcMinute}`;
+        const calcSecond = Math.floor(seconds % 60);
+        const renderSecond = calcSecond < 10 ? `0${calcSecond}` : `${calcSecond}`;
+        return `${renderMinute}:${renderSecond}`;
+    }
     return (
         <div className="audio-player">
             <div className="track-info">
@@ -231,15 +239,21 @@ const RenderAudioPlayer = ({ data }) => {
                     value={data.trackProgress}
                     step="1"
                     min="0"
-                    max={data.durationTrack ? data.durationTrack : `${data.durationTrack}`}
+                    max={(!isNaN(data.durationTrack) && data.durationTrack) ? data.durationTrack : `${data.durationTrack}`}
                     className="progess"
                     onChange={(e) => data.onScrub(e.target.value)}
                     onMouseUp={data.onScrubEnd}
                     onKeyUp={data.onScrubEnd}
                     style={{ background: data.trackStyling }} />
 
-                <div className="audio-duration">
-                    {data.durationTrack}
+
+                <div className="audio-time">
+                    <span className="audio-currentTime">
+                        {calculateDurationTime(data.trackProgress)}
+                    </span>
+                    <span className="audio-duration">
+                        {(data.durationTrack && !isNaN(data.durationTrack)) && calculateDurationTime(data.durationTrack)}
+                    </span>
                 </div>
             </div>
         </div>
