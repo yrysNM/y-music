@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { tracksIndexFetched } from "../../../../actions";
+import { tracksIndexFetched } from "../../../page-music/tracksSlice";
 import data from "../data/tracks";
 import "./audioLists.scss";
 

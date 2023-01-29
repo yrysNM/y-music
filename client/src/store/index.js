@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import tracks from "../reducers/tracks";
+
+import tracks from "../components/page-music/tracksSlice";
 import songs from "../reducers/songs";
 
 

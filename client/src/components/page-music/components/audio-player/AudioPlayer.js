@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { songsFetched, songsFetching, tracksDataForLyricsFetched } from "../../../../actions";
+
+
+import { songsFetched, songsFetching } from "../../../../actions";
+import { tracksDataForLyricsFetched } from "../../tracksSlice";
 import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
@@ -81,6 +84,7 @@ const AudioPlayer = () => {
         audioRef.current.pause();
 
         audioRef.current = new Audio(_url);
+        // audioRef.current.setAttribute("src", _url);
         audioRef.current.setAttribute("type", "audio/mp3");
         audioRef.current.setAttribute("codecs", "mp3");
         audioRef.current.setAttribute("preload", "metadata");
@@ -102,6 +106,7 @@ const AudioPlayer = () => {
 
     function getDuration(url, next) {
         let _player = new Audio(url);
+
         _player.addEventListener("durationchange", function (e) {
             if (this.duration !== Infinity) {
                 let duration = this.duration;
@@ -138,7 +143,6 @@ const AudioPlayer = () => {
     }, [audioRef.current.paused])
 
     useEffect(() => {
-
         /**
          * @payload dispayth for get lyrics
          */
@@ -162,6 +166,8 @@ const AudioPlayer = () => {
     }, [trackIndex]);
 
     useEffect(() => {
+
+
 
         return () => {
             audioRef.current.pause();

@@ -1,8 +1,9 @@
 import { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { fetchTracks } from "../../actions";
 import { useHttp } from "../../hooks/http.hook";
 import { DataContext } from "../../context/DataContext";
-import { tracksFetched, tracksFetching, tracksFetchingError } from "../../actions";
 import AudioPlayer from "./components/audio-player/AudioPlayer";
 import AudioLists from "./components/audio-lists/AudioLists";
 import AudioLyrics from "./components/audio-lyrics/AudioLyrics";
@@ -17,13 +18,8 @@ const PageMusic = () => {
     const { request } = useHttp();
     const { addLyrics } = useContext(DataContext);
 
-    async function getData() {
-
-        dispatch(tracksFetching());
-        request("https://yrysmusic.onrender.com/tracks/data")
-            .then(res => dispatch(tracksFetched(res)))
-            .catch(e => dispatch(tracksFetchingError()));
-
+    function getData() {
+        dispatch(fetchTracks(request));
     }
 
 
