@@ -1,28 +1,23 @@
+import { useEffect, useContext } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { useHttp } from "../../../../hooks/http.hook";
-import { useEffect, useState, useContext } from "react";
-import { songsFetched, songsFetching, songsFetchingError } from "../../helpers/songsSlice";
+import { fetchLyrics } from "../../../../actions";
 import { DataContext } from "../../../../context/DataContext";
 import ErrorMessage from "../../../error-message/ErrorMessage";
 import "./audioLyrics.scss";
 
 const AudioLyrics = () => {
-    const [lyrics, setLyrics] = useState("");
     const { request } = useHttp();
+    const { songsLoadingStatus, songIndex } = useSelector(state => state.songs);
     const { dataForLyrics } = useSelector(state => state.tracks);
-    const { songsLoadingStatus } = useSelector(state => state.songs);
     const { dropLyricsComponent } = useContext(DataContext);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(songsFetching());
-        request(`https://yrysmusic.onrender.com/track/lyrics/${dataForLyrics.id}`)
-            .then(res => {
-                setLyrics(res);
-                dispatch(songsFetched());
-            }).catch(e => dispatch(songsFetchingError()));
+        dispatch(fetchLyrics(request, songIndex));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataForLyrics.id]);
+    }, [songIndex]);
 
     const View = () => {
         if (songsLoadingStatus === "loading") {
@@ -34,7 +29,7 @@ const AudioLyrics = () => {
         return (
             <div>
                 <p className="audio-lyrics__text">
-                    {lyrics}
+                    {dataForLyrics}
                 </p>
 
                 <div className="audio-lyrics__cancel" onClick={dropLyricsComponent}>

@@ -1,5 +1,5 @@
-// import { createAction } from "@reduxjs/toolkit";
-import { tracksFetching, tracksFetchingError, tracksFetched } from "../components/page-music/helpers/tracksSlice";
+import { tracksFetching, tracksFetchingError, tracksFetched, tracksDataForLyricsFetched } from "../components/page-music/helpers/tracksSlice";
+import { songsFetched, songsFetching, songsFetchingError } from "../components/page-music/helpers/songsSlice";
 
 export const fetchTracks = (request) => (dispatch) => {
     dispatch(tracksFetching());
@@ -8,12 +8,14 @@ export const fetchTracks = (request) => (dispatch) => {
         .catch(e => dispatch(tracksFetchingError()));
 }
 
-// export const songsFetched = createAction("SONGS_FETCHED");
+export const fetchLyrics = (request, songIndex) => (dispatch) => {
+    dispatch(songsFetching());
+    request(`https://yrysmusic.onrender.com/track/lyrics/${songIndex}`)
+        .then(res => {
+            dispatch(tracksDataForLyricsFetched(res));
+            dispatch(songsFetched());
+        }).catch(e => dispatch(songsFetchingError()));
+}
 
-// export const songsFetching = createAction("SONGS_FETCHING");
-
-// export const songsFetchingError = createAction("SONGS_FETCHING_ERROR");
-
-// export const songsIndexFetched = createAction("SONGS_FETCHED_INDEX");
 
 

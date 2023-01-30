@@ -5,7 +5,7 @@ const initialState = {
     isUpload: "",
     tracksLoadingStatus: "idle",
     indexTrack: 0,
-    dataForLyrics: {}
+    dataForLyrics: ""
 };
 
 const tracksSlice = createSlice({

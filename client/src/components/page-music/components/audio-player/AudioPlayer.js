@@ -2,8 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux";
 
 
-import { songsFetched, songsFetching } from "../../helpers/songsSlice";
-import { tracksDataForLyricsFetched } from "../../helpers/tracksSlice";
+import { songsFetched, songsFetching, songsIndexFetched } from "../../helpers/songsSlice";
 import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
@@ -84,7 +83,6 @@ const AudioPlayer = () => {
         audioRef.current.pause();
 
         audioRef.current = new Audio(_url);
-        // audioRef.current.setAttribute("src", _url);
         audioRef.current.setAttribute("type", "audio/mp3");
         audioRef.current.setAttribute("codecs", "mp3");
         audioRef.current.setAttribute("preload", "metadata");
@@ -95,10 +93,9 @@ const AudioPlayer = () => {
         dispatch(songsFetching());
 
         getDuration(_url, function (duration) {
-
+            console.log(duration);
             setDurationTrack(duration);
             dispatch(songsFetched());
-
         });
 
 
@@ -109,9 +106,9 @@ const AudioPlayer = () => {
         let _player = new Audio(url);
 
         _player.addEventListener("durationchange", function (e) {
-            if (this.duration !== Infinity) {
+            if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
                 let duration = this.duration;
-                _player.remove();
+                audioRef.current.remove();
                 next(duration);
             };
         }, false);
@@ -123,7 +120,7 @@ const AudioPlayer = () => {
 
     useMemo(() => {
         setTrackIndex(indexTrack)
-    }, [indexTrack])
+    }, [indexTrack]);
 
     useEffect(() => {
         if (isPlaying) {
@@ -143,16 +140,16 @@ const AudioPlayer = () => {
         }
     }, [audioRef.current.paused])
 
+
     useEffect(() => {
         /**
          * @payload dispayth for get lyrics
          */
-        dispatch(tracksDataForLyricsFetched({
-            id: trackId,
-            artistName: artistName,
-            title: title,
-        }));
+        dispatch(songsIndexFetched(trackId));
 
+        /**
+         * @function initilize audio and trans
+         */
         initialTrack();
 
         if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
