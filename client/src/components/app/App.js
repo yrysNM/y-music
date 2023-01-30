@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { Main, Music, PlayList } from "../pages";
 import DataContextProvider from "../../context/DataContext";
 import AppHeader from "../app-header/AppHeader";
@@ -9,7 +9,7 @@ const App = () => {
 
     return (
         <DataContextProvider>
-            <Router>
+            <Router basename="/" >
                 <div className="app">
                     <AppHeader />
                     <Routes>

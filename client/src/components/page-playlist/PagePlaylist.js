@@ -1,11 +1,13 @@
-// import axios from "axios";
-import { useEffect, } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 import { YMApi } from "ym-api";
+import { useSelector } from "react-redux";
 
 import "./pagePlayList.scss";
 
 const PagePlaylist = () => {
     // const [data, setData] = useState([]);
+    const { songIndex } = useSelector(state => state.songs);
 
     useEffect(() => {
         // axios.get("http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=rj&api_key=4f2f703708f16aaa796435d052ed3d51&format=json")
@@ -24,12 +26,20 @@ const PagePlaylist = () => {
                 console.log(`api error ${e.message}`);
             }
         })();
+        let start = new Date().getTime(),
+            difference;
+
+        axios.get(`https://yrysmusic.onrender.com/tracks/63722b933eb885491e494dc7`).then(res => {
+            difference = new Date().getTime() - start;
+            console.log(difference);
+
+        });
     }, []);
 
     return (
         <div className="playlist">
 
-            <iframe
+            {/* <iframe
                 frameBorder="0"
                 title="playlist"
                 style={{ border: "none", width: "100%", height: "100%", }}
@@ -46,7 +56,7 @@ const PagePlaylist = () => {
                 </a>
                 on Yandex Music
 
-            </iframe>
+            </iframe> */}
         </div>
     );
 }
