@@ -39,7 +39,7 @@ const AppHeader = () => {
 
                 <div className="nav">
                     <div className="header__logo">
-                        <Link to="/">
+                        <Link to={"/"}>
 
                             <h1 className="header__logo-text">Yrys Musics</h1>
                         </Link>
@@ -47,21 +47,21 @@ const AppHeader = () => {
 
                     <ul className={`menu ${active ? "menu__hamburger" : ""}`} style={{ marginRight: pathname !== "/music" ? "0" : 300 }}>
                         <li className="menu_item">
-                            <Link to="/music">
+                            <Link to={"/"}>
                                 <span className="menu_link" >
                                     Music
                                 </span>
                             </Link>
                         </li>
                         <li className="menu_item">
-                            <a href="/playlist" className="menu_link" >
+                            <Link to={"/playlist"} className="menu_link" >
                                 PlayList
-                            </a>
+                            </Link>
                         </li>
                         <li className="menu_item">
-                            <a href="/" className="menu_link" >
+                            <Link to={"/"} className="menu_link" >
                                 Live
-                            </a>
+                            </Link>
                         </li>
                     </ul>
 

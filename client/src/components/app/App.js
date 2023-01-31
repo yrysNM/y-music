@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Main, Music, PlayList } from "../pages";
+import { Main, PlayList } from "../pages";
 import DataContextProvider from "../../context/DataContext";
 import AppHeader from "../app-header/AppHeader";
 import Modal from "../app-modalWindow/Modal";
@@ -10,13 +10,13 @@ const App = () => {
 
     return (
         <DataContextProvider>
-            <Router>
+            <Router basename="/">
                 <div className="app">
                     <AppHeader />
                     <Routes>
                         <Route path="/" element={<Main />} />
 
-                        <Route path="/music" element={<Music />} />
+                        {/* <Route path="/music" element={<Music />} /> */}
                         <Route path="/playlist" element={<PlayList />} />
                     </Routes>
                 </div>
