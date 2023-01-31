@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Main, Music, PlayList } from "../pages";
 import DataContextProvider from "../../context/DataContext";
 import AppHeader from "../app-header/AppHeader";

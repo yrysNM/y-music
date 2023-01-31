@@ -26,14 +26,6 @@ const PagePlaylist = () => {
                 console.log(`api error ${e.message}`);
             }
         })();
-        let start = new Date().getTime(),
-            difference;
-
-        axios.get(`https://yrysmusic.onrender.com/tracks/63722b933eb885491e494dc7`).then(res => {
-            difference = new Date().getTime() - start;
-            console.log(difference);
-
-        });
     }, []);
 
     return (
