@@ -1,4 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+import { useHttp } from "../../../hooks/http.hook";
+
 
 const initialState = {
     tracks: [],
@@ -7,6 +10,18 @@ const initialState = {
     indexTrack: 0,
     dataForLyrics: ""
 };
+
+/**
+ * @function requestData
+ */
+const fetchTracks = createAsyncThunk(
+    "tracks/fetchTracks",
+    async () => {
+        const { request } = useHttp();
+        return request("https://yrysmusic.onrender.com/tracks/data");
+    }
+);
+
 
 const tracksSlice = createSlice({
     name: "tracks",
@@ -30,6 +45,15 @@ const tracksSlice = createSlice({
         tracksIndexFetched: (state, action) => {
             state.indexTrack = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchTracks.pending, state => { state.tracksLoadingStatus = "loading" })
+            .addCase(fetchTracks.fulfilled, (state, action) => {
+                state.tracksLoadingStatus = "idle";
+                state.tracks = action.payload;
+            })
+            .addCase(fetchTracks.rejected, state => state.songsLoadingStatus = "error")
     }
 });
 

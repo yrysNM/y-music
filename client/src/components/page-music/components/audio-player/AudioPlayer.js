@@ -80,11 +80,17 @@ const AudioPlayer = () => {
 
     const initialTrack = () => {
         const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
+        /**
+         * @abstract convert to slice
+         */
         dispatch(songsFetching());
 
         getDuration(_url, function (duration) {
             console.log(duration);
             setDurationTrack(duration);
+            /**
+        * @abstract convert to slice
+        */
             dispatch(songsFetched());
         });
         audioRef.current.pause();

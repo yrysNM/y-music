@@ -1,8 +1,8 @@
-import React from "react";
 import { ReactComponent as Play } from "../../../../resources/icons/play.svg";
 import { ReactComponent as Pause } from "../../../../resources/icons/pause.svg";
 import { ReactComponent as Next } from "../../../../resources/icons/next.svg";
 import { ReactComponent as Prev } from "../../../../resources/icons/prev.svg";
+
 import "./audioControls.scss";
 
 

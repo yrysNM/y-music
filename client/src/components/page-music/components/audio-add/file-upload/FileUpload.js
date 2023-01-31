@@ -33,7 +33,9 @@ const FileUpload = ({ files, setFiles }) => {
             'name': file.name,
         }
 
-
+        /**
+         *@abstract convert to slice 
+         */
         if (obj.track.buffer.byteLength > 0) {
             dispatch(tracksFetching());
             axios.post(`https://yrysmusic.onrender.com/tracks/`, formData)

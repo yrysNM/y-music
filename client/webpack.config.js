@@ -12,6 +12,7 @@ module.exports = {
         publicPath: "/dist/",
         filename: "bundle.js",
     },
+    watch: true,
     devServer: {
         static: __dirname + "/public/",
         port: 3033, //  change the port
