@@ -87,7 +87,6 @@ const AudioPlayer = () => {
 
         getDuration(_url, function (duration) {
             setDurationTrack(duration);
-
             /**
             * @abstract convert to slice
             */
