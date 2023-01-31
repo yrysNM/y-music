@@ -1,4 +1,5 @@
 const path = require("path");
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
@@ -63,6 +64,7 @@ module.exports = {
         extensions: ['.jsx', '.ts', '.js'],
     },
     plugins: [
+        // index html script жасау ушын
         new HtmlWebpackPlugin({
             template: __dirname + '/public/index.html'
         }),

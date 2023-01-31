@@ -2,11 +2,11 @@ import { useState, useEffect, useRef, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux";
 
 
-import { songsFetched, songsFetching, songsIndexFetched } from "../../helpers/songsSlice";
-import { getUrl } from "../audio-lists/AudioLists";
 import AudioControls from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
 import ErrorMessage from "../../../error-message/ErrorMessage";
+import { songsFetched, songsFetching, songsIndexFetched } from "../../helpers/songsSlice";
+import { getUrl } from "../audio-lists/AudioLists";
 
 import "./audioPlayer.scss";
 
@@ -86,11 +86,11 @@ const AudioPlayer = () => {
         dispatch(songsFetching());
 
         getDuration(_url, function (duration) {
-            console.log(duration);
             setDurationTrack(duration);
+
             /**
-        * @abstract convert to slice
-        */
+            * @abstract convert to slice
+            */
             dispatch(songsFetched());
         });
         audioRef.current.pause();
