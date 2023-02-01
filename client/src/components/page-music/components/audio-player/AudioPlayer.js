@@ -1,30 +1,30 @@
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useState, useEffect, useRef, useContext } from "react"
 import { useSelector, useDispatch } from "react-redux";
 
-
-import { songsFetched, songsFetching, songsIndexFetched } from "../../helpers/songsSlice";
-import { getUrl } from "../audio-lists/AudioLists";
-import AudioControls from "../audio-controls/AudioControls";
+import { DataContext } from "../../../../context/DataContext";
+import AudioControlsComponent from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
 import ErrorMessage from "../../../error-message/ErrorMessage";
+import { songsFetched, songsFetching, songsIndexFetched } from "../../helpers/songsSlice";
+import { getUrl } from "../audio-lists/AudioLists";
 
 import "./audioPlayer.scss";
 
 const AudioPlayer = () => {
     // redux states
+    const dispatch = useDispatch();
     const { tracks, indexTrack } = useSelector(state => state.tracks);
     const { songsLoadingStatus } = useSelector(state => state.songs);
 
+    const { toNextTrack, isPlaying, onPlayPauseClick } = useContext(DataContext);
+
     //just states
-    const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
     const [durationTrack, setDurationTrack] = useState("");
 
-    const { trackId, title, artistName, year, picture } = tracks[trackIndex];
+    const { trackId, title, artistName, year, picture } = tracks[indexTrack];
 
 
-    const dispatch = useDispatch();
 
     const audioRef = useRef(new Audio(`https://yrysmusic.onrender.com/tracks/${trackId}`));
     const intervalRef = useRef();
@@ -57,26 +57,11 @@ const AudioPlayer = () => {
     const onScrubEnd = () => {
         // If not already playing, start
         if (!isPlaying) {
-            setIsPlaying(true);
+            onPlayPauseClick(true);
         }
         startTimer();
     }
 
-    const toPrevTrack = () => {
-        if (trackIndex - 1 < 0) {
-            setTrackIndex(tracks.length - 1);
-        } else {
-            setTrackIndex(trackIndex - 1);
-        }
-    }
-
-    const toNextTrack = () => {
-        if (trackIndex < tracks.length - 1) {
-            setTrackIndex(trackIndex + 1);
-        } else {
-            setTrackIndex(0);
-        }
-    }
 
     const initialTrack = () => {
         const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
@@ -86,11 +71,10 @@ const AudioPlayer = () => {
         dispatch(songsFetching());
 
         getDuration(_url, function (duration) {
-            console.log(duration);
             setDurationTrack(duration);
             /**
-        * @abstract convert to slice
-        */
+            * @abstract convert to slice
+            */
             dispatch(songsFetched());
         });
         audioRef.current.pause();
@@ -117,16 +101,13 @@ const AudioPlayer = () => {
                 audioRef.current.remove();
                 next(duration);
             };
-        }, false);
+        }, true);
 
         _player.load();
         _player.currentTime = 24 * 60 * 60;
         _player.volume = 0;
     }
 
-    useMemo(() => {
-        setTrackIndex(indexTrack)
-    }, [indexTrack]);
 
     useEffect(() => {
         if (isPlaying) {
@@ -140,11 +121,12 @@ const AudioPlayer = () => {
 
     useEffect(() => {
         if (audioRef.current.paused) {
-            setIsPlaying(false);
+            onPlayPauseClick(false);
         } else {
-            setIsPlaying(true);
+            onPlayPauseClick(true);
         }
-    }, [audioRef.current.paused])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [audioRef.current.paused]);
 
 
     useEffect(() => {
@@ -160,7 +142,7 @@ const AudioPlayer = () => {
 
         if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
             audioRef.current.play();
-            setIsPlaying(true);
+            onPlayPauseClick(true);
             startTimer();
         } else {
             isReady.current = true;
@@ -168,7 +150,7 @@ const AudioPlayer = () => {
 
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [trackIndex]);
+    }, [indexTrack]);
 
 
     useEffect(() => {
@@ -190,16 +172,11 @@ const AudioPlayer = () => {
                 artistName,
                 picture,
                 year,
-                isPlaying,
                 trackStyling,
                 trackProgress,
                 durationTrack,
-                toPrevTrack,
-                toNextTrack,
-                setIsPlaying,
                 onScrubEnd,
                 onScrub,
-
             }
         } />
     );
@@ -232,11 +209,8 @@ const RenderAudioPlayer = ({ data }) => {
                 <div className="audio-info">
                     <p>{`Year - ${data.year}`}</p>
                 </div>
-                <AudioControls
-                    isPlaying={data.isPlaying}
-                    onPrevClick={data.toPrevTrack}
-                    onNextClick={data.toNextTrack}
-                    onPlayPauseClick={data.setIsPlaying} />
+
+                <AudioControlsComponent />
 
                 <input type="range"
                     value={data.trackProgress}

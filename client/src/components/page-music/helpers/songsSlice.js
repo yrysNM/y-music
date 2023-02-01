@@ -46,7 +46,7 @@ const songsSlice = createSlice({
         builder
             .addCase(fetchSongs.pending, state => { state.songsLoadingStatus = "loading" })
             .addCase(fetchSongs.fulfilled, (state, action) => {
-                tracksDataForLyricsFetched(action.payload);
+                console.log(action.payload);
             })
             .addCase(fetchSongs.rejected, state => state.songsLoadingStatus = "error")
             .addDefaultCase(() => { })

@@ -54,6 +54,7 @@ const tracksSlice = createSlice({
                 state.tracks = action.payload;
             })
             .addCase(fetchTracks.rejected, state => state.songsLoadingStatus = "error")
+            .addDefaultCase(() => { })
     }
 });
 
