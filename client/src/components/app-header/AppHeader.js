@@ -47,7 +47,7 @@ const AppHeader = () => {
 
                     <ul className={`menu ${active ? "menu__hamburger" : ""}`} style={{ marginRight: pathname !== "/music" ? "0" : 300 }}>
                         <li className="menu_item">
-                            <Link to={"/"}>
+                            <Link to={"/music"}>
                                 <span className="menu_link" >
                                     Music
                                 </span>

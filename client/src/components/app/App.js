@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Main, PlayList } from "../pages";
+import { Main, PlayList, Music } from "../pages";
 import DataContextProvider from "../../context/DataContext";
 import AppHeader from "../app-header/AppHeader";
 import Modal from "../app-modalWindow/Modal";
@@ -16,7 +16,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Main />} />
 
-                        {/* <Route path="/music" element={<Music />} /> */}
+                        <Route path="/music" element={<Music />} />
                         <Route path="/playlist" element={<PlayList />} />
                     </Routes>
                 </div>
