@@ -8,13 +8,13 @@ const initialState = {
     isUpload: "",
     tracksLoadingStatus: "idle",
     indexTrack: 0,
-    dataForLyrics: ""
+
 };
 
 /**
  * @function requestData
  */
-const fetchTracks = createAsyncThunk(
+export const fetchTracks = createAsyncThunk(
     "tracks/fetchTracks",
     async () => {
         const { request } = useHttp();
@@ -38,9 +38,6 @@ const tracksSlice = createSlice({
         tracIsUploadedkFetched: (state, action) => {
             state.tracksLoadingStatus = 'idle';
             state.isUpload = action.payload;
-        },
-        tracksDataForLyricsFetched: (state, action) => {
-            state.dataForLyrics = action.payload
         },
         tracksIndexFetched: (state, action) => {
             state.indexTrack = action.payload;
@@ -67,6 +64,5 @@ export const {
     tracksFetched,
     tracksFetchingError,
     tracIsUploadedkFetched,
-    tracksDataForLyricsFetched,
     tracksIndexFetched
 } = actions;

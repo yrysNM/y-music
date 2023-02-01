@@ -6,8 +6,7 @@ import AudioLists from "./components/audio-lists/AudioLists";
 import AudioLyrics from "./components/audio-lyrics/AudioLyrics";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../error-message/ErrorMessage";
-import { fetchTracks } from "../../actions";
-import { useHttp } from "../../hooks/http.hook";
+import { fetchTracks } from "../page-music/helpers/tracksSlice";
 import { DataContext } from "../../context/DataContext";
 
 
@@ -15,14 +14,11 @@ import { DataContext } from "../../context/DataContext";
 const PageMusic = () => {
     const { tracksLoadingStatus, tracks } = useSelector(state => state.tracks);
     const dispatch = useDispatch();
-    const { request } = useHttp();
     const { addLyrics } = useContext(DataContext);
 
     function getData() {
-        dispatch(fetchTracks(request));
+        dispatch(fetchTracks());
     }
-
-
 
     useEffect(() => {
         getData();

@@ -1,17 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { useHttp } from "../../../hooks/http.hook";
-import { tracksDataForLyricsFetched } from "./tracksSlice";
 
 const initialState = {
     songsLoadingStatus: "idle",
-    songIndex: ""
+    songIndex: "",
+    dataForLyrics: ""
 };
 
 /**
  * @function requestData 
  */
-const fetchSongs = createAsyncThunk(
+export const fetchSongLyrics = createAsyncThunk(
     "songs/fetchSongs",
     async (songId) => {
         const { request } = useHttp();
@@ -23,7 +23,7 @@ const songsSlice = createSlice({
     name: "songs",
     initialState,
     reducers: {
-        songsFetched: (state, action) => {
+        songsFetched: (state) => {
             state.songsLoadingStatus = 'idle';
         },
         songsFetching: (state) => {
@@ -44,11 +44,12 @@ const songsSlice = createSlice({
          * @action 
          */
         builder
-            .addCase(fetchSongs.pending, state => { state.songsLoadingStatus = "loading" })
-            .addCase(fetchSongs.fulfilled, (state, action) => {
-                console.log(action.payload);
+            .addCase(fetchSongLyrics.pending, state => { state.songsLoadingStatus = "loading" })
+            .addCase(fetchSongLyrics.fulfilled, (state, action) => {
+                state.dataForLyrics = action.payload;
+                state.songsLoadingStatus = 'idle';
             })
-            .addCase(fetchSongs.rejected, state => state.songsLoadingStatus = "error")
+            .addCase(fetchSongLyrics.rejected, state => state.songsLoadingStatus = "error")
             .addDefaultCase(() => { })
     }
 });

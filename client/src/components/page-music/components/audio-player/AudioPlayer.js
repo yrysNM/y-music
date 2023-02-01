@@ -5,7 +5,7 @@ import { DataContext } from "../../../../context/DataContext";
 import AudioControlsComponent from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
 import ErrorMessage from "../../../error-message/ErrorMessage";
-import { songsFetched, songsFetching, songsIndexFetched } from "../../helpers/songsSlice";
+import { songsFetched, songsFetching, songsIndexFetched, songsFetchingError } from "../../helpers/songsSlice";
 import { getUrl } from "../audio-lists/AudioLists";
 
 import "./audioPlayer.scss";
@@ -65,10 +65,12 @@ const AudioPlayer = () => {
 
     const initialTrack = () => {
         const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
+
         /**
          * @abstract convert to slice
          */
         dispatch(songsFetching());
+
 
         getDuration(_url, function (duration) {
             setDurationTrack(duration);

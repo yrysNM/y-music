@@ -1,21 +1,19 @@
 import { useEffect, useContext } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useHttp } from "../../../../hooks/http.hook";
-import { fetchLyrics } from "../../../../actions";
+import { fetchSongLyrics } from "../../helpers/songsSlice";
 import { DataContext } from "../../../../context/DataContext";
 import ErrorMessage from "../../../error-message/ErrorMessage";
 import "./audioLyrics.scss";
 
 const AudioLyrics = () => {
-    const { request } = useHttp();
     const { songsLoadingStatus, songIndex } = useSelector(state => state.songs);
-    const { dataForLyrics } = useSelector(state => state.tracks);
+    const { dataForLyrics } = useSelector(state => state.songs);
     const { dropLyricsComponent } = useContext(DataContext);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchLyrics(request, songIndex));
+        dispatch(fetchSongLyrics(songIndex));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [songIndex]);
 
