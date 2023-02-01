@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useContext } from "react"
 import { useSelector, useDispatch } from "react-redux";
 
+import { useHttp } from "../../../../hooks/http.hook";
+import { fetchTrack } from "../../../../actions";
+import { songsIndexFetched } from "../../helpers/songsSlice";
+import { getUrl } from "../audio-lists/AudioLists";
 import { DataContext } from "../../../../context/DataContext";
 import AudioControlsComponent from "../audio-controls/AudioControls";
 import Spinner from "../../../spinner/Spinner";
 import ErrorMessage from "../../../error-message/ErrorMessage";
-import { songsFetched, songsFetching, songsIndexFetched, songsFetchingError } from "../../helpers/songsSlice";
-import { getUrl } from "../audio-lists/AudioLists";
 
 import "./audioPlayer.scss";
 
@@ -24,15 +26,14 @@ const AudioPlayer = () => {
 
     const { trackId, title, artistName, year, picture } = tracks[indexTrack];
 
-
-
     const audioRef = useRef(new Audio(`https://yrysmusic.onrender.com/tracks/${trackId}`));
     const intervalRef = useRef();
     const isReady = useRef(false);
 
     const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
-    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))
-    `;
+    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))`;
+
+    const { request } = useHttp();
 
     function startTimer() {
         clearInterval(intervalRef.current);
@@ -63,54 +64,6 @@ const AudioPlayer = () => {
     }
 
 
-    const initialTrack = () => {
-        const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
-
-        /**
-         * @abstract convert to slice
-         */
-        dispatch(songsFetching());
-
-
-        getDuration(_url, function (duration) {
-            setDurationTrack(duration);
-            /**
-            * @abstract convert to slice
-            */
-            dispatch(songsFetched());
-        });
-        audioRef.current.pause();
-
-        audioRef.current = new Audio(_url);
-        audioRef.current.setAttribute("type", "audio/mp3");
-        audioRef.current.setAttribute("codecs", "mp3");
-        audioRef.current.setAttribute("preload", "metadata");
-
-        audioRef.current.load();
-
-        setTrackProgress(audioRef.current.currentTime);
-
-
-    }
-
-
-    function getDuration(url, next) {
-        let _player = new Audio(url);
-
-        _player.addEventListener("durationchange", function (e) {
-            if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
-                let duration = this.duration;
-                audioRef.current.remove();
-                next(duration);
-            };
-        }, true);
-
-        _player.load();
-        _player.currentTime = 24 * 60 * 60;
-        _player.volume = 0;
-    }
-
-
     useEffect(() => {
         if (isPlaying) {
             audioRef.current.play();
@@ -132,15 +85,16 @@ const AudioPlayer = () => {
 
 
     useEffect(() => {
+        const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
         /**
-         * @payload dispayth for get lyrics
+         * @payload dispath for get lyrics
          */
         dispatch(songsIndexFetched(trackId));
 
         /**
-         * @function initilize audio and trans
+         * @access initail track
          */
-        initialTrack();
+        dispatch(fetchTrack(request, _url, setTrackProgress, setDurationTrack, audioRef));
 
         if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
             audioRef.current.play();
@@ -149,7 +103,6 @@ const AudioPlayer = () => {
         } else {
             isReady.current = true;
         }
-
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [indexTrack]);

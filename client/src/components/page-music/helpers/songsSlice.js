@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { useHttp } from "../../../hooks/http.hook";
@@ -18,6 +19,16 @@ export const fetchSongLyrics = createAsyncThunk(
         return request(`https://yrysmusic.onrender.com/track/lyrics/${songId}`);
     }
 );
+
+/**
+ * @function requestTrack
+ */
+export const fetchSong = createAsyncThunk(
+    "songs/fetchSong",
+    async (_url, setTrackProgress, setDurationTrack, audioRef) => {
+        return await axios(_url);
+    }
+)
 
 const songsSlice = createSlice({
     name: "songs",
@@ -50,6 +61,7 @@ const songsSlice = createSlice({
                 state.songsLoadingStatus = 'idle';
             })
             .addCase(fetchSongLyrics.rejected, state => state.songsLoadingStatus = "error")
+            .addCase(fetchSong.pending, state => { state.songsLoadingStatus = "loading" })
             .addDefaultCase(() => { })
     }
 });

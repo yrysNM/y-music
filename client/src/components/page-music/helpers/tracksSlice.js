@@ -50,7 +50,7 @@ const tracksSlice = createSlice({
                 state.tracksLoadingStatus = "idle";
                 state.tracks = action.payload;
             })
-            .addCase(fetchTracks.rejected, state => state.songsLoadingStatus = "error")
+            .addCase(fetchTracks.rejected, state => state.tracksLoadingStatus = "error")
             .addDefaultCase(() => { })
     }
 });
