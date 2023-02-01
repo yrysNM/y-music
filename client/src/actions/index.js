@@ -11,6 +11,15 @@ export const fetchTracks = (request) => (dispatch) => {
 }
 
 
+/**
+ * 
+ * @param {fetch data} request 
+ * @param {url for request} _url 
+ * @param {current time for progress bar} setTrackProgress 
+ * @param {track duration time} setDurationTrack 
+ * @param {audio tag element} audioRef 
+ * @returns audio 
+ */
 export const fetchTrack = (request, _url, setTrackProgress, setDurationTrack, audioRef) => (dispatch) => {
 
     dispatch(songsFetching());
