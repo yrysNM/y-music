@@ -14,7 +14,8 @@ const AppHeader = () => {
 
     const { openModal, addLyricsComponent, } = useContext(DataContext);
 
-    const activeHamburger = () => {
+    const activeHamburger = (e) => {
+        e.stopPropagation();
         setActive(active => !active);
     }
 
@@ -25,11 +26,14 @@ const AppHeader = () => {
 
     useEffect(() => {
         const handler = () => setToggleAnotherService(false);
+        const handlerHamburger = () => setActive(false);
 
         window.addEventListener("click", handler);
+        window.addEventListener("click", handlerHamburger);
 
         return () => {
             window.addEventListener("click", handler);
+            window.addEventListener("click", handlerHamburger);
         }
     }, []);
 
