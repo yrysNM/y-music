@@ -1,3 +1,7 @@
+import { useContext } from "react";
+
+import { DataContext } from "../../../../context/DataContext";
+
 import { ReactComponent as Play } from "../../../../resources/icons/play.svg";
 import { ReactComponent as Pause } from "../../../../resources/icons/pause.svg";
 import { ReactComponent as Next } from "../../../../resources/icons/next.svg";
@@ -6,14 +10,18 @@ import { ReactComponent as Prev } from "../../../../resources/icons/prev.svg";
 import "./audioControls.scss";
 
 
-const AudioControls = ({
-    isPlaying,
-    onPlayPauseClick,
-    onPrevClick,
-    onNextClick
-}) => {
-    return (
+const AudioControlsComponent = () => {
+    const { toPrevTrack, toNextTrack, onPlayPauseClick, isPlaying } = useContext(DataContext);
 
+    const onPrevClick = () => {
+        toPrevTrack();
+    }
+
+    const onNextClick = () => {
+        toNextTrack();
+    }
+
+    return (
         <div className="audio-controls">
             <button
                 type="button"
@@ -23,7 +31,7 @@ const AudioControls = ({
             >
                 <Prev />
             </button>
-            {isPlaying ? (
+            {isPlaying ?
                 <button
                     type="button"
                     className="pause"
@@ -32,7 +40,7 @@ const AudioControls = ({
                 >
                     <Pause />
                 </button>
-            ) : (
+                :
                 <button
                     type="button"
                     className="play"
@@ -41,7 +49,7 @@ const AudioControls = ({
                 >
                     <Play />
                 </button>
-            )}
+            }
             <button
                 type="button"
                 className="next"
@@ -54,4 +62,4 @@ const AudioControls = ({
     );
 };
 
-export default AudioControls;
+export default AudioControlsComponent;

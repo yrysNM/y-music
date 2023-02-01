@@ -1,5 +1,5 @@
 import AppAbout from "../app-about/AppAbout";
-import yellowStar from "../../resources/icons/yellowStar.svg";
+import yellowStars from "../../resources/icons/yellowStar.svg";
 import emptyStar from "../../resources/icons/emptyStar.svg";
 import "./appAboutTwo.scss";
 
@@ -20,10 +20,10 @@ const AppAboutTwo = () => {
                 <div className="blockSearchOrder-block">
 
                     <div className="iconStars">
-                        <img src={yellowStar} alt="icon star " />
-                        <img src={yellowStar} alt="icon star " />
-                        <img src={yellowStar} alt="icon star " />
-                        <img src={yellowStar} alt="icon star " />
+                        <img src={yellowStars} alt="icon star " />
+                        <img src={yellowStars} alt="icon star " />
+                        <img src={yellowStars} alt="icon star " />
+                        <img src={yellowStars} alt="icon star " />
                         <img src={emptyStar} alt="icon star " />
                     </div>
 

@@ -25,11 +25,6 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
-            // {
-            //     test: /\.js?$/,
-            //     exclude: /node_modules/,
-            //     loader: 'babel-loader'
-            // },
             {
                 test: /\.(tsx|ts)?$/i,
                 use: "ts-loader",
@@ -37,7 +32,15 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                use: "svg-inline-loader"
+                use: [
+                    "svg-inline-loader",
+                    "@svgr/webpack",
+                    {
+                        loader: "react-svg-loader", options: {
+                            jsx: true // true outputs JSX tags
+                        }
+                    },
+                    "svg-url-loader"]
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -51,7 +54,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(png|jpe?g|gif|mp3|webp)$/i,
+                test: /\.(png|jpe|svg?g|gif|mp3|webp)$/i,
                 use: [
                     {
                         loader: "file-loader",
