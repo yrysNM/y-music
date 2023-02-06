@@ -69,6 +69,7 @@ const AudioPlayer = () => {
             audioRef.current.play();
             startTimer();
         } else {
+            clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,9 +95,9 @@ const AudioPlayer = () => {
         /**
          * @access initail track
          */
-        dispatch(fetchTrack(request, _url, setTrackProgress, setDurationTrack, audioRef));
+        dispatch(fetchTrack(request, _url, setTrackProgress, setDurationTrack, audioRef, isPlaying));
 
-        if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
+        if (isReady.current) {
             audioRef.current.play();
             onPlayPauseClick(true);
             startTimer();
@@ -111,6 +112,7 @@ const AudioPlayer = () => {
     useEffect(() => {
 
         return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             audioRef.current.pause();
             clearInterval(intervalRef.current);
         }

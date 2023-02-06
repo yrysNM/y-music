@@ -17,7 +17,8 @@
     .nav {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        // justify-content: space-between;
+        gap: 50px;
         flex-wrap: wrap;
         min-height: 55px;
 
@@ -65,7 +66,6 @@
         width: 30%;
         height: 100vh;
         padding: 20px;
-
     }
 
     @media(max-width: 575px) {

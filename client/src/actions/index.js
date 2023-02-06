@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 import { tracksFetching, tracksFetchingError, tracksFetched } from "../components/page-music/helpers/tracksSlice";
 import { songsFetching, songsFetched, songsFetchingError } from "../components/page-music/helpers/songsSlice";
 
@@ -32,6 +33,7 @@ export const fetchTrack = (request, _url, setTrackProgress, setDurationTrack, au
             });
 
             audioRef.current.pause();
+
 
             audioRef.current = new Audio(_url);
             audioRef.current.setAttribute("type", "audio/mp3");
