@@ -7,6 +7,7 @@
     width: 30px;
     height: 24px;
     cursor: pointer;
+    animation: all .3s ease-in-out;
 
     @media(max-width: 1200px) {
         display: block;

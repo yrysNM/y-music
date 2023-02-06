@@ -53,7 +53,6 @@
     transform: all 0.5s ease-in-out;
     margin: 0;
     margin-right: 300px;
-    transition: margin-right .3s ease-out;
 
     @media (max-width: 1200px) {
         display: flex;
@@ -66,6 +65,9 @@
         width: 30%;
         height: 100vh;
         padding: 20px;
+        padding-top: 50px;
+        opacity: 0;
+
     }
 
     @media(max-width: 575px) {
@@ -73,10 +75,10 @@
     }
 
     &__hamburger {
-        padding-top: 50px;
         left: 0;
         background-color: rgba(0, 0, 0, 0.4);
-        transform: all 0.5s ease-in-out;
+        opacity: 1;
+        transition: opacity .7s ease-in-out, left 0.5s ease-in-out;
     }
 
     &_link {
