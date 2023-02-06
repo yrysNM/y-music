@@ -1,5 +1,5 @@
 import AppAbout from "../app-about/AppAbout";
-import yellowStars from "../../resources/icons/yellowStar.svg";
+import yellowStars from '../../resources/icons/yellowStar.svg';
 import emptyStar from "../../resources/icons/emptyStar.svg";
 import "./appAboutTwo.scss";
 

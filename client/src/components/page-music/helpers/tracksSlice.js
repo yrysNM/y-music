@@ -8,7 +8,6 @@ const initialState = {
     isUpload: "",
     tracksLoadingStatus: "idle",
     indexTrack: 0,
-
 };
 
 /**

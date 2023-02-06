@@ -1,7 +1,9 @@
 import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 import { useHttp } from "../../../hooks/http.hook";
+
+// const songAdapter = createEntityAdapter();
 
 const initialState = {
     songsLoadingStatus: "idle",
@@ -9,8 +11,17 @@ const initialState = {
     dataForLyrics: ""
 };
 
+// const initialState = songAdapter.getInitialState({
+//     songsLoadingStatus: 'idle',
+//     songIndex: "",
+//     dataForLyrics: ""
+// });
+// console.log(initialState);
+
+
+
 /**
- * @function requestData 
+ * @function requestDataLyrics
  */
 export const fetchSongLyrics = createAsyncThunk(
     "songs/fetchSongs",
@@ -21,12 +32,45 @@ export const fetchSongLyrics = createAsyncThunk(
 );
 
 /**
- * @function requestTrack
+ * @function requestTrack feature dynamic progress for music load like yandex
  */
 export const fetchSong = createAsyncThunk(
     "songs/fetchSong",
     async (_url, setTrackProgress, setDurationTrack, audioRef) => {
-        return await axios(_url);
+        return (
+            axios(_url)
+                .then(() => {
+                    getDuration(_url, (duration) => {
+                        setDurationTrack(duration);
+                    });
+
+                    audioRef.current.pause();
+
+                    audioRef.current = new Audio(_url);
+                    audioRef.current.setAttribute("type", "audio/mp3");
+                    audioRef.current.setAttribute("codecs", "mp3");
+                    audioRef.current.setAttribute("preload", "metadata");
+                    audioRef.current.load();
+
+                    setTrackProgress(audioRef.current.currentTime);
+
+                    function getDuration(url, next) {
+                        let _player = new Audio(url);
+
+                        _player.addEventListener("durationchange", function (e) {
+                            if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
+                                let duration = this.duration;
+                                audioRef.current.remove();
+                                next(duration);
+                            }
+                        }, true);
+
+                        _player.load();
+                        _player.currentTime = 24 * 60 * 60;
+                        _player.volume = 0;
+                    }
+                }).catch(e => console.log(e.message))
+        );
     }
 )
 
@@ -52,7 +96,7 @@ const songsSlice = createSlice({
         /**
          * @action pending begin loading
          * @action fulfilled request done success 
-         * @action 
+         * @action rejected something is wrong => error
          */
         builder
             .addCase(fetchSongLyrics.pending, state => { state.songsLoadingStatus = "loading" })
@@ -62,6 +106,41 @@ const songsSlice = createSlice({
             })
             .addCase(fetchSongLyrics.rejected, state => state.songsLoadingStatus = "error")
             .addCase(fetchSong.pending, state => { state.songsLoadingStatus = "loading" })
+            .addCase(fetchSong.fulfilled, (state, action) => {
+                console.log(state, action);
+                state.songsLoadingStatus = "idle";
+                // getDuration(_url, (duration) => {
+                //     setDurationTrack(duration);
+                //     state.songsLoadingStatus = "idle";
+                // });
+
+                // audioRef.current.pause();
+
+                // audioRef.current = new Audio(_url);
+                // audioRef.current.setAttribute("type", "audio/mp3");
+                // audioRef.current.setAttribute("codecs", "mp3");
+                // audioRef.current.setAttribute("preload", "metadata");
+                // audioRef.current.load();
+
+                // setTrackProgress(audioRef.current.currentTime);
+
+                // function getDuration(url, next) {
+                //     let _player = new Audio(url);
+
+                //     _player.addEventListener("durationchange", function (e) {
+                //         if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
+                //             let duration = this.duration;
+                //             audioRef.current.remove();
+                //             next(duration);
+                //         }
+                //     }, true);
+
+                //     _player.load();
+                //     _player.currentTime = 24 * 60 * 60;
+                //     _player.volume = 0;
+                // }
+            })
+            .addCase(fetchSong.rejected, state => { state.songsLoadingStatus = "error" })
             .addDefaultCase(() => { })
     }
 });

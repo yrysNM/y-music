@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useHttp } from "../../../../hooks/http.hook";
 import { fetchTrack } from "../../../../actions";
+// import { fetchSong } from "../../helpers/songsSlice";
 import { songsIndexFetched } from "../../helpers/songsSlice";
 import { getUrl } from "../audio-lists/AudioLists";
 import { DataContext } from "../../../../context/DataContext";
@@ -69,7 +70,7 @@ const AudioPlayer = () => {
             audioRef.current.play();
             startTimer();
         } else {
-            clearInterval(intervalRef.current);
+            // clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,7 +98,7 @@ const AudioPlayer = () => {
          */
         dispatch(fetchTrack(request, _url, setTrackProgress, setDurationTrack, audioRef, isPlaying));
 
-        if (isReady.current) {
+        if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
             audioRef.current.play();
             onPlayPauseClick(true);
             startTimer();
