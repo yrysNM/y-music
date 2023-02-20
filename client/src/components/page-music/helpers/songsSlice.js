@@ -1,22 +1,14 @@
 import axios from "axios";
-import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { useHttp } from "../../../hooks/http.hook";
 
-// const songAdapter = createEntityAdapter();
 
 const initialState = {
     songsLoadingStatus: "idle",
     songIndex: "",
     dataForLyrics: ""
 };
-
-// const initialState = songAdapter.getInitialState({
-//     songsLoadingStatus: 'idle',
-//     songIndex: "",
-//     dataForLyrics: ""
-// });
-// console.log(initialState);
 
 
 
@@ -107,38 +99,7 @@ const songsSlice = createSlice({
             .addCase(fetchSongLyrics.rejected, state => state.songsLoadingStatus = "error")
             .addCase(fetchSong.pending, state => { state.songsLoadingStatus = "loading" })
             .addCase(fetchSong.fulfilled, (state, action) => {
-                console.log(state, action);
                 state.songsLoadingStatus = "idle";
-                // getDuration(_url, (duration) => {
-                //     setDurationTrack(duration);
-                //     state.songsLoadingStatus = "idle";
-                // });
-
-                // audioRef.current.pause();
-
-                // audioRef.current = new Audio(_url);
-                // audioRef.current.setAttribute("type", "audio/mp3");
-                // audioRef.current.setAttribute("codecs", "mp3");
-                // audioRef.current.setAttribute("preload", "metadata");
-                // audioRef.current.load();
-
-                // setTrackProgress(audioRef.current.currentTime);
-
-                // function getDuration(url, next) {
-                //     let _player = new Audio(url);
-
-                //     _player.addEventListener("durationchange", function (e) {
-                //         if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
-                //             let duration = this.duration;
-                //             audioRef.current.remove();
-                //             next(duration);
-                //         }
-                //     }, true);
-
-                //     _player.load();
-                //     _player.currentTime = 24 * 60 * 60;
-                //     _player.volume = 0;
-                // }
             })
             .addCase(fetchSong.rejected, state => { state.songsLoadingStatus = "error" })
             .addDefaultCase(() => { })

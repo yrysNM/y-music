@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { tracksIndexFetched } from "../../helpers/tracksSlice";
+
+import { tracksIndexFetched, selectAll } from "../../helpers/tracksSlice";
 import data from "../data/tracks";
+
 import "./audioLists.scss";
 
 export function getUrl(data8) {
@@ -13,7 +15,8 @@ export function getUrl(data8) {
 }
 
 const AudioLists = () => {
-    const { tracks } = useSelector(state => state.tracks);
+
+    const tracks = useSelector(selectAll);
     const dispatch = useDispatch();
 
     const selectMusic = (index) => {

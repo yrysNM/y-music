@@ -1,14 +1,25 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 import { useHttp } from "../../../hooks/http.hook";
 
 
-const initialState = {
-    tracks: [],
-    isUpload: "",
+// const initialState = {
+//     tracks: [],
+//     isUpload: "",
+//     tracksLoadingStatus: "idle",
+//     indexTrack: 0,
+// };
+
+const tracksAdapter = createEntityAdapter({
+    selectId: (e) => e._id
+});
+
+const initialState = tracksAdapter.getInitialState({
     tracksLoadingStatus: "idle",
     indexTrack: 0,
-};
+    isUpload: "",
+});
+
 
 /**
  * @function requestData
@@ -47,7 +58,8 @@ const tracksSlice = createSlice({
             .addCase(fetchTracks.pending, state => { state.tracksLoadingStatus = "loading" })
             .addCase(fetchTracks.fulfilled, (state, action) => {
                 state.tracksLoadingStatus = "idle";
-                state.tracks = action.payload;
+
+                tracksAdapter.setAll(state, action.payload);
             })
             .addCase(fetchTracks.rejected, state => state.tracksLoadingStatus = "error")
             .addDefaultCase(() => { })
@@ -57,6 +69,8 @@ const tracksSlice = createSlice({
 const { actions, reducer } = tracksSlice;
 
 export default reducer;
+
+export const { selectAll } = tracksAdapter.getSelectors((state) => { console.log(state); return state.tracks; });
 
 export const {
     tracksFetching,

@@ -1,15 +1,15 @@
 import axios from "axios";
 
 
-import { tracksFetching, tracksFetchingError, tracksFetched } from "../components/page-music/helpers/tracksSlice";
+// import { tracksFetching, tracksFetchingError, tracksFetched } from "../components/page-music/helpers/tracksSlice";
 import { songsFetching, songsFetched, songsFetchingError } from "../components/page-music/helpers/songsSlice";
 
-export const fetchTracks = (request) => (dispatch) => {
-    dispatch(tracksFetching());
-    request("https://yrysmusic.onrender.com/tracks/data")
-        .then(res => dispatch(tracksFetched(res)))
-        .catch(e => dispatch(tracksFetchingError()));
-}
+// export const fetchTracks = (request) => (dispatch) => {
+//     dispatch(tracksFetching());
+//     request("https://yrysmusic.onrender.com/tracks/data")
+//         .then(res => dispatch(tracksFetched(res)))
+//         .catch(e => dispatch(tracksFetchingError()));
+// }
 
 
 /**

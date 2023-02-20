@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useContext } from "react"
 import { useSelector, useDispatch } from "react-redux";
 
+// import { fetchSong } from "../../helpers/songsSlice";
+import { selectAll } from "../../helpers/tracksSlice";
 import { useHttp } from "../../../../hooks/http.hook";
 import { fetchTrack } from "../../../../actions";
-// import { fetchSong } from "../../helpers/songsSlice";
 import { songsIndexFetched } from "../../helpers/songsSlice";
 import { getUrl } from "../audio-lists/AudioLists";
 import { DataContext } from "../../../../context/DataContext";
@@ -16,7 +17,8 @@ import "./audioPlayer.scss";
 const AudioPlayer = () => {
     // redux states
     const dispatch = useDispatch();
-    const { tracks, indexTrack } = useSelector(state => state.tracks);
+    const tracks = useSelector(selectAll);
+    const { indexTrack } = useSelector(state => state.tracks);
     const { songsLoadingStatus } = useSelector(state => state.songs);
 
     const { toNextTrack, isPlaying, onPlayPauseClick } = useContext(DataContext);
