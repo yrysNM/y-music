@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import { selectAll } from "../components/page-music/helpers/tracksSlice";
 import { tracksIndexFetched } from "../components/page-music/helpers/tracksSlice";
 
 export const DataContext = createContext(null);
@@ -11,8 +12,8 @@ const DataContextProvider = ({ children }) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     const dispatch = useDispatch();
-    const { indexTrack, tracks } = useSelector(state => state.tracks);
-
+    const { indexTrack } = useSelector(state => state.tracks);
+    const tracks = useSelector(selectAll);
     /**
      * @function musicControler
      */

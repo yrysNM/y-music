@@ -48,9 +48,12 @@ const tracksSlice = createSlice({
         tracIsUploadedkFetched: (state, action) => {
             state.tracksLoadingStatus = 'idle';
             state.isUpload = action.payload;
+
+            tracksAdapter.setOne(state.isUpload, action.payload);
         },
         tracksIndexFetched: (state, action) => {
             state.indexTrack = action.payload;
+
         }
     },
     extraReducers: (builder) => {
@@ -70,7 +73,7 @@ const { actions, reducer } = tracksSlice;
 
 export default reducer;
 
-export const { selectAll } = tracksAdapter.getSelectors((state) => { console.log(state); return state.tracks; });
+export const { selectAll } = tracksAdapter.getSelectors((state) => { return state.tracks; });
 
 export const {
     tracksFetching,
