@@ -13,33 +13,32 @@ import { songsFetching, songsFetched, songsFetchingError } from "../components/p
 
 
 /**
- * 
- * @param {fetch data} request 
- * @param {url for request} _url 
- * @param {current time for progress bar} setTrackProgress 
- * @param {track duration time} setDurationTrack 
- * @param {audio tag element} audioRef 
- * @returns audio 
+ *
+ * @param {fetch data} request
+ * @param {url for request} _url
+ * @param {current time for progress bar} setTrackProgress
+ * @param {track duration time} setDurationTrack
+ * @param {audio tag element} audioRef
+ * @returns audio
  */
 export const fetchTrack = (request, _url, setTrackProgress, setDurationTrack, audioRef) => (dispatch) => {
 
     dispatch(songsFetching());
     axios(_url)
         .then(() => {
+            audioRef.current.pause();
 
             getDuration(_url, (duration) => {
                 setDurationTrack(duration);
                 dispatch(songsFetched());
             });
 
-            audioRef.current.pause();
-
 
             audioRef.current = new Audio(_url);
-            audioRef.current.setAttribute("type", "audio/mp3");
-            audioRef.current.setAttribute("codecs", "mp3");
-            audioRef.current.setAttribute("preload", "metadata");
-            audioRef.current.load();
+            // audioRef.current.setAttribute("type", "audio/mp3");
+            // audioRef.current.setAttribute("codecs", "mp3");
+            // audioRef.current.setAttribute("preload", "metadata");
+            // audioRef.current.load();
 
             setTrackProgress(audioRef.current.currentTime);
 

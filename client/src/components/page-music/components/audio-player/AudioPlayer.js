@@ -27,12 +27,11 @@ const AudioPlayer = () => {
     const [trackProgress, setTrackProgress] = useState(0);
     const [durationTrack, setDurationTrack] = useState("");
 
-    const { trackId, title, artistName, year, picture } = tracks[indexTrack];
+    const { trackId, title, artistName, year, picture, audioSrc } = tracks[indexTrack];
 
-    const audioRef = useRef(new Audio(`https://yrysmusic.onrender.com/tracks/${trackId}`));
+    const audioRef = useRef(new Audio(audioSrc));
     const intervalRef = useRef();
     const isReady = useRef(false);
-
     const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))`;
 
@@ -79,17 +78,6 @@ const AudioPlayer = () => {
     }, [isPlaying]);
 
     useEffect(() => {
-        if (audioRef.current.paused) {
-            onPlayPauseClick(false);
-        } else {
-            onPlayPauseClick(true);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [audioRef.current.paused]);
-
-
-    useEffect(() => {
-        const _url = `https://yrysmusic.onrender.com/tracks/${trackId}`;
         /**
          * @payload dispath for get lyrics
          */
@@ -98,9 +86,10 @@ const AudioPlayer = () => {
         /**
          * @access initail track
          */
-        dispatch(fetchTrack(request, _url, setTrackProgress, setDurationTrack, audioRef, isPlaying));
+        dispatch(fetchTrack(request, audioSrc, setTrackProgress, setDurationTrack, audioRef, isPlaying));
 
-        if (isReady.current && audioRef.current && durationTrack.length > 0 && isPlaying) {
+
+        if (isReady.current || isPlaying) {
             audioRef.current.play();
             onPlayPauseClick(true);
             startTimer();

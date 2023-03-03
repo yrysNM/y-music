@@ -32,11 +32,12 @@ export const fetchSong = createAsyncThunk(
         return (
             axios(_url)
                 .then(() => {
+                    audioRef.current.pause();
+
                     getDuration(_url, (duration) => {
                         setDurationTrack(duration);
                     });
 
-                    audioRef.current.pause();
 
                     audioRef.current = new Audio(_url);
                     audioRef.current.setAttribute("type", "audio/mp3");
@@ -61,7 +62,7 @@ export const fetchSong = createAsyncThunk(
                         _player.currentTime = 24 * 60 * 60;
                         _player.volume = 0;
                     }
-                }).catch(e => console.log(e.message))
+                })
         );
     }
 )

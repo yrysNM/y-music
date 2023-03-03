@@ -32,26 +32,7 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                use: [
-                    "svg-inline-loader",
-                    "@svgr/webpack",
-                    // {
-                    //     loader: "react-svg-loader", options: {
-                    //         js: true // true outputs JSX tags
-                    //     }
-                    // },
-                    "react-svg-loader",
-                    "svg-url-loader"],
-                oneOf: [
-                    {
-                        include: path.resolve(__dirname, '../node_modules/'),
-                        use: ['svg-react-loader', 'react-svg-loader']
-                    },
-                    {
-                        include: path.resolve(__dirname, '../src/'),
-                        use: ['url-loader', 'svg-url-loader', "@svg/webpack"]
-                    },
-                ],
+                use: ['@svgr/webpack', 'url-loader'],
             },
             {
                 test: /\.s[ac]ss$/i,

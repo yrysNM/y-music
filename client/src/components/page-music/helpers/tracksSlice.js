@@ -49,7 +49,7 @@ const tracksSlice = createSlice({
             state.tracksLoadingStatus = 'idle';
             state.isUpload = action.payload;
 
-            tracksAdapter.setOne(state.isUpload, action.payload);
+            // tracksAdapter.setOne(state.isUpload, action.payload);
         },
         tracksIndexFetched: (state, action) => {
             state.indexTrack = action.payload;
@@ -62,7 +62,7 @@ const tracksSlice = createSlice({
             .addCase(fetchTracks.fulfilled, (state, action) => {
                 state.tracksLoadingStatus = "idle";
 
-                tracksAdapter.setAll(state, action.payload);
+                tracksAdapter.setAll(state, action.payload.map(o => Object.assign(o, { audioSrc: `https://yrysmusic.onrender.com/tracks/${o.trackId}/` })));
             })
             .addCase(fetchTracks.rejected, state => state.tracksLoadingStatus = "error")
             .addDefaultCase(() => { })
