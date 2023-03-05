@@ -23,41 +23,73 @@ import { songsFetching, songsFetched, songsFetchingError } from "../components/p
  */
 export const fetchTrack = (request, _url, setTrackProgress, setDurationTrack, audioRef) => (dispatch) => {
 
-    dispatch(songsFetching());
-    axios(_url)
-        .then(() => {
-            audioRef.current.pause();
+  dispatch(songsFetching());
+  axios(_url)
+    .then(() => {
+      audioRef.current.pause();
 
-            getDuration(_url, (duration) => {
-                setDurationTrack(duration);
-                dispatch(songsFetched());
-            });
-
-
-            audioRef.current = new Audio(_url);
-            // audioRef.current.setAttribute("type", "audio/mp3");
-            // audioRef.current.setAttribute("codecs", "mp3");
-            // audioRef.current.setAttribute("preload", "metadata");
-            // audioRef.current.load();
-
-            setTrackProgress(audioRef.current.currentTime);
-
-        }).catch(e => { dispatch(songsFetchingError()); console.log(e.message) });
+      getDuration(_url, (duration) => {
+        setDurationTrack(duration);
+        dispatch(songsFetched());
+      });
 
 
-    function getDuration(url, next) {
+      audioRef.current = new Audio(_url);
+      // audioRef.current.setAttribute("type", "audio/mp3");
+      // audioRef.current.setAttribute("codecs", "mp3");
+      // audioRef.current.setAttribute("preload", "metadata");
+      // audioRef.current.load();
+
+      setTrackProgress(audioRef.current.currentTime);
+
+    }).catch(e => { dispatch(songsFetchingError()); console.log(e.message) });
+
+
+  function getDuration(url, next) {
+    let _player = new Audio(url);
+
+    _player.addEventListener("durationchange", function (e) {
+      if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
+        let duration = this.duration;
+        audioRef.current.remove();
+        next(duration);
+      };
+    }, true);
+    _player.load();
+    _player.currentTime = 24 * 60 * 60;
+    _player.volume = 0;
+  };
+}
+
+
+export const fetchLoadSong = (audioSrc, audioRef, setDuration) => (dispatch) => {
+  dispatch(songsFetching());
+  axios(audioSrc)
+    .then(() => {
+
+      getDuration(audioSrc, (duration) => {
+        setDuration(duration);
+        dispatch(songsFetched());
+      });
+
+      audioRef.current = new Audio(audioSrc);
+
+      function getDuration(url, next) {
         let _player = new Audio(url);
 
         _player.addEventListener("durationchange", function (e) {
-            if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
-                let duration = this.duration;
-                audioRef.current.remove();
-                next(duration);
-            };
+          if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
+            let duration = this.duration;
+            // audioRef.current.remove();
+            next(duration);
+          }
         }, true);
+
         _player.load();
         _player.currentTime = 24 * 60 * 60;
         _player.volume = 0;
-    };
+      }
+    })
+    .catch(e => { dispatch(songsFetchingError()); console.log(e.message) });
 }
 

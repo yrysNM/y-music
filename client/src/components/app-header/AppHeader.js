@@ -1,8 +1,5 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAll } from "../page-music/helpers/tracksSlice";
-import { fetchTracks } from "../page-music/helpers/tracksSlice";
 import { DataContext } from "../../context/DataContext";
 import HamburgerComponent from "../hamburger";
 
@@ -12,9 +9,6 @@ const AppHeader = () => {
     const [toggleAnotherService, setToggleAnotherService] = useState(false);
     const [active, setActive] = useState(false);
     const { pathname } = useLocation();
-    const dispatch = useDispatch();
-    const tracks = useSelector(selectAll);
-
     const { openModal, addLyricsComponent, } = useContext(DataContext);
 
     const activeHamburger = (e) => {
@@ -40,12 +34,6 @@ const AppHeader = () => {
         }
     });
 
-    useEffect(() => {
-
-        if (tracks.length <= 0) {
-            dispatch(fetchTracks());
-        }
-    }, []);
 
     return (
         <header className="header">

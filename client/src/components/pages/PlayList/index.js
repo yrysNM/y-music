@@ -1,7 +1,7 @@
-import PagePlaylist from "../../page-playlist/PagePlaylist"
+import InitialPlaylist from "../../page-playlist/InitialPlaylist";
 const PlayList = () => {
     return (
-        <PagePlaylist />
+        <InitialPlaylist />
     );
 }
 

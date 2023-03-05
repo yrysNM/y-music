@@ -15,175 +15,165 @@ import ErrorMessage from "../../../error-message/ErrorMessage";
 import "./audioPlayer.scss";
 
 const AudioPlayer = () => {
-    // redux states
-    const dispatch = useDispatch();
-    const tracks = useSelector(selectAll);
-    const { indexTrack } = useSelector(state => state.tracks);
-    const { songsLoadingStatus } = useSelector(state => state.songs);
+  // redux states
+  const dispatch = useDispatch();
+  const tracks = useSelector(selectAll);
+  const { indexTrack } = useSelector(state => state.tracks);
+  const { songsLoadingStatus } = useSelector(state => state.songs);
 
-    const { toNextTrack, isPlaying, onPlayPauseClick } = useContext(DataContext);
+  const { toNextTrack, isPlaying, onPlayPauseClick } = useContext(DataContext);
 
-    //just states
-    const [trackProgress, setTrackProgress] = useState(0);
-    const [durationTrack, setDurationTrack] = useState("");
+  //just states
+  const [trackProgress, setTrackProgress] = useState(0);
+  const [durationTrack, setDurationTrack] = useState("");
 
-    const { trackId, title, artistName, year, picture, audioSrc } = tracks[indexTrack];
+  const { trackId, title, artistName, year, picture, audioSrc } = tracks[indexTrack];
 
-    const audioRef = useRef(new Audio(audioSrc));
-    const intervalRef = useRef();
-    const isReady = useRef(false);
-    const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
-    const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))`;
+  const audioRef = useRef(new Audio(audioSrc));
+  const intervalRef = useRef();
+  const isReady = useRef(false);
+  const currentPercentage = durationTrack ? `${(trackProgress / durationTrack) * 100}%` : '0%';
+  const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))`;
 
-    const { request } = useHttp();
+  const { request } = useHttp();
 
-    function startTimer() {
-        clearInterval(intervalRef.current);
+  function startTimer() {
+    clearInterval(intervalRef.current);
 
-        intervalRef.current = setInterval(() => {
-            if (audioRef.current.ended) {
-                toNextTrack();
-            } else {
-                setTrackProgress(audioRef.current.currentTime);
-            }
-        }, [1000]);
-    }
-
-
-    const onScrub = (value) => {
-        // Clear any timers already running
-        clearInterval(intervalRef.current);
-        audioRef.current.currentTime = value;
+    intervalRef.current = setInterval(() => {
+      if (audioRef.current.ended) {
+        toNextTrack();
+      } else {
         setTrackProgress(audioRef.current.currentTime);
+      }
+    }, [1000]);
+  }
+
+
+  const onScrub = (value) => {
+    // Clear any timers already running
+    clearInterval(intervalRef.current);
+    audioRef.current.currentTime = value;
+    setTrackProgress(audioRef.current.currentTime);
+  }
+
+  const onScrubEnd = () => {
+    // If not already playing, start
+    if (!isPlaying) {
+      onPlayPauseClick(true);
+    }
+    startTimer();
+  }
+
+
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current.play();
+      startTimer();
+    } else {
+      // clearInterval(intervalRef.current);
+      audioRef.current.pause();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying]);
+
+  useEffect(() => {
+    /**
+     * @payload dispath for get lyrics
+     */
+    dispatch(songsIndexFetched(trackId));
+
+    /**
+     * @access initail track
+     */
+    dispatch(fetchTrack(request, audioSrc, setTrackProgress, setDurationTrack, audioRef, isPlaying));
+
+
+    if (isReady.current) {
+      onPlayPauseClick(true);
+      audioRef.current.play();
+      startTimer();
+    } else {
+      isReady.current = true;
     }
 
-    const onScrubEnd = () => {
-        // If not already playing, start
-        if (!isPlaying) {
-            onPlayPauseClick(true);
-        }
-        startTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indexTrack]);
+
+
+  useEffect(() => {
+
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      audioRef.current.pause();
+      clearInterval(intervalRef.current);
     }
+  }, []);
 
 
-    useEffect(() => {
-        if (isPlaying) {
-            audioRef.current.play();
-            startTimer();
-        } else {
-            // clearInterval(intervalRef.current);
-            audioRef.current.pause();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isPlaying]);
+  const calculateDurationTime = (seconds) => {
+    const calcMinute = Math.floor(seconds / 60);
+    const renderMinute = calcMinute < 10 ? `0${calcMinute}` : `${calcMinute}`;
+    const calcSecond = Math.floor(seconds % 60);
+    const renderSecond = calcSecond < 10 ? `0${calcSecond}` : `${calcSecond}`;
+    return `${renderMinute}:${renderSecond}`;
+  }
 
-    useEffect(() => {
-        /**
-         * @payload dispath for get lyrics
-         */
-        dispatch(songsIndexFetched(trackId));
-
-        /**
-         * @access initail track
-         */
-        dispatch(fetchTrack(request, audioSrc, setTrackProgress, setDurationTrack, audioRef, isPlaying));
-
-
-        if (isReady.current || isPlaying) {
-            audioRef.current.play();
-            onPlayPauseClick(true);
-            startTimer();
-        } else {
-            isReady.current = true;
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [indexTrack]);
-
-
-    useEffect(() => {
-
-        return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            audioRef.current.pause();
-            clearInterval(intervalRef.current);
-        }
-    }, []);
-
-
-
+  const renderElements = () => {
+    if (songsLoadingStatus === "loading") {
+      return <Spinner />
+    } else if (songsLoadingStatus === "error") {
+      return <ErrorMessage />
+    }
 
     return (
-        <RenderAudioPlayer data={
-            {
-                songsLoadingStatus,
-                title,
-                artistName,
-                picture,
-                year,
-                trackStyling,
-                trackProgress,
-                durationTrack,
-                onScrubEnd,
-                onScrub,
-            }
-        } />
-    );
-}
+      <div className="audio-player">
+        <div className="track-info">
+          <img
+            className="artwork"
+            src={getUrl(picture)}
+            alt={picture.description}
+          />
+          <h2 className="audio-title">{`Title - ${title}`}</h2>
+          <h3 className="audio-artist">{`Artist - ${artistName}`}</h3>
+          <div className="audio-info">
+            <p>{`Year - ${year}`}</p>
+          </div>
 
-const RenderAudioPlayer = ({ data }) => {
-    if (data.songsLoadingStatus === "loading") {
-        return <Spinner />
-    } else if (data.songsLoadingStatus === "error") {
-        return <ErrorMessage />
-    }
+          <AudioControlsComponent />
 
-    const calculateDurationTime = (seconds) => {
-        const calcMinute = Math.floor(seconds / 60);
-        const renderMinute = calcMinute < 10 ? `0${calcMinute}` : `${calcMinute}`;
-        const calcSecond = Math.floor(seconds % 60);
-        const renderSecond = calcSecond < 10 ? `0${calcSecond}` : `${calcSecond}`;
-        return `${renderMinute}:${renderSecond}`;
-    }
-    return (
-        <div className="audio-player">
-            <div className="track-info">
-                <img
-                    className="artwork"
-                    src={getUrl(data.picture)}
-                    alt={data.picture.description}
-                />
-                <h2 className="audio-title">{`Title - ${data.title}`}</h2>
-                <h3 className="audio-artist">{`Artist - ${data.artistName}`}</h3>
-                <div className="audio-info">
-                    <p>{`Year - ${data.year}`}</p>
-                </div>
-
-                <AudioControlsComponent />
-
-                <input type="range"
-                    value={data.trackProgress}
-                    step="1"
-                    min="0"
-                    max={(!isNaN(data.durationTrack) && data.durationTrack) ? data.durationTrack : `${data.durationTrack}`}
-                    className="progess"
-                    onChange={(e) => data.onScrub(e.target.value)}
-                    onMouseUp={data.onScrubEnd}
-                    onKeyUp={data.onScrubEnd}
-                    style={{ background: data.trackStyling }} />
+          <input type="range"
+            value={trackProgress}
+            step="1"
+            min="0"
+            max={(!isNaN(durationTrack) && durationTrack) ? durationTrack : `${durationTrack}`}
+            className="progess"
+            onChange={(e) => onScrub(e.target.value)}
+            onMouseUp={onScrubEnd}
+            onKeyUp={onScrubEnd}
+            style={{ background: trackStyling }} />
 
 
-                <div className="audio-time">
-                    <span className="audio-currentTime">
-                        {calculateDurationTime(data.trackProgress)}
-                    </span>
-                    <span className="audio-duration">
-                        {(data.durationTrack && !isNaN(data.durationTrack)) && calculateDurationTime(data.durationTrack)}
-                    </span>
-                </div>
-            </div>
+          <div className="audio-time">
+            <span className="audio-currentTime">
+              {calculateDurationTime(trackProgress)}
+            </span>
+            <span className="audio-duration">
+              {(durationTrack && !isNaN(durationTrack)) && calculateDurationTime(durationTrack)}
+            </span>
+          </div>
         </div>
+      </div>
     );
+  }
+
+  const elements = renderElements();
+  return (
+    <>
+      {elements}
+    </>
+  );
 }
+
 
 export default AudioPlayer;
