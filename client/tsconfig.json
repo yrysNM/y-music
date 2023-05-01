@@ -1,13 +1,24 @@
 {
-    "compilerOptions": {
-        "outDir": "./public/",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "es6",
-        "target": "es5",
-        "jsx": "react",
-        "allowJs": true,
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true
-    }
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
