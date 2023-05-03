@@ -24,6 +24,7 @@ const ArtistDetails = () => {
     <div className="flex flex-col">
       <DetailsHeader artistId={artistId} artistData={artistData} />
 
+      {/* ERROR need change for GENERICS */}
       <RelatedSongs
         data={Object.values(artistData?.resources?.songs)}
         isPlaying={isPlaying}

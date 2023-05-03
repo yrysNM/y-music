@@ -35,7 +35,13 @@ const DetailsHeader = ({
             {artistId ? artist?.name : songData?.title}
           </p>
           {!artistId && (
-            <Link to={`/artists/${songData?.artists[0].adamid}`}>
+            <Link
+              to={
+                songData?.artists
+                  ? `/artists/${songData?.artists[0].adamid}`
+                  : '/404'
+              }
+            >
               <p className="text-base text-gray-400 mt-3">
                 {songData?.subtitle}
               </p>

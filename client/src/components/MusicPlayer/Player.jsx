@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect } from 'react';
+import { Error } from '..';
 
 const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate, onLoadedData, repeat }) => {
   const ref = useRef(null);
@@ -13,12 +14,18 @@ const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate
   }
 
   useEffect(() => {
-    ref.current.volume = volume;
+    if(ref.current?.volume) {
+      ref.current.volume = volume;
+    }
   }, [volume]);
   // updates audio element only on seekTime change (and not on each rerender):
   useEffect(() => {
-    ref.current.currentTime = seekTime;
+    if(ref.current?.currentTime) {
+      ref.current.currentTime = seekTime;
+    }
   }, [seekTime]);
+
+  if(!activeSong?.hub?.actions) return <Error />
 
   return (
     <audio
@@ -28,7 +35,7 @@ const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate
       onEnded={onEnded}
       onTimeUpdate={onTimeUpdate}
       onLoadedData={onLoadedData}
-    />
+    /> 
   );
 };
 
