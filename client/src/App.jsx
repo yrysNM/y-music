@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
@@ -16,14 +16,9 @@ import { Page404 } from './pages/404';
 
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
-  const disRef = useRef(null);
-
-  useEffect(() => {
-    disRef.current?.scrollIntoView({ behavior: 'smooth' });
-  });
 
   return (
-    <div className="relative flex" ref={disRef}>
+    <div className="relative flex">
       <Sidebar />
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
         <Searchbar />
