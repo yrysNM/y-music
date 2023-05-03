@@ -9,8 +9,8 @@ interface IRelatedSongsProps {
     title: string;
   };
   artistId?: string;
-  handlePause: () => void;
-  handlePlay: (song: Track, i: number) => void;
+  handlePause?: () => void;
+  handlePlay?: (song: Track, i: number) => void;
 }
 
 const RelatedSongs = ({
@@ -18,8 +18,8 @@ const RelatedSongs = ({
   artistId = '',
   isPlaying,
   activeSong,
-  handlePause,
-  handlePlay,
+  handlePause = () => {},
+  handlePlay = () => {},
 }: IRelatedSongsProps) => {
   return (
     <div className="flex flex-col">
