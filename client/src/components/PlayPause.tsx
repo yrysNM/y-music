@@ -1,7 +1,7 @@
 import { FaPauseCircle, FaPlayCircle } from 'react-icons/fa';
 import { Track } from '../interfaces/interfaceShazamTopTracks';
 
-interface IPlayPauseProps {
+export interface IPlayPauseProps {
   song: Track;
   isPlaying: boolean;
   activeSong: {

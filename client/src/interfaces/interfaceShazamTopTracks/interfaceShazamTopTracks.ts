@@ -6,6 +6,7 @@ export interface IShazamTopTracks {
 export interface Properties {}
 
 export interface Track {
+  attributes: any;
   artists: Artist[];
   highlightsurls: Highlightsurls;
   hub: Hub;

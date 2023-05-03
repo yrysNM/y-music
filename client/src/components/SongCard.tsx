@@ -9,7 +9,7 @@ import type {
   IShazamTopTracks,
 } from '../interfaces/interfaceShazamTopTracks';
 
-interface IPropsSongCard {
+export interface IPropsSongCard {
   song: Track;
   i: number;
   isPlaying: boolean;
