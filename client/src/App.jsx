@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
+import ScrollToTop from './components/helper/ScrollToTop';
 import { Searchbar, Sidebar, MusicPlayer, TopPlay } from './components';
-import { ArtistDetails, TopArtists, AroundYou, Discover, Search, SongDetails, TopCharts } from './pages';
+import {
+  ArtistDetails,
+  TopArtists,
+  AroundYou,
+  Discover,
+  Search,
+  SongDetails,
+  TopCharts,
+} from './pages';
+import { Page404 } from './pages/404';
 
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
 
   return (
     <div className="relative flex">
+      <ScrollToTop />
       <Sidebar />
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
         <Searchbar />
@@ -24,6 +35,7 @@ const App = () => {
               <Route path="/artists/:id" element={<ArtistDetails />} />
               <Route path="/songs/:songid" element={<SongDetails />} />
               <Route path="/search/:searchTerm" element={<Search />} />
+              <Route path="*" element={<Page404 />} />
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">
@@ -41,4 +53,4 @@ const App = () => {
   );
 };
 
-export { App};
+export { App };
