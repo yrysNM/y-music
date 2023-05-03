@@ -6,10 +6,10 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     // window.scrollTo(0, 0);
-    window.scrollTo(0, 0);
-  }, [location]);
+    window.scrollTo(10, 10);
+  }, [location.pathname]);
 
   return null;
 };
 
-export default ScrollToTop;
+export { ScrollToTop };

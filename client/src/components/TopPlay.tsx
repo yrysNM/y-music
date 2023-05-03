@@ -68,7 +68,6 @@ const TopPlay = () => {
 
   useEffect(() => {
     disRef.current?.scrollIntoView({ behavior: 'smooth' });
-    console.log('test');
   });
 
   const handlePauseClick = () => {
