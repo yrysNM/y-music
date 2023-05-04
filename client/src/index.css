@@ -41,3 +41,18 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+
+.searchBar {
+  margin-top: 0;
+}
+/* 
+@media (max-width: 570px) {
+  .searchBar {
+    margin-top: 50px;
+  } 
+
+  .menuToggle {
+    top: 4.7rem;
+  }
+} */
