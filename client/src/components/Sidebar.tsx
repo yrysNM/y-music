@@ -33,7 +33,7 @@ const Sidebar = () => {
       </div>
 
       {/* Mobile version */}
-      <div className="absolute md:hidden z-50 block top-14 right-3">
+      <div className="absolute md:hidden z-50 block top-6 right-3">
         {mobileMenuOpen ? (
           <RiCloseLine
             className="w-6 h-6 text-white mr-2 "
