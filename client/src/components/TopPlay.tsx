@@ -67,8 +67,9 @@ const TopPlay = () => {
   const topPlays = data?.tracks.slice(0, 5);
 
   useEffect(() => {
-    disRef.current?.scrollIntoView({ behavior: 'smooth' });
-    console.log('test');
+    disRef.current?.scrollIntoView(true);
+    window.scrollBy(0, -72);
+    // disRef.current?.scrollTo(0, 0);
   });
 
   const handlePauseClick = () => {
@@ -82,8 +83,10 @@ const TopPlay = () => {
 
   return (
     <div
+      id="topplay"
       ref={disRef}
       className="xl:ml-6 ml-0 xl:mb-0 mb-6 flex-1 xl:max-w-[500px] max-x-full flex flex-col"
+      style={{ scrollMargin: '5em' }}
     >
       <div className="w-full flex flex-col">
         <div className="flex flex-row justify-between items-center">

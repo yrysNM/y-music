@@ -4,6 +4,7 @@ import { useAppSelector } from '../hooks/redux.hook';
 import { useGetArtistDetailsQuery } from '../redux/services/shazamCore';
 
 import { DetailsHeader, Error, Loader, RelatedSongs } from '../components';
+import { Track } from '../interfaces/interfaceShazamTopTracks';
 
 const ArtistDetails = () => {
   const { id: artistId } = useParams();
@@ -26,7 +27,10 @@ const ArtistDetails = () => {
 
       {/* ERROR need change for GENERICS */}
       <RelatedSongs
-        data={Object.values(artistData?.resources?.songs)}
+        data={
+          artistData?.resources?.songs &&
+          (Object.values(artistData?.resources?.songs) as unknown as Track[])
+        }
         isPlaying={isPlaying}
         activeSong={activeSong}
         artistId={artistId}
