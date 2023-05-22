@@ -11,6 +11,7 @@ import {
   Search,
   SongDetails,
   TopCharts,
+  SpotifyAlbums,
 } from './pages';
 import { Page404 } from './pages/404';
 
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/artists/:id" element={<ArtistDetails />} />
               <Route path="/songs/:songid" element={<SongDetails />} />
               <Route path="/search/:searchTerm" element={<Search />} />
+              <Route path="/spotify/albums" element={<SpotifyAlbums />} />
               <Route path="*" element={<Page404 />} />
             </Routes>
           </div>

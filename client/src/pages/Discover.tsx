@@ -10,6 +10,8 @@ const Discover = () => {
   const { activeSong, isPlaying, genreListId } = useAppSelector(
     (state) => state.player
   );
+  
+
   const { data, isFetching, error } = useGetSongsByGenreQuery(
     genreListId || 'genre-global-chart-1'
   );
