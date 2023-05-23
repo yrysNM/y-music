@@ -1,15 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { INewRepeaseAlbum } from '../../interfaces/interfaceSpotifyNewReleases';
+import { getItem } from '../../helpers/persistanceStorage';
 
 export const spotifyCoreApi = createApi({
   reducerPath: 'spotifyApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://api.spotify.com/v1/`,
+    baseUrl: `${import.meta.env.VITE_SPOTIFY_BASE_URL}`,
     prepareHeaders: (headers) => {
       headers.set(
         'Authorization',
-        import.meta.env.VITE_SPOTIFY_TOKEN
+        `Bearer ${getItem<string>("accessToken")}`
       );
 
       return headers;
@@ -17,7 +18,7 @@ export const spotifyCoreApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getNewReleases: builder.query<INewRepeaseAlbum, null>({
+    getNewReleases: builder.query<INewRepeaseAlbum, void>({
       query: () => `browse/new-releases`,
     }),
   }),

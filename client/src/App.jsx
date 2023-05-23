@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
@@ -14,9 +14,20 @@ import {
   SpotifyAlbums,
 } from './pages';
 import { Page404 } from './pages/404';
+import { getSpotifyToken } from './api/spotify';
 
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getSpotifyToken();
+    }, 3.6e+6);
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, []);
 
   return (
     <div className="relative flex">
