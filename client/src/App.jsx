@@ -15,17 +15,24 @@ import {
 } from './pages';
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
+import { getItem } from './helpers/persistanceStorage';
 
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
 
   useEffect(() => {
+
+    const onece = setTimeout(() => {
+      getSpotifyToken();
+    }, 1000);
+
     const interval = setInterval(() => {
       getSpotifyToken();
     }, 3.6e+6);
 
     return () => {
-      clearInterval(interval)
+      clearInterval(interval); 
+      clearTimeout(onece);
     }
   }, []);
 
