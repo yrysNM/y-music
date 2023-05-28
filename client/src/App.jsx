@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
@@ -11,11 +11,30 @@ import {
   Search,
   SongDetails,
   TopCharts,
+  SpotifyAlbums,
 } from './pages';
 import { Page404 } from './pages/404';
+import { getSpotifyToken } from './api/spotify';
+import { getItem } from './helpers/persistanceStorage';
 
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
+
+  useEffect(() => {
+
+    const onece = setTimeout(() => {
+      getSpotifyToken();
+    }, 1000);
+
+    const interval = setInterval(() => {
+      getSpotifyToken();
+    }, 3.6e+6);
+
+    return () => {
+      clearInterval(interval); 
+      clearTimeout(onece);
+    }
+  }, []);
 
   return (
     <div className="relative flex">
@@ -33,6 +52,7 @@ const App = () => {
               <Route path="/artists/:id" element={<ArtistDetails />} />
               <Route path="/songs/:songid" element={<SongDetails />} />
               <Route path="/search/:searchTerm" element={<Search />} />
+              <Route path="/spotify/albums" element={<SpotifyAlbums />} />
               <Route path="*" element={<Page404 />} />
             </Routes>
           </div>
