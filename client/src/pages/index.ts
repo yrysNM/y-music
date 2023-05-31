@@ -15,5 +15,5 @@ export {
   SongDetails,
   TopCharts,
   AroundYou,
-  SpotifyAlbums
+  SpotifyAlbums,
 };
