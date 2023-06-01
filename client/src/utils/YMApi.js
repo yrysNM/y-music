@@ -1,14 +1,20 @@
 import { YMApi } from 'ym-api';
 
+const user = {
+  access_token: 'y0_AgAAAAAzxv7fAAG8XgAAAADbCMeJ_B_20LiQSB6H1TwRBSczzKr3R8k',
+  uid: 9210802221654495583,
+  username: 'loxmotov.arcen',
+  password: 'J!6tV!FEyms!fHz',
+};
+
 const api = new YMApi();
 
 (async () => {
   try {
-    await api.init({
-      username: 'loxmotov.arcen',
-      password: 'J!6tV!FEyms!fHz',
-    });
-    const searchResult = await api.search('gorillaz', { type: 'artist' });
+    await api.init(user);
+    const result = await api.searchArtists('gorillaz');
+    console.log({ result });
+    const searchResult = await api.searchArtists('gorillaz');
     const gorillaz = searchResult.artists?.results[0];
     const gorillazMostPopularTrack = gorillaz?.popularTracks[0];
     const gorillazMostPopularTrackId = gorillazMostPopularTrack?.id;

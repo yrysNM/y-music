@@ -4,6 +4,7 @@ import { YMApi } from 'ym-api';
 import { useGetNewReleasesQuery } from '../redux/services/spotifyCore';
 import SpotifySongCard from '../components/Spotify/SpotifySongCard';
 import { useEffect } from 'react';
+import config from '../utils/config';
 
 function SpotifyAlbums() {
   const { activeSong, isPlaying } = useAppSelector(state => state.player);
@@ -33,12 +34,37 @@ function SpotifyAlbums() {
 
     (async () => {
       try {
-        await api.init({
-          username: 'loxmotov.arcen@yandex.ru',
-          password: 'J!6tV!FEyms!fHz',
-        });
-        const result = await api.searchArtists('gorillaz');
-        console.log({ result });
+        await api.init(config.user);
+        const searchResult = await api.search('gorillaz', { type: 'artist' });
+        const gorillaz = searchResult.artists?.results[0];
+        const gorillazMostPopularTrack = gorillaz?.popularTracks[0];
+        const gorillazMostPopularTrackId =
+          gorillazMostPopularTrack?.id as number;
+        console.log({ searchResult, gorillaz, gorillazMostPopularTrack });
+
+        const getTrackResult = await api.getTrack(gorillazMostPopularTrackId);
+        console.log({ getTrackResult });
+
+        const getTrackSupplementResult = await api.getTrackSupplement(
+          gorillazMostPopularTrackId
+        );
+        console.log({ getTrackSupplementResult });
+
+        const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(
+          gorillazMostPopularTrackId
+        );
+        console.log({ getTrackDownloadInfoResult });
+
+        const mp3Tracks = getTrackDownloadInfoResult
+          .filter(r => r.codec === 'mp3')
+          .sort((a, b) => b.bitrateInKbps - a.bitrateInKbps);
+        const hqMp3Track = mp3Tracks[0];
+        console.log({ mp3Tracks, hqMp3Track });
+
+        const getTrackDirectLinkResult = await api.getTrackDirectLink(
+          hqMp3Track.downloadInfoUrl
+        );
+        console.log({ getTrackDirectLinkResult });
       } catch (e) {
         console.log(`api error ${e}`);
       }
