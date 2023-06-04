@@ -4,71 +4,76 @@ import { YMApi } from 'ym-api';
 import { useGetNewReleasesQuery } from '../redux/services/spotifyCore';
 import SpotifySongCard from '../components/Spotify/SpotifySongCard';
 import { useEffect } from 'react';
-import config from '../utils/config';
+import config from '../utils/configUserData';
+import axios from 'axios';
+import { MD5 } from 'crypto-js';
+import parser from 'fast-xml-parser';
 
 function SpotifyAlbums() {
   const { activeSong, isPlaying } = useAppSelector(state => state.player);
 
   const { data, isFetching, error } = useGetNewReleasesQuery();
 
+  async function getTrack() {
+    try {
+      const api = new YMApi();
+      await api.init(config.user);
+      const getUserPlaylistKind = await api.getUserPlaylists();
+      console.log({ getUserPlaylistKind });
+
+      const getPlaylistsOptions = { 'rich-tracks': true };
+      const getPlaylist = await api.getPlaylist(
+        getUserPlaylistKind[1].kind,
+        getUserPlaylistKind[1].uid,
+        getPlaylistsOptions
+      );
+      console.log(getPlaylist);
+
+      const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(36791);
+      console.log({ getTrackDownloadInfoResult });
+
+      const mp3Tracks = getTrackDownloadInfoResult
+        .filter(r => r.codec === 'mp3')
+        .sort((a, b) => b.bitrateInKbps - a.bitrateInKbps);
+      const hqMp3Track = mp3Tracks[0];
+      console.log({ mp3Tracks, hqMp3Track });
+      console.log(hqMp3Track.downloadInfoUrl);
+
+      /**
+       * @REQUEST -> get track mp3
+       */
+      await axios
+        .get(hqMp3Track.downloadInfoUrl, {
+          headers: {
+            'Content-Type': 'application/xml; charset=utf-8',
+          },
+        })
+        .then(res => {
+          console.log(res);
+          const parseXml = new parser.XMLParser();
+
+          const xmlData = parseXml.parse(res.data);
+
+          console.log(xmlData);
+
+          const host = xmlData['download-info'].host;
+          const path = xmlData['download-info'].path;
+          const ts = xmlData['download-info'].ts;
+          const s = xmlData['download-info'].s;
+
+          const sign = MD5(
+            'XGRlBW9FXlekgbPrRHuSiA' + path.slice(1) + s
+          ).toString();
+
+          console.log(`https://${host}/get-mp3/${sign}/${ts}${path}`);
+        });
+    } catch (error) {
+      console.error(`error froma api ${error}`);
+    }
+  }
+
   useEffect(() => {
-    // axios.get("http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=rj&api_key=4f2f703708f16aaa796435d052ed3d51&format=json")
-    //     .then(res => console.log(res.data));
-
-    const api = new YMApi();
-
-    // (async () => {
-    //   try {
-    //     await api.init({
-    //       username: 'loxmotov.arcen',
-    //       password: 'J!6tV!FEyms!fHz',
-    //     });
-    //     const result = await api.getTrack(34653336);
-    //     const feed = await api.getFeed();
-    //     console.log({ result });
-    //     console.log(feed);
-    //   } catch (e) {
-    //     console.log(`api error ${e}`);
-    //   }
-    // })();
-
-    (async () => {
-      try {
-        await api.init(config.user);
-        const searchResult = await api.search('gorillaz', { type: 'artist' });
-        const gorillaz = searchResult.artists?.results[0];
-        const gorillazMostPopularTrack = gorillaz?.popularTracks[0];
-        const gorillazMostPopularTrackId =
-          gorillazMostPopularTrack?.id as number;
-        console.log({ searchResult, gorillaz, gorillazMostPopularTrack });
-
-        const getTrackResult = await api.getTrack(gorillazMostPopularTrackId);
-        console.log({ getTrackResult });
-
-        const getTrackSupplementResult = await api.getTrackSupplement(
-          gorillazMostPopularTrackId
-        );
-        console.log({ getTrackSupplementResult });
-
-        const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(
-          gorillazMostPopularTrackId
-        );
-        console.log({ getTrackDownloadInfoResult });
-
-        const mp3Tracks = getTrackDownloadInfoResult
-          .filter(r => r.codec === 'mp3')
-          .sort((a, b) => b.bitrateInKbps - a.bitrateInKbps);
-        const hqMp3Track = mp3Tracks[0];
-        console.log({ mp3Tracks, hqMp3Track });
-
-        const getTrackDirectLinkResult = await api.getTrackDirectLink(
-          hqMp3Track.downloadInfoUrl
-        );
-        console.log({ getTrackDirectLinkResult });
-      } catch (e) {
-        console.log(`api error ${e}`);
-      }
-    })();
+    getTrack();
   }, []);
 
   if (isFetching) return <Loader />;

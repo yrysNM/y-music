@@ -2,17 +2,19 @@
   "name": "client",
   "private": true,
   "version": "0.0.0",
+  "proxy": "http://localhost:5173",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "type": "module",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "babel-plugin-styled-components": "^2.1.1",
+    "crypto-js": "^4.1.1",
+    "fast-xml-parser": "^4.2.2",
     "lottie-react": "^2.4.0",
     "querystring-browser": "^1.0.4",
     "react": "^18.2.0",
@@ -23,6 +25,7 @@
     "react-spotify-web-playback": "^0.14.0",
     "stream-browserify": "^3.0.0",
     "swiper": "^9.2.4",
+    "url": "^0.11.0",
     "ym-api": "^1.2.1"
   },
   "devDependencies": {
