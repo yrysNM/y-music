@@ -24,12 +24,14 @@ function SpotifyAlbums() {
       const getPlaylistsOptions = { 'rich-tracks': true };
       const getPlaylist = await api.getPlaylist(
         getUserPlaylistKind[1].kind,
-        getUserPlaylistKind[1].uid,
-        getPlaylistsOptions
+        getUserPlaylistKind[1].uid
+        // getPlaylistsOptions
       );
       console.log(getPlaylist);
 
-      const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(36791);
+      const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(
+        111339628
+      );
       console.log({ getTrackDownloadInfoResult });
 
       const mp3Tracks = getTrackDownloadInfoResult
