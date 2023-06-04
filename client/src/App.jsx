@@ -12,28 +12,28 @@ import {
   SongDetails,
   TopCharts,
   SpotifyAlbums,
+  // TestYandexPage,
 } from './pages';
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
 import { getItem } from './helpers/persistanceStorage';
 
 const App = () => {
-  const { activeSong } = useSelector((state) => state.player);
+  const { activeSong } = useSelector(state => state.player);
 
   useEffect(() => {
-
     const onece = setTimeout(() => {
       getSpotifyToken();
     }, 1000);
 
     const interval = setInterval(() => {
       getSpotifyToken();
-    }, 3.6e+6);
+    }, 3.6e6);
 
     return () => {
-      clearInterval(interval); 
+      clearInterval(interval);
       clearTimeout(onece);
-    }
+    };
   }, []);
 
   return (
@@ -54,6 +54,7 @@ const App = () => {
               <Route path="/search/:searchTerm" element={<Search />} />
               <Route path="/spotify/albums" element={<SpotifyAlbums />} />
               <Route path="*" element={<Page404 />} />
+              {/* <Route path="/test" element={<TestYandexPage />} /> */}
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">

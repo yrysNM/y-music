@@ -11,4 +11,10 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      stream: 'stream-browserify',
+      querystring: 'querystring-browser',
+    },
+  },
 });
