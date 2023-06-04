@@ -21,7 +21,7 @@ function SpotifyAlbums() {
       const getUserPlaylistKind = await api.getUserPlaylists();
       console.log({ getUserPlaylistKind });
 
-      const getPlaylistsOptions = { 'rich-tracks': true };
+      // const getPlaylistsOptions = { 'rich-tracks': true };
       const getPlaylist = await api.getPlaylist(
         getUserPlaylistKind[1].kind,
         getUserPlaylistKind[1].uid
