@@ -4,13 +4,15 @@ import playerReducer from './features/playerSlice';
 import playerSpotify from "./features/spotifyPlayerSlice";
 import { spotifyCoreApi } from './services/spotifyCore';
 import { shazamCoreApi } from './services/shazamCore';
+import ym from "./tool/ymSlice";
 
 export const store = configureStore({
   reducer: {
     [spotifyCoreApi.reducerPath]: spotifyCoreApi.reducer,
     [shazamCoreApi.reducerPath]: shazamCoreApi.reducer,
     player: playerReducer,
-    playerSpotify
+    playerSpotify,
+    ym,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

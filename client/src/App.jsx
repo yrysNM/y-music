@@ -12,7 +12,6 @@ import {
   SongDetails,
   TopCharts,
   SpotifyAlbums,
-  // TestYandexPage,
 } from './pages';
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
@@ -54,7 +53,6 @@ const App = () => {
               <Route path="/search/:searchTerm" element={<Search />} />
               <Route path="/spotify/albums" element={<SpotifyAlbums />} />
               <Route path="*" element={<Page404 />} />
-              {/* <Route path="/test" element={<TestYandexPage />} /> */}
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">

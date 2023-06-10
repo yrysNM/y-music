@@ -1,19 +1,24 @@
 import { Error, Loader } from '../components';
-import { useAppSelector } from '../hooks/redux.hook';
+import { useAppSelector, useAppDispatch } from '../hooks/redux.hook';
 import { YMApi } from 'ym-api';
 import { useGetNewReleasesQuery } from '../redux/services/spotifyCore';
-import SpotifySongCard from '../components/Spotify/SpotifySongCard';
 import { useEffect } from 'react';
 import config from '../utils/configUserData';
 import axios from 'axios';
 import { MD5 } from 'crypto-js';
 import parser from 'fast-xml-parser';
+import { fetchYmLikeFromRadioPlaylist, fetchYmUserPlaylists } from '../redux/services/ymCore';
+import YmSongCard from '../components/Ym/YmSongCard';
 
 function SpotifyAlbums() {
   const { activeSong, isPlaying } = useAppSelector(state => state.player);
+  const { ymUserPlaylists, ymLikeRadioPlaylist } = useAppSelector(state => state.ym);
+  const { isFetching, error } = useGetNewReleasesQuery();
+  const dispatch = useAppDispatch();
 
-  const { data, isFetching, error } = useGetNewReleasesQuery();
-
+  /**
+   * @TODO get mp3
+   */
   async function getTrack() {
     try {
       const api = new YMApi();
@@ -30,7 +35,7 @@ function SpotifyAlbums() {
       console.log(getPlaylist);
 
       const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(
-        111339628
+        71237778
       );
       console.log({ getTrackDownloadInfoResult });
 
@@ -74,28 +79,37 @@ function SpotifyAlbums() {
     }
   }
 
+
   useEffect(() => {
-    getTrack();
+    dispatch(fetchYmLikeFromRadioPlaylist({
+      kind: ymUserPlaylists[1]?.kind,
+      uid: ymUserPlaylists[1]?.uid,
+    }));
+  }, [ymUserPlaylists]);
+
+  useEffect(() => {
+    dispatch(fetchYmUserPlaylists());;
   }, []);
 
   if (isFetching) return <Loader />;
 
   if (error) return <Error />;
 
+
+
   return (
     <>
       <div>
-        <h3 className="text-white text-lg">Sporify Albums</h3>
+        <h3 className="text-white text-lg">Ym musics</h3>
 
         <div className="flex align-items gap-4 flex-wrap mt-10">
-          {data?.albums.items.map((item, i) => (
-            <SpotifySongCard
+          {ymLikeRadioPlaylist?.tracks?.map((item, i) => (
+            <YmSongCard
               key={item.id}
-              song={item}
               isPlaying={isPlaying}
               activeSong={activeSong}
-              data={data.albums.items}
               i={i}
+              song={item}
             />
           ))}
         </div>
