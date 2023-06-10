@@ -67,13 +67,13 @@ const TopPlay = () => {
   const { data } = useGetTopChartsQuery();
   const topPlays = data?.tracks.slice(0, 5);
 
-  // useEffect(() => {
-  //   /**
-  //    * @TODO -> change for mobile version scroll top
-  //    */
-  //   disRef.current?.scrollIntoView(true);
-  //   window.scrollBy(0, -72);
-  // });
+  useEffect(() => {
+    /**
+     * @TODO -> change for mobile version scroll top
+     */
+    disRef.current?.scrollIntoView(true);
+    window.scrollBy(0, -72);
+  });
 
   const handlePauseClick = () => {
     dispatch(playPause(false));
