@@ -8,7 +8,7 @@ export const ymApi = () => {
   /**
    * @TODO change config 
    */
-  // const {username, password, uid} = configUserData.user;
+  /*  const {username, password, uid} = configUserData.user; */
 
   api.init(configUserData.user);
 
