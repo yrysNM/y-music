@@ -102,17 +102,20 @@ function SpotifyAlbums() {
    */
 
 
+  useEffect(() => {
+    dispatch(fetchYmUserPlaylists());
+  }, []);
 
   useEffect(() => {
-    dispatch(fetchYmLikeFromRadioPlaylist({
-      kind: ymUserPlaylists[1]?.kind,
-      uid: ymUserPlaylists[1]?.uid,
-    }));
+    if (ymUserPlaylists.length > 0) {
+
+      dispatch(fetchYmLikeFromRadioPlaylist({
+        kind: ymUserPlaylists[1]?.kind,
+        uid: ymUserPlaylists[1]?.uid,
+      }));
+    }
   }, [ymUserPlaylists]);
 
-  useEffect(() => {
-    dispatch(fetchYmUserPlaylists());;
-  }, []);
 
   if (isFetching) return <Loader />;
 
