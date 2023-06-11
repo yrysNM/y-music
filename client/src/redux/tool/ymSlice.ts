@@ -1,10 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Playlist } from "ym-api/dist/types";
-import { fetchYmUserPlaylists, fetchYmLikeFromRadioPlaylist } from "../services/ymCore";
+import { Playlist, Track } from "ym-api/dist/types";
+import { fetchYmUserPlaylists, fetchYmLikeFromRadioPlaylist, fetchTrackMp3 } from "../services/ymCore";
+
+
+type hub = {
+    hub?: {},
+}
 
 interface IYmData {
     ymUserPlaylists: Playlist[],
     ymLikeRadioPlaylist: Playlist,
+    track: Track & hub
 }
 
 const initialState: IYmData = {
@@ -42,8 +48,23 @@ const initialState: IYmData = {
         tags: [],
         tracks: [],
         prerolls: [],
-        lastOwnerPlaylists: []
+        lastOwnerPlaylists: [],
     },
+    track: {
+        id: 0,
+        available: false,
+        availableAsRbt: false,
+        availableForPremiumUsers: false,
+        lyricsAvailable: false,
+        rememberPosition: false,
+        coverUri: "",
+        durationMs: 0,
+        explicit: false,
+        title: "",
+        albums: [],
+        artists: [],
+        regions: []
+    }
 }
 
 
@@ -58,6 +79,20 @@ const ymSlice = createSlice({
             })
             .addCase(fetchYmLikeFromRadioPlaylist.fulfilled, (state, { payload }) => {
                 state.ymLikeRadioPlaylist = payload;
+            })
+            .addCase(fetchTrackMp3.fulfilled, (state, { payload }) => {
+
+                const trackData = state.ymLikeRadioPlaylist.tracks?.filter(tr => tr.id === payload.id)[0];
+
+                if (trackData?.track) {
+
+                    state.track = trackData?.track;
+                    state.track.hub = {
+                        actions: [{}, {
+                            uri: payload.uri
+                        }]
+                    }
+                }
             })
     }
 })

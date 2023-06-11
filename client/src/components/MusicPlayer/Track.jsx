@@ -8,7 +8,7 @@ const Track = ({ isPlaying, isActive, activeSong }) => (
       } hidden sm:block h-16 w-16 mr-4`}
     >
       <img
-        src={activeSong?.images?.coverart}
+        src={activeSong?.images?.coverart ?? `https://${activeSong?.ogImage?.replace(/%%/g, "300x300")}`}
         alt="cover art"
         className="rounded-full"
       />

@@ -5,7 +5,7 @@ import SongDetails from './SongDetails';
 import Search from './Search';
 import TopCharts from './TopCharts';
 import AroundYou from './AroundYou';
-import SpotifyAlbums from './SpotifyAlbums';
+import SpotifyAlbums from './YmAlbumsTracks';
 
 export {
   Discover,
