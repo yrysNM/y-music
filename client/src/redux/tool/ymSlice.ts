@@ -4,7 +4,9 @@ import { fetchYmUserPlaylists, fetchYmLikeFromRadioPlaylist, fetchTrackMp3 } fro
 
 
 type hub = {
-    hub?: {},
+    hub?: {
+        actions: ({ uri: string } | {})[]
+    },
 }
 
 interface IYmData {

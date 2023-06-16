@@ -3,6 +3,7 @@ import { playPause, setActiveSong } from "../../redux/features/playerSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.hook";
 import PlayPauseYM from "./PlayPauseYm";
 import { fetchTrackMp3 } from "../../redux/services/ymCore";
+import { useCallback } from "react";
 
 export interface IPropsSongCard {
   song: {
@@ -28,15 +29,26 @@ const YmSongCard = ({
   const dispatch = useAppDispatch();
   const { track } = useAppSelector(state => state.ym);
 
+
+
   const handlePauseClick = () => {
     dispatch(playPause(false));
   }
 
   const handlePlayClick = () => {
     dispatch(fetchTrackMp3(song.id));
-    dispatch(setActiveSong({ song: track, data, i }));
-    dispatch(playPause(true));
+    getInitialMp3();
   }
+
+  /**
+   * @TODO change play or pause method or working out
+   */
+  const getInitialMp3 = useCallback(() => {
+    if (track?.hub?.actions) {
+      dispatch(setActiveSong({ song: track, data, i }));
+      dispatch(playPause(true));
+    }
+  }, [track]);
 
   return (
     <div className="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
