@@ -22,9 +22,14 @@ export const fetchYmLikeFromRadioPlaylist = createAsyncThunk(
     }
 )
 
+type ymMp3 = {
+    trackId: number,
+    indexTrack: number
+}
+
 export const fetchTrackMp3 = createAsyncThunk(
     "ym/fetchTrackMp3",
-    async (trackId: number) => {
+    async ({ trackId, indexTrack }: ymMp3) => {
         const getTrackDownloadInfoResult = await ymApi().getTrackDownloadInfo(trackId);
 
         const mp3Tracks = getTrackDownloadInfoResult.filter(r => r.codec === 'mp3').sort((a, b) => b.bitrateInKbps - a.bitrateInKbps);
@@ -51,7 +56,8 @@ export const fetchTrackMp3 = createAsyncThunk(
 
                 return {
                     uri: `https://${host}/get-mp3/${signDecode}/${ts}${path}`,
-                    id: trackId
+                    id: trackId,
+                    i: indexTrack
                 }
             })
 

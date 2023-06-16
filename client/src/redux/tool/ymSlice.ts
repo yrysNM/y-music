@@ -5,7 +5,7 @@ import { fetchYmUserPlaylists, fetchYmLikeFromRadioPlaylist, fetchTrackMp3 } fro
 
 type hub = {
     hub?: {
-        actions: ({ uri: string } | {})[]
+        actions: ({ uri: string, i: number })[]
     },
 }
 
@@ -90,8 +90,9 @@ const ymSlice = createSlice({
 
                     state.track = trackData?.track;
                     state.track.hub = {
-                        actions: [{}, {
-                            uri: payload.uri
+                        actions: [{ uri: "", i: -1, }, {
+                            uri: payload.uri,
+                            i: payload.i
                         }]
                     }
                 }
