@@ -10,6 +10,7 @@ import VolumeBar from './VolumeBar';
 
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
+
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
@@ -32,13 +33,18 @@ const MusicPlayer = () => {
     }
   };
 
+  /**
+   * @TODO initial mp3 when prev and next song
+   */
   const handleNextSong = () => {
     dispatch(playPause(false));
+    const indexNextSong = ((currentIndex + 1) % currentSongs.length);
+    const indexShuffleSong = Math.floor(Math.random() * currentSongs.length);
 
     if (!shuffle) {
-      dispatch(nextSong((currentIndex + 1) % currentSongs.length));
+      dispatch(nextSong(indexNextSong));
     } else {
-      dispatch(nextSong(Math.floor(Math.random() * currentSongs.length)));
+      dispatch(nextSong(indexShuffleSong));
     }
   };
 
@@ -51,6 +57,7 @@ const MusicPlayer = () => {
       dispatch(prevSong(currentIndex - 1));
     }
   };
+
 
   return (
     <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">

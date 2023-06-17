@@ -5,7 +5,7 @@ import SongDetails from './SongDetails';
 import Search from './Search';
 import TopCharts from './TopCharts';
 import AroundYou from './AroundYou';
-import SpotifyAlbums from './YmAlbumsTracks';
+import YmAlbumsTracks from './YmAlbumsTracks';
 
 export {
   Discover,
@@ -15,5 +15,5 @@ export {
   SongDetails,
   TopCharts,
   AroundYou,
-  SpotifyAlbums,
+  YmAlbumsTracks,
 };

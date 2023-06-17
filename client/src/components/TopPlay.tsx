@@ -85,7 +85,7 @@ const TopPlay = () => {
   };
 
   return (
-    pathname.indexOf('spotify') === -1 && (
+    pathname.indexOf('ymusic') === -1 && (
       <div
         id="topplay"
         ref={disRef}
