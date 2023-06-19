@@ -33,7 +33,7 @@ function YmAlbumsTracks() {
       <div>
         <h3 className="text-white text-lg">Ym musics</h3>
 
-        <div className="flex align-items gap-4 flex-wrap mt-10">
+        <div className="flex align-items gap-4 flex-wrap mt-10 justify-center">
           {ymLikeRadioPlaylist?.tracks?.map((item, i) => (
             <YmSongCard
               key={item.id}
