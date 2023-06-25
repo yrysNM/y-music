@@ -5,6 +5,8 @@ import {
   HiOutlineUserGroup,
 } from 'react-icons/hi';
 import { BsSpotify } from 'react-icons/bs';
+import { LuLogIn } from "react-icons/lu"
+import { MdAppRegistration } from 'react-icons/md';
 
 export const genres = [
   {
@@ -119,5 +121,7 @@ export const links = [
   { name: 'Around You', to: '/around-you', icon: HiOutlinePhotograph },
   { name: 'Top Artists', to: '/top-artists', icon: HiOutlineUserGroup },
   { name: 'Top Charts', to: '/top-charts', icon: HiOutlineHashtag },
-  { name: "Y liked on radio", to: "/ymusic/albums", icon: BsSpotify }
+  { name: "Y liked on radio", to: "/ymusic/albums", icon: BsSpotify },
+  { name: "Login", to: "/login", icon: LuLogIn },
+  { name: "Sign up", to: "/registration", icon: MdAppRegistration }
 ];

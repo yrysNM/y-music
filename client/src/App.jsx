@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
@@ -12,6 +13,8 @@ import {
   SongDetails,
   TopCharts,
   YmAlbumsTracks,
+  Login,
+  Registration,
 } from './pages';
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
@@ -52,6 +55,9 @@ const App = () => {
               <Route path="/songs/:songid" element={<SongDetails />} />
               <Route path="/search/:searchTerm" element={<Search />} />
               <Route path="/ymusic/albums" element={<YmAlbumsTracks />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/registration" element={<Registration />} />
+
               <Route path="*" element={<Page404 />} />
             </Routes>
           </div>
