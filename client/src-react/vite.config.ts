@@ -1,5 +1,6 @@
-import { defineConfig } from 'vite';
+import { defineConfig, preview } from 'vite';
 import react from '@vitejs/plugin-react';
+import reactRefresh from '@vitejs/plugin-react-refresh'
 import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
@@ -11,17 +12,19 @@ export default defineConfig({
         plugins: ['babel-plugin-styled-components'],
       },
     }),
+    // reactRefresh(),
     federation({
-      name: "y-music",
-      filename: "remoteEntry.js",
-      exposes: {
-        "./MyButton": "./src/MyButton.vue",
-      },
+      name: "y-music-app",
       remotes: {
-        some: "remote_some"
+        y_music_auth_upload: "http://localhost:5005/assets/yMusicVueTracker.js"   //remote path containing the port configured on remote side, the build path, and the filename also configured on the remote side
       }
     })
   ],
+  build: {
+    target: "esnext",
+    minify: false,
+    cssCodeSplit: false,
+  },
   resolve: {
     alias: {
       stream: 'stream-browserify',
