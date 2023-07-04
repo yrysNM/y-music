@@ -14,8 +14,8 @@ export default defineConfig({
         port: 5005, // port for serve this remote  
     },
     plugins: [
+        vue(),
         federation({
-
             name: "y-music-auth-upload", // name of remote to use on host side
             filename: "yMusicVueTracker.js",  // file name after the build
             exposes: {
