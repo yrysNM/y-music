@@ -1,6 +1,5 @@
 import { defineConfig, preview } from 'vite';
 import react from '@vitejs/plugin-react';
-import reactRefresh from '@vitejs/plugin-react-refresh'
 import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
@@ -12,7 +11,6 @@ export default defineConfig({
         plugins: ['babel-plugin-styled-components'],
       },
     }),
-    // reactRefresh(),
     federation({
       name: "y-music-app",
       remotes: {

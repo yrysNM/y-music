@@ -1,37 +1,60 @@
 {
-    "name": "y-music",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "run-s build preview",
-        "build": "pnpm --parallel --filter=\"!./pigeon\" --filter=\"!./components-library\" build",
-        "preview": "run-p serve-remotes serve-host",
-        "serve-remotes": "pnpm --parallel --filter=\"!./pigeon\" --filter=\"!./components-library\" preview",
-        "serve-host": "pnpm --parallel --filter=\"./pigeon\" dev",
-        "stop": "kill-port --port 5000,5001,5002,5003"
-    },
-    "private": true,
-    "devDependencies": {
-        "@originjs/vite-plugin-federation": "^1.2.1",
-        "kill-port": "^2.0.1",
-        "npm-run-all": "^4.1.5"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/yrysNM/y-music"
-    },
-    "keywords": [
-        "y-music",
-        "react",
-        "vue",
-        "vite",
-        "vite-plugin-federation"
-    ],
-    "author": "Vitor Fonseca",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/yrysNM/y-music/issues"
-    },
-    "homepage": "https://github.com/yrysNM/y-music/#readme"
+  "name": "y-music-react",
+  "private": true,
+  "version": "0.0.0",
+  "proxy": "http://localhost:5173",
+  "scripts": {
+    "serve": "vite preview --port 5000 --strictPort",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-firebase/auth": "^0.2.10",
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "babel-plugin-styled-components": "^2.1.1",
+    "crypto-js": "^4.1.1",
+    "fast-xml-parser": "^4.2.2",
+    "firebase": "^9.22.2",
+    "http-proxy-middleware": "^2.0.6",
+    "lottie-react": "^2.4.0",
+    "querystring-browser": "^1.0.4",
+    "ra-data-simple-rest": "^4.11.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.0",
+    "react-spotify-web-playback": "^0.14.0",
+    "single-spa": "^5.9.5",
+    "stream-browserify": "^3.0.0",
+    "swiper": "^9.2.4",
+    "url": "^0.11.0",
+    "ym-api": "^1.2.1"
+  },
+  "devDependencies": {
+    "@originjs/vite-plugin-federation": "^1.2.3",
+    "@types/node": "^18.16.3",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/swiper": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.38.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "postcss": "^8.4.23",
+    "prettier": "^2.8.8",
+    "tailwindcss": "^3.3.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2"
+  }
 }
