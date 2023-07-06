@@ -1,20 +1,23 @@
 import { defineConfig, preview } from 'vite';
 import react from '@vitejs/plugin-react';
+import reactRefresh from "@vitejs/plugin-react-refresh";
 import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      include: '**/*.{jsx, tsx, js, ts}',
-      babel: {
-        plugins: ['babel-plugin-styled-components'],
-      },
-    }),
+    // react({
+    //   include: '**/*.{jsx, tsx, js, ts}',
+    //   babel: {
+    //     plugins: ['babel-plugin-styled-components'],
+    //   },
+    // }),
+    reactRefresh(),
     federation({
-      name: "y-music-app",
-      remotes: {
-        y_music_auth_upload: "http://localhost:5005/assets/yMusicVueTracker.js"   //remote path containing the port configured on remote side, the build path, and the filename also configured on the remote side
+      name: "y-music-host-app",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./App": "./src/App.jsx",
       }
     })
   ],

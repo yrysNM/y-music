@@ -1,0 +1,25 @@
+{
+  "name": "remote-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "serve": "vite --port=5001 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port=5001 --strictPort",
+    "deploy": "npm run build && npm run preview"
+  },
+  "dependencies": {
+    "@originjs/vite-plugin-federation": "^1.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.2.0"
+  }
+}
