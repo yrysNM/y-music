@@ -25,6 +25,7 @@ export default {
   mounted() {
     if (this.fetchImport()) {
       this.fetchImport().then((res) => {
+        console.log(res);
         this.dataV.value = res;
       });
     }
@@ -38,14 +39,8 @@ export default {
     async fetchImport() {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = (await import("y_music_remote/main")).default;
-          resolve(
-            ReactDOMServer.renderToString(
-              res({
-                caption: "React Button in vue",
-              })
-            )
-          );
+          const res = (await import("y_music_remote/PreMain")).default;
+          resolve(ReactDOMServer.renderToString(res()));
         } catch (err) {
           reject(err);
         }
