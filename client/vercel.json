@@ -1,13 +1,16 @@
 {
   "git": {
     "deploymentEnabled": {
-      "main": true,
+      "main": false,
       "dev": false,
-      "back-end": false, 
+      "back-end": false,
       "feature/autoPlay": false
     }
   },
-  "rewrites":  [
-    {"source": "/(.*)", "destination": "/"}
- ]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }

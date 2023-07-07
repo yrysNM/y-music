@@ -8,7 +8,7 @@
     <div class="remote-component">
       <div class="app-label">#remote-component [REMOTE]</div>
     </div>
-    <div v-html="button"></div>
+    <div v-html="htmlLayout"></div>
   </div>
 </template>
 
@@ -25,13 +25,12 @@ export default {
   mounted() {
     if (this.fetchImport()) {
       this.fetchImport().then((res) => {
-        console.log(res);
         this.dataV.value = res;
       });
     }
   },
   computed: {
-    button() {
+    htmlLayout() {
       return this.dataV.value;
     },
   },
@@ -39,7 +38,7 @@ export default {
     async fetchImport() {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = (await import("y_music_remote/PreMain")).default;
+          const res = (await import("y_music_remote/Error")).default;
           resolve(ReactDOMServer.renderToString(res()));
         } catch (err) {
           reject(err);

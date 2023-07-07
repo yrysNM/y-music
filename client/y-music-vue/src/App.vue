@@ -30,4 +30,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.app {
+  background-color: #000;
+}
+</style>
