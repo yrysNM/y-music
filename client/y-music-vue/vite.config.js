@@ -13,15 +13,16 @@ export default defineConfig({
     federation({
       name: "y-music-remote-app",
       filename: "remoteEntry.js",
-      remotes: {
-        y_music_remote: "http://localhost:5000/assets/remoteEntry.js", //remote path containing the port configured on remote side, the build path, and the filename also configured on the remote side
-      },
+      exposes: {
+        "./Button": "./src/Button.vue",
+      }
     }),
   ],
   build: {
-    modulePreload: false,
     target: "esnext",
     minify: false,
     cssCodeSplit: false,
   },
 });
+
+ 

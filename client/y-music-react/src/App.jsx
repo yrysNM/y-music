@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import { loadRemoteModule } from '@module-federation/nextjs-mf';
 
 import { Searchbar, Sidebar, MusicPlayer, TopPlay } from './components';
 import {
@@ -16,9 +17,18 @@ import {
   Login,
   Registration,
 } from './pages';
+import AppLayout from "./layouts/AppLayout";
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
 import { getItem } from './helpers/persistanceStorage';
+
+const mountVueApp = () => {
+  return loadRemoteModule({
+    remoteName: "y_music_remote",
+    remoteEntry: "http://localhost:5000:/assets/remoteEntry.js",
+    exposedModule: "./Button",
+  })
+}
 
 const App = () => {
   const { activeSong } = useSelector(state => state.player);
@@ -31,6 +41,7 @@ const App = () => {
     const interval = setInterval(() => {
       getSpotifyToken();
     }, 3.6e6);
+    mountVueApp();
 
     return () => {
       clearInterval(interval);
@@ -55,7 +66,7 @@ const App = () => {
               <Route path="/songs/:songid" element={<SongDetails />} />
               <Route path="/search/:searchTerm" element={<Search />} />
               <Route path="/ymusic/albums" element={<YmAlbumsTracks />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<AppLayout />} />
               <Route path="/registration" element={<Registration />} />
 
               <Route path="*" element={<Page404 />} />
