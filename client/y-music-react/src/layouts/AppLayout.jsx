@@ -8,10 +8,10 @@ const AppLayout = () => {
     const fetchImport = async () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = (await import("y_music_remote/Button")).default;
+                const res = (await import("y_music_remote/y-music-remote-button")).default;
+                console.log(res);
                 resolve(ReactDOMServer.renderToString(res()));
             } catch (err) {
-                console.log(err);
                 reject(err);
             }
         })

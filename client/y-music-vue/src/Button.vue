@@ -1,6 +1,6 @@
 <template>
     <div>
-        Hello from vue wefwef
+        Hello from vue
     </div>
 </template>
 

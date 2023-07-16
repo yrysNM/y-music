@@ -11,17 +11,27 @@ export default defineConfig({
   plugins: [
     vue(),
     federation({
-      name: "y-music-remote-app",
+      name: "y-music-remote",
       filename: "remoteEntry.js",
       exposes: {
-        "./Button": "./src/Button.vue",
+        "./y-music-remote-button": "./src/Button.vue",
       },
+      remotes: {
+        "y_music_remote": "http://localhost:5001/assets/remoteEntry.js",
+      },
+      shared: ["vue"],
+
     }),
   ],
   build: {
-    target: "esnext",
+    target: ["chrome89", "edge89", "firefox89", "safari15"],
     minify: false,
-    cssCodeSplit: false,
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        minifyInternalExports: false
+      }
+    }
   },
 });
 

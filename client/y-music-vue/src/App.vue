@@ -4,17 +4,18 @@
     <div class="app">
       <app-button />
     </div>
+    <Layout />
   </div>
 </template>
 
 <script>
 // import SuspenseWithErrors from "./SuspenseWithErrors";
-// import Layout from "./Layout.vue";
+import Layout from "./Layout.vue";
 import AppButton from "./Button.vue";
 
 export default {
   components: {
-    // Layout,
+    Layout,
     // SuspenseWithErrors,
     AppButton
   },

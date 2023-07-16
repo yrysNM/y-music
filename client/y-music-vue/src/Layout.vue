@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="layout-app">
     <div class="app-label">
       <h1>home App vue based</h1>
@@ -48,7 +48,7 @@ export default {
     async fetchImportReactComponents(nameComponent) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = (await import("y_music_remote/PreMain")).default;
+          const res = (await import("y_music_remote/Error")).default;
           resolve(ReactDOMServer.renderToString(res()));
         } catch (err) {
           reject(err);
@@ -57,4 +57,4 @@ export default {
     },
   },
 };
-</script> -->
+</script>
