@@ -1,12 +1,12 @@
 <template>
     <div>
-        Hello from vue
+        Hello from vue wefwef
     </div>
 </template>
 
 <script>
 export default {
-
+    name: "Button"
 }
 </script>
 

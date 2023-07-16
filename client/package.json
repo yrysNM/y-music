@@ -3,8 +3,8 @@
     "private": true,
     "version": "1.0.0",
     "workspaces": [
-        "home",
-        "layout"
+        "y-music-ract",
+        "y-music-vue"
     ],
     "scripts": {
         "build": "pnpm  --parallel --filter \"./**\" build",

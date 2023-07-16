@@ -15,7 +15,7 @@ export default defineConfig({
       filename: "remoteEntry.js",
       exposes: {
         "./Button": "./src/Button.vue",
-      }
+      },
     }),
   ],
   build: {
@@ -25,4 +25,3 @@ export default defineConfig({
   },
 });
 
- 
