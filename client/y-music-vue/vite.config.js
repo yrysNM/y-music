@@ -14,7 +14,7 @@ export default defineConfig({
       name: "y-music-remote",
       filename: "remoteEntry.js",
       exposes: {
-        "./y-music-remote-button": "./src/Button.vue",
+        "./Button": "./src/Button.vue",
       },
       remotes: {
         "y_music_remote": "http://localhost:5001/assets/remoteEntry.js",

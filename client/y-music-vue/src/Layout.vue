@@ -49,6 +49,7 @@ export default {
       return new Promise(async (resolve, reject) => {
         try {
           const res = (await import("y_music_remote/Error")).default;
+          console.log(res());
           resolve(ReactDOMServer.renderToString(res()));
         } catch (err) {
           reject(err);

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="font-size: 23px; color: #fff">
         Hello from vue
     </div>
 </template>

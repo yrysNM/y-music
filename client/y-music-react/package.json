@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "proxy": "http://localhost:5173",
   "scripts": {
-    "serve": "vite preview --port 5001 --strictPort",
+    "serve": "vite --port 5001 --strictPort",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

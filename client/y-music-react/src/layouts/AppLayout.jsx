@@ -1,16 +1,46 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
 
 const AppLayout = () => {
     const vueAppRef = useRef(null);
+    const [renderObj, setRenderObj] = useState({
+        "type": "div",
+        "key": null,
+        "ref": null,
+        "props": {
+            "className": "w-full flex justify-center items-center",
+            "children": {
+                "type": "h1",
+                "key": null,
+                "ref": null,
+                "props": {
+                    "className": "font-bold text-2x1 text-white mt-2",
+                    "children": "Something went wrong. Please try again."
+                },
+                "_owner": null
+            }
+        },
+        "_owner": null
+    });
 
     const fetchImport = async () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = (await import("y_music_remote/y-music-remote-button")).default;
+                const res = (await import("y_music_remote/Button")).default;
                 console.log(res);
-                resolve(ReactDOMServer.renderToString(res()));
+                console.log(res.render());
+                /**
+                 * @TODO change vue render to react render obj just convert hahahaha
+                 */
+                // const renderObjVue = res.render();
+                // const copyRenderObj = JSON.parse(JSON.stringify(renderObj));
+                // copyRenderObj.type = renderObjVue.type; 
+                // copyRenderObj.props = {
+
+                // }
+                // setRenderObj()
+                resolve(ReactDOMServer.renderToStaticMarkup(res));
             } catch (err) {
                 reject(err);
             }
@@ -33,9 +63,9 @@ const AppLayout = () => {
         // }
 
         // if (fetchImport()) {
-        //     fetchImport().then((res) => {
-        //         console.log(res);
-        //     })
+        fetchImport().then((res) => {
+            console.log(res);
+        })
         // }
         fetchImport();
     }, []);
