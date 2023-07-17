@@ -17,7 +17,7 @@ export default defineConfig({
         "./Button": "./src/Button.vue",
       },
       remotes: {
-        "y_music_remote": "http://localhost:5001/assets/remoteEntry.js",
+        "y_music_remote": "http://localhost:5001/dist/assets/remoteEntry.js",
       },
       shared: ["vue"],
 
