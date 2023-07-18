@@ -21,12 +21,12 @@ db.enablePersistence().catch((error) => {
     console.log(`Firebase persistence error ${error.message}`)
 });
 
-const useCollection = db.collection("users");
+const userCollection = db.collection("users");
 
 export {
     auth,
     db,
-    useCollection,
+    userCollection,
     storage,
 }
 

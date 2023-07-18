@@ -17,6 +17,7 @@ export default defineConfig({
       filename: "remoteEntry.js",
       exposes: {
         "./Button": "./src/components/Button.vue",
+        "./LoginForm": "./src/components/LoginForm.vue",
       },
       remotes: {
         "y_music_remote": "http://localhost:5001/dist/assets/remoteEntry.js",

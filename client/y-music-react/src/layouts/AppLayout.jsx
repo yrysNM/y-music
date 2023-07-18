@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
+import { h } from "vue";
 import { renderToString } from "vue/server-renderer";
 
 const AppLayout = () => {
@@ -12,9 +13,9 @@ const AppLayout = () => {
     const fetchImport = async () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = (await import("y_music_remote/Button")).default;
+                const res = (await import("y_music_remote/LoginForm")).default;
 
-                resolve(renderToString(res.render()));
+                resolve(renderToString(h(res)));
             } catch (err) {
                 reject(err);
             }

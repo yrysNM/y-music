@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <app-button />
+    <login-form />
   </div>
 </template>
 
@@ -10,11 +10,11 @@
  */
 // import SuspenseWithErrors from "./SuspenseWithErrors";
 // import Layout from "./layouts/Layout.vue";
-import AppButton from "./components/Button.vue";
+import LoginForm from '@/components/LoginForm.vue';
 
 export default {
   components: {
-    AppButton
+    LoginForm
   },
 };
 </script>

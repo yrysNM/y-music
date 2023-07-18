@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="text-white text-center font-bold p-4 mb-4" v-if="signIn_show_alert" :class="signIn_show_alert">
-            {{ login_alert_msg }}
+            {{ signIn_slert_msg }}
         </div>
         <!-- Login Form -->
-
+        LoginTEst
     </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             signIn_submission: false,
-            signIn_show_alert: false,
+            signIn_show_alert: true,
             signIn_alert_variant: "bg-blue-500",
             signIn_slert_msg: "Please wait! We are logging you in."
         }
