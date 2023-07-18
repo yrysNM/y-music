@@ -33,6 +33,7 @@
     "stream-browserify": "^3.0.0",
     "swiper": "^9.2.4",
     "url": "^0.11.0",
+    "vue": "^3.3.4",
     "ym-api": "^1.2.1"
   },
   "devDependencies": {

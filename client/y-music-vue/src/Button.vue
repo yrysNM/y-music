@@ -1,6 +1,7 @@
 <template>
     <div style="font-size: 23px; color: #fff" class="test-class">
         Hello from vue
+        <h1 class="test">Test for render child props</h1>
     </div>
 </template>
 
