@@ -1,12 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import reactRefresh from "@vitejs/plugin-react-refresh";
 import federation from "@originjs/vite-plugin-federation";
+
 // https://vitejs.dev/config/
-/**
- * @BEFORE source for pnpm
- * @TODO pnpm build and pnpm serve 
- */
 export default defineConfig({
   plugins: [
     react({
@@ -32,8 +28,6 @@ export default defineConfig({
     minify: false,
     cssCodeSplit: true,
     rollupOptions: {
-      // sharedPlugin need input required
-      // input:{},
       output: {
         minifyInternalExports: false
       }
