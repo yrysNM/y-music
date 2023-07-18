@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "proxy": "http://localhost:5173",
   "scripts": {
-    "serve": "vite preview --port 5000 --strictPort",
+    "serve": "vite --port 5001 --strictPort",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@module-federation/nextjs-mf": "^7.0.2",
     "@react-firebase/auth": "^0.2.10",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
@@ -32,6 +33,7 @@
     "stream-browserify": "^3.0.0",
     "swiper": "^9.2.4",
     "url": "^0.11.0",
+    "vue": "^3.3.4",
     "ym-api": "^1.2.1"
   },
   "devDependencies": {
@@ -54,8 +56,11 @@
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
     "tailwindcss": "^3.3.2",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
-    "vite": "^4.3.2"
+    "vite": "^4.3.2",
+    "webpack": "^5.88.1"
   }
 }

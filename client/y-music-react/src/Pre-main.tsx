@@ -7,7 +7,6 @@ import { store } from './redux/store';
 
 import './index.css';
 
-
 const PreMain = () => {
     return (
         <React.StrictMode>

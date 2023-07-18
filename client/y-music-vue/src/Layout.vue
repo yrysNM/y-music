@@ -8,7 +8,7 @@
     <div class="remote-component">
       <div class="app-label">#remote-component [REMOTE]</div>
     </div>
-    <div v-html="htmlLayout"></div>
+    <div v-html="htmlLayoutForMainComponent"></div>
   </div>
 </template>
 
@@ -18,27 +18,38 @@ export default {
   data() {
     return {
       dataV: {
-        value: null,
+        errorComponent: null,
+        mainComponent: null,
       },
     };
   },
   mounted() {
-    if (this.fetchImport()) {
-      this.fetchImport().then((res) => {
-        this.dataV.value = res;
-      });
-    }
+    this.fetchImportReactComponents().then((res) => {
+      this.dataV.mainComponent = res;
+    });
+
+    /**
+     * @TODO make dynamic function for load react components,
+     * ,+++++++++++++++++++++++++++++++++++++++++++++++
+     */
+    // this.fetchImportReactComponents("PreMain").then((res) => {
+    //   this.dataV.mainComponent = res;
+    // });
   },
   computed: {
-    htmlLayout() {
-      return this.dataV.value;
+    htmlLayoutForErrorComponent() {
+      return this.dataV.errorComponent;
+    },
+    htmlLayoutForMainComponent() {
+      return this.dataV.mainComponent;
     },
   },
   methods: {
-    async fetchImport() {
+    async fetchImportReactComponents(nameComponent) {
       return new Promise(async (resolve, reject) => {
         try {
           const res = (await import("y_music_remote/Error")).default;
+          console.log(res());
           resolve(ReactDOMServer.renderToString(res()));
         } catch (err) {
           reject(err);

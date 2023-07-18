@@ -1,9 +1,12 @@
-import { defineConfig, preview } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import federation from "@originjs/vite-plugin-federation";
-
 // https://vitejs.dev/config/
+/**
+ * @BEFORE source for pnpm
+ * @TODO pnpm build and pnpm serve 
+ */
 export default defineConfig({
   plugins: [
     react({
@@ -12,26 +15,29 @@ export default defineConfig({
         plugins: ['babel-plugin-styled-components'],
       },
     }),
-    reactRefresh(),
     federation({
       name: "y-music-host-app",
       filename: "remoteEntry.js",
+      remotes: {
+        "y_music_remote": "http://localhost:5000/dist/assets/remoteEntry.js",
+      },
       exposes: {
         "./PreMain": "./src/Pre-main.tsx",
-        "./Sidebar": "./src/components/Sidebar.tsx",
         "./Error": "./src/components/Error.tsx",
-      },
-      shared: [
-        'react',
-        "react-dom",
-        "react-router-dom",
-      ]
-    })
+      }
+    }),
   ],
   build: {
-    target: "esnext",
+    target: 'esnext',
     minify: false,
-    cssCodeSplit: false,
+    cssCodeSplit: true,
+    rollupOptions: {
+      // sharedPlugin need input required
+      // input:{},
+      output: {
+        minifyInternalExports: false
+      }
+    }
   },
   resolve: {
     alias: {

@@ -4,15 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "serve": "vite --port=5001 --strictPort",
+    "serve": "vite --port 5000 --strictPort",
     "build": "vite build",
-    "preview": "vite preview --port=5001 --strictPort",
+    "preview": "vite preview --port=5000 --strictPort",
     "deploy": "npm run build && npm run preview"
   },
   "dependencies": {
     "@originjs/vite-plugin-federation": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {
