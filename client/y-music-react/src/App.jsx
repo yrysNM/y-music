@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-// import { loadRemoteModule } from '@module-federation/nextjs-mf';
 
 import { Searchbar, Sidebar, MusicPlayer, TopPlay } from './components';
 import {
@@ -21,13 +20,6 @@ import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
 import { getItem } from './helpers/persistanceStorage';
 
-// const mountVueApp = () => {
-//   return loadRemoteModule({
-//     remoteName: "y_music_remote",
-//     remoteEntry: "http://localhost:5000:/assets/remoteEntry.js",
-//     exposedModule: "./Button",
-//   })
-// }
 
 const App = () => {
   const { activeSong } = useSelector(state => state.player);

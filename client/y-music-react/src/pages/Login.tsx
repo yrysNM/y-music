@@ -1,11 +1,8 @@
-import AppLayout from "../layouts/AppLayout";
+import { AppVueLayout } from "../layouts/AppVueLayout";
 
 const Login = () => {
     return (
-        <div>
-            Login
-            <AppLayout />
-        </div>
+        <AppVueLayout />
     )
 }
 

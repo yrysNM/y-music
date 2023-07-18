@@ -1,17 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import ReactDOMServer from "react-dom/server";
+import React, { useEffect, useState } from "react";
 import { h } from "vue";
 import { renderToString } from "vue/server-renderer";
 
-const AppLayout = () => {
-    const vueAppRef = useRef(null);
+export const AppVueLayout: React.FC = () => {
     const [renderObj, setRenderObj] = useState({
-        renderHtml: "",
+        renderHTML: ""
     });
 
     const fetchImport = async () => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise<string>(async (resolve, reject) => {
             try {
                 const res = (await import("y_music_remote/LoginForm")).default;
 
@@ -23,21 +20,16 @@ const AppLayout = () => {
     }
 
     useEffect(() => {
-
         fetchImport().then(resHtmlString => {
             setRenderObj({
-                renderHtml: resHtmlString
-            });
-        });
+                renderHTML: resHtmlString,
+            })
+        })
     }, []);
-
-
 
     return (
         <main>
-            <div id="vue-app" ref={vueAppRef} dangerouslySetInnerHTML={{ __html: renderObj.renderHtml }}></div>
+            <div dangerouslySetInnerHTML={{ __html: renderObj.renderHTML }}></div>
         </main>
     );
 }
-
-export default AppLayout;
