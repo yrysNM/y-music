@@ -11,7 +11,9 @@ export const AppVueLayout: React.FC = () => {
         return new Promise<string>(async (resolve, reject) => {
             try {
                 const res = (await import("y_music_remote/LoginForm")).default;
-
+                // const app = createApp(res);
+                // console.log(app);
+                // console.log(h(app));
                 resolve(renderToString(h(res)));
             } catch (err) {
                 reject(err);

@@ -11,6 +11,7 @@
                 <vee-field type="email" name="email"
                     class="block w-full py-1.5  px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                     placeholder="Enter email" />
+
                 <ErrorMessage class="text-red-600" name="email" />
             </div>
             <button :disabled="signIn_submission">SUBMIT</button>
@@ -26,6 +27,10 @@ export default {
     name: "LoginForm",
     data() {
         return {
+            loginSchema: {
+                email: "required|email",
+                password: "required|min:9|max:100",
+            },
             signIn_submission: false,
             signIn_show_alert: false,
             signIn_alert_variant: "bg-blue-500",

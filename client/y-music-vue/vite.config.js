@@ -18,6 +18,8 @@ export default defineConfig({
       exposes: {
         "./Button": "./src/components/Button.vue",
         "./LoginForm": "./src/components/LoginForm.vue",
+        "./App": "./src/App.vue",
+        "./Main": "./src/main.js",
       },
       remotes: {
         "y_music_remote": "http://localhost:5001/dist/assets/remoteEntry.js",
