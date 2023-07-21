@@ -14,17 +14,59 @@
 
                 <ErrorMessage class="text-red-600" name="email" />
             </div>
-            <button :disabled="signIn_submission">SUBMIT</button>
+            <button :disabled="signIn_submission" class="btn btn-submit">Submit</button>
         </vee-form>
     </div>
 </template>
 
 <script>
+import { defineComponent } from "vue";
 import { mapActions } from "pinia";
+import {
+    Form as VeeForm,
+    Field as VeeField,
+    ErrorMessage,
+} from 'vee-validate'
 import useUserStore from "@/stores/user";
 
-export default {
+export default defineComponent({
     name: "LoginForm",
+    components: {
+        VeeForm,
+        VeeField,
+        ErrorMessage,
+    },
+    /**
+     * @TODO change data signIn in props and test code in codepen
+     * console.clear()
+        const App = {
+        props: ["appData"],
+        template:`
+            <div>From Root: {{appData}}</div>
+        `,
+        watch:{
+            stuff(){
+            console.log("changed")
+            }
+        }
+        }
+
+        new Vue({
+        el:"#app",
+        data: {
+            data: []
+        },
+        render(h){
+            return h(App, {props: {appData: this.data}})
+        },
+        mounted(){
+            setTimeout(() => this.data = [1,2,3], 1000)
+        }
+        })
+     */
+    porps: {
+
+    },
     data() {
         return {
             loginSchema: {
@@ -59,7 +101,13 @@ export default {
             window.location.reload();
         }
     }
-}
+});
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-submit {
+    padding: 10px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+</style>
