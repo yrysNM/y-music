@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ signIn_show_alert }}
         <div class="text-white text-center font-bold p-4 mb-4" v-if="signIn_show_alert" :class="signIn_show_alert">
             {{ signIn_alert_msg }}
         </div>
@@ -64,8 +65,35 @@ export default defineComponent({
         }
         })
      */
-    porps: {
-
+    props: {
+        signIn_submission: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        signIn_show_alert: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        signIn_alert_variant: {
+            type: String,
+            required: true,
+            default: "bg-bleu-500",
+        },
+        signIn_alert_msg: {
+            type: String,
+            required: true,
+            default: "Please wait! We are logging you in.",
+        },
+        loginSchema: {
+            type: Object,
+            required: true,
+            default: {
+                email: "required|email",
+                password: "required|min:9|max:100",
+            }
+        }
     },
     data() {
         return {

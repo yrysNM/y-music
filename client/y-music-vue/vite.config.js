@@ -24,7 +24,7 @@ export default defineConfig({
       remotes: {
         "y_music_remote": "http://localhost:5001/dist/assets/remoteEntry.js",
       },
-      shared: ["vue", "@vee-validate/rules", "vee-validate"],
+      shared: ["vue", "@vee-validate/rules", "vee-validate", "pinia"],
 
     }),
   ],

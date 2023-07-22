@@ -13,11 +13,11 @@ export const AppVueLayout: React.FC = () => {
     const fetchImport = async () => {
         return new Promise<string>(async (resolve, reject) => {
             try {
-                const res = (await import("y_music_remote/LoginForm")).default;
-                console.log(h(remoteApp, { data: res.data() }))
+                const res = (await import("y_music_remote/Main")).default;
+                console.log(h(remoteApp))
                 // console.log(res.render());
-                const app = createSSRApp(h(res));
-                renderToString(res).then(html => {
+                const app = createSSRApp(remoteApp);
+                renderToString(h(remoteApp)).then(html => {
                     console.log(html)
                 });
 
@@ -40,7 +40,10 @@ export const AppVueLayout: React.FC = () => {
 
     return (
         <main>
-            <div dangerouslySetInnerHTML={{ __html: renderObj.renderHTML }}></div>
+            {
+                renderObj.renderHTML &&
+                (<div dangerouslySetInnerHTML={{ __html: renderObj.renderHTML }}></div>)
+            }
         </main>
     );
 }

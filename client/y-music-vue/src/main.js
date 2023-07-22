@@ -22,3 +22,5 @@ auth.onAuthStateChanged(() => {
         app.mount("#app");
     }
 });
+
+export default { app };
