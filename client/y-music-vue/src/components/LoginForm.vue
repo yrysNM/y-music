@@ -1,11 +1,11 @@
 <template>
     <div>
-        {{ signIn_show_alert }}
-        <div class="text-white text-center font-bold p-4 mb-4" v-if="signIn_show_alert" :class="signIn_show_alert">
+        <div class="text-white text-center font-bold p-4 mb-4" v-if="this.signIn_show_alert"
+            :class="this.signIn_show_alert">
             {{ signIn_alert_msg }}
         </div>
         <!-- Login Form -->
-        <vee-form :validation-schema="loginSchema" @submit="signIn">
+        <vee-form :validation-schema="this.loginSchema" @submit="this.signIn">
             <!-- EMAIL -->
             <div class="mb-3">
                 <label class="inline-block mb-2">Email</label>
@@ -15,7 +15,7 @@
 
                 <ErrorMessage class="text-red-600" name="email" />
             </div>
-            <button :disabled="signIn_submission" class="btn btn-submit">Submit</button>
+            <button :disabled="this.signIn_submission" class="btn btn-submit">Submit</button>
         </vee-form>
     </div>
 </template>

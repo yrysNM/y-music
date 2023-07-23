@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { h } from "vue";
+import { createSSRApp, h } from "vue";
 import { renderToString } from "vue/server-renderer";
 
 
-// const remoteApp = defineAsyncComponent(() => import("y_music_remote/LoginForm"));
 
 export const AppVueLayout: React.FC = () => {
     const [renderObj, setRenderObj] = useState({
@@ -15,15 +14,39 @@ export const AppVueLayout: React.FC = () => {
         return new Promise<string>(async (resolve, reject) => {
             try {
                 const res = (await import("y_music_remote/Main")).default;
-                // console.log(h(remoteApp))
-                // console.log(res.render());
-                // const app = createSSRApp(remoteApp);
-                renderToString(h(res)).then(html => {
-                    console.log(html)
-                });
 
-                // console.log(app);
-                // console.log(h(app));
+                // renderToString(res.render()).then(html => {
+                //     console.log(html)
+                // });
+                const app = createSSRApp(res);
+                resolve(renderToString(app));
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
+
+
+    /**
+     * @TODO make common function for load components from vue
+     */
+
+    const fetchVueComponent = async (nameComponent: string) => {
+        return new Promise<string>(async (resolve, reject) => {
+            try {
+                // const res = (await import(`${nameComponent}`)).default;
+                const res = (await import("y_music_remote/LoginForm")).default;
+                // renderToString(h(res.render())).then(html => {
+                // console.log(html);
+                // });
+                const app = createSSRApp(res);
+                console.log(res.render());
+                console.log(app)
+                console.log(res);
+                console.log(h(res));
+                console.log(app._component.render({ ...res }));
+                console.log(app.use(res.components));
+
                 resolve(renderToString(h(res)));
             } catch (err) {
                 reject(err);
@@ -37,7 +60,12 @@ export const AppVueLayout: React.FC = () => {
                 renderHTML: resHtmlString,
                 renderLoginFormHTML: "",
             })
-        })
+        });
+
+
+        fetchVueComponent("y_music_remote/LoginForm").then(res => {
+            console.log(res);
+        });
     }, []);
 
     return (
