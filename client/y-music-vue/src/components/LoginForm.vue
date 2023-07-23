@@ -65,36 +65,36 @@ export default defineComponent({
         }
         })
      */
-    props: {
-        signIn_submission: {
-            type: Boolean,
-            required: true,
-            default: false,
-        },
-        signIn_show_alert: {
-            type: Boolean,
-            required: true,
-            default: false,
-        },
-        signIn_alert_variant: {
-            type: String,
-            required: true,
-            default: "bg-bleu-500",
-        },
-        signIn_alert_msg: {
-            type: String,
-            required: true,
-            default: "Please wait! We are logging you in.",
-        },
-        loginSchema: {
-            type: Object,
-            required: true,
-            default: {
-                email: "required|email",
-                password: "required|min:9|max:100",
-            }
-        }
-    },
+    // props: {
+    //     signIn_submission: {
+    //         type: Boolean,
+    //         required: true,
+    //         default: false,
+    //     },
+    //     signIn_show_alert: {
+    //         type: Boolean,
+    //         required: true,
+    //         default: false,
+    //     },
+    //     signIn_alert_variant: {
+    //         type: String,
+    //         required: true,
+    //         default: "bg-bleu-500",
+    //     },
+    //     signIn_alert_msg: {
+    //         type: String,
+    //         required: true,
+    //         default: "Please wait! We are logging you in.",
+    //     },
+    //     loginSchema: {
+    //         type: Object,
+    //         required: true,
+    //         default: {
+    //             email: "required|email",
+    //             password: "required|min:9|max:100",
+    //         }
+    //     }
+    // },
     data() {
         return {
             loginSchema: {

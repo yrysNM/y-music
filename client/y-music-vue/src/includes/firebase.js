@@ -16,10 +16,10 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-
-db.enablePersistence().catch((error) => {
+db.enablePersistence({ experimentalForceOwningTab: true }).catch((error) => {
     console.log(`Firebase persistence error ${error.message}`)
 });
+
 
 const userCollection = db.collection("users");
 
