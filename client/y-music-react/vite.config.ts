@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from "@originjs/vite-plugin-federation";
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
+import reactRefresh from '@vitejs/plugin-react-refresh'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    dynamicImportVars(),
+    reactRefresh(),
     react({
       include: '**/*.{jsx, tsx, js, ts}',
       babel: {

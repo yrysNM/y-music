@@ -3,7 +3,6 @@ import { createSSRApp, h } from "vue";
 import { renderToString } from "vue/server-renderer";
 
 
-
 export const AppVueLayout: React.FC = () => {
     const [renderObj, setRenderObj] = useState({
         renderHTML: "",
@@ -30,24 +29,13 @@ export const AppVueLayout: React.FC = () => {
     /**
      * @TODO make common function for load components from vue
      */
-
     const fetchVueComponent = async (nameComponent: string) => {
+        const hostUrl: string = `y_music_remote/${nameComponent}`;
         return new Promise<string>(async (resolve, reject) => {
             try {
-                // const res = (await import(`${nameComponent}`)).default;
-                const res = (await import("y_music_remote/LoginForm")).default;
-                // renderToString(h(res.render())).then(html => {
-                // console.log(html);
-                // });
-                const app = createSSRApp(res);
-                console.log(res.render());
-                console.log(app)
-                console.log(res);
-                console.log(h(res));
-                console.log(app._component.render({ ...res }));
-                console.log(app.use(res.components));
+                const res = (await import(hostUrl)).default;
 
-                resolve(renderToString(h(res)));
+                resolve(renderToString(h(res.render())));
             } catch (err) {
                 reject(err);
             }
@@ -63,7 +51,7 @@ export const AppVueLayout: React.FC = () => {
         });
 
 
-        fetchVueComponent("y_music_remote/LoginForm").then(res => {
+        fetchVueComponent("LoginForm").then(res => {
             console.log(res);
         });
     }, []);
