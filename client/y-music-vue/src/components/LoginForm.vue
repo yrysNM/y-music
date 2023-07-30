@@ -8,15 +8,26 @@
       {{ signIn_alert_msg }}
     </div>
     <!-- Login Form -->
-    <form @submit="this.signIn">
-      <!-- EMAIL -->
-      <div class="mb-3">
-        <label class="inline-block mb-2">Email</label>
+    <form @submit="this.signIn" class="form">
+      <div class="form-wrapper">
+        <label class="label" for="email">Email</label>
         <input
+          id="email"
           type="email"
           name="email"
-          class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+          class="input"
           placeholder="Enter email"
+        />
+      </div>
+
+      <div class="form-wrapper">
+        <label class="label" for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter password"
+          class="input"
         />
       </div>
       <button :disabled="this.signIn_submission" class="btn btn-submit">
@@ -68,6 +79,30 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.form {
+  width: 400px;
+  display: grid;
+  place-content: center;
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .label {
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .input {
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      width: 100%;
+      background-color: #fff;
+    }
+  }
+}
 .btn-submit {
   padding: 10px;
   text-align: center;
