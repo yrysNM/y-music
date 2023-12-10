@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import federation from "@originjs/vite-plugin-federation";
@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       vue: "vue/dist/vue.esm-bundler.js",
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   plugins: [
@@ -21,11 +21,10 @@ export default defineConfig({
         "./App": "./src/App.vue",
         "./Main": "./src/main.js",
       },
-      remotes: {
-        "y_music_remote": "http://localhost:5001/dist/assets/remoteEntry.js",
-      },
+      // remotes: {
+      //   "y_music_remote": "http://localhost:5001/dist/assets/remoteEntry.js",
+      // },
       shared: ["vue", "@vee-validate/rules", "vee-validate", "pinia"],
-
     }),
   ],
   build: {
@@ -34,14 +33,13 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        minifyInternalExports: false
-      }
-    }
+        minifyInternalExports: false,
+      },
+    },
   },
   define: {
     __VUE_I18N_FULL_INSTALL__: true,
     __VUE_I18N_LEGACY_API__: false,
     __INTLIFY_PROD_DEVTOOLS__: false,
-  }
+  },
 });
-
