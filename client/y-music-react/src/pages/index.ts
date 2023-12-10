@@ -6,12 +6,10 @@ import Search from './Search';
 import TopCharts from './TopCharts';
 import AroundYou from './AroundYou';
 import YmAlbumsTracks from './YmAlbumsTracks';
-import Login from './Login';
-import Registration from './Registration';
+import { UploadMusics } from './UploadMusics';
 
 export {
-  Login,
-  Registration,
+  UploadMusics,
   Discover,
   Search,
   TopArtists,

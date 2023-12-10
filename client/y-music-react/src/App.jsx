@@ -13,8 +13,7 @@ import {
   SongDetails,
   TopCharts,
   YmAlbumsTracks,
-  Login,
-  Registration,
+  UploadMusics
 } from './pages';
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
@@ -23,22 +22,6 @@ import { getItem } from './helpers/persistanceStorage';
 
 const App = () => {
   const { activeSong } = useSelector(state => state.player);
-
-  useEffect(() => {
-    const onece = setTimeout(() => {
-      getSpotifyToken();
-    }, 1000);
-
-    const interval = setInterval(() => {
-      getSpotifyToken();
-    }, 3.6e6);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(onece);
-    };
-  }, []);
-
 
   return (
     <div className="relative flex">
@@ -57,8 +40,9 @@ const App = () => {
               <Route path="/songs/:songid" element={<SongDetails />} />
               <Route path="/search/:searchTerm" element={<Search />} />
               <Route path="/ymusic/albums" element={<YmAlbumsTracks />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/registration" element={<Registration />} />
+              <Route path="/upload" element={<UploadMusics />} />
+              {/* TODO <Route path="/login" element={<Login />} /> */}
+              {/* <Route path="/registration" element={<Registration />} /> */}
 
               <Route path="*" element={<Page404 />} />
             </Routes>
