@@ -21,7 +21,7 @@ export const UploadMusics = () => {
 
     return (
         <div className="flex flex-col">
-            <PageTitle title="Upload musics" />
+            <PageTitle title="Upload favorite musics" />
 
             <div className="bg-white/50 rounded border border-gray-200 relative flex flex-col">
                 <div className="px-6 pt-6 pb-5 font-bold border-b border-gray-200 flex flex-row gap-4 items-center">
