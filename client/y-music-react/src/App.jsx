@@ -13,7 +13,8 @@ import {
   SongDetails,
   TopCharts,
   YmAlbumsTracks,
-  UploadMusics
+  UploadMusics,
+  Favorites
 } from './pages';
 import { Page404 } from './pages/404';
 import { getSpotifyToken } from './api/spotify';
@@ -41,6 +42,7 @@ const App = () => {
               <Route path="/search/:searchTerm" element={<Search />} />
               <Route path="/ymusic/albums" element={<YmAlbumsTracks />} />
               <Route path="/upload" element={<UploadMusics />} />
+              <Route path="/favorites" element={<Favorites />} />
               {/* TODO <Route path="/login" element={<Login />} /> */}
               {/* <Route path="/registration" element={<Registration />} /> */}
 

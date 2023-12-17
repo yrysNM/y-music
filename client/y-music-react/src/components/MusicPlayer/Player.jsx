@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect } from 'react';
-import { Error } from '..';
+// import { Error } from '..';
 
 const Player = ({
   activeSong,
@@ -34,7 +34,7 @@ const Player = ({
     }
   }, [seekTime]);
 
-  if (!activeSong?.hub?.actions) return <Error />;
+  // if (!activeSong?.hub?.actions) return <Error />;
 
   return (
     <audio

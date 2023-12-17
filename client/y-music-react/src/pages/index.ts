@@ -6,7 +6,8 @@ import Search from './Search';
 import TopCharts from './TopCharts';
 import AroundYou from './AroundYou';
 import YmAlbumsTracks from './YmAlbumsTracks';
-import { UploadMusics } from './UploadMusics';
+import {UploadMusics} from './UploadMusics';
+import {Favorites} from './Favorites';
 
 export {
   UploadMusics,
@@ -18,4 +19,5 @@ export {
   TopCharts,
   AroundYou,
   YmAlbumsTracks,
+  Favorites,
 };

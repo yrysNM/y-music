@@ -14,7 +14,7 @@ export interface Track {
   key: string;
   layout: string;
   properties: Properties;
-  share: Share;
+  share?: Share;
   subtitle: string;
   title: string;
   type: TrackType;
@@ -37,7 +37,7 @@ export interface Hub {
   displayname: Displayname;
   explicit: boolean;
   image: string;
-  options: Option[];
+  options?: Option[];
   type: HubType;
 }
 
@@ -52,6 +52,7 @@ export enum Name {
   Apple = 'apple',
   HubApplemusicDeeplink = 'hub:applemusic:deeplink',
   HubApplemusicSubscribe = 'hub:applemusic:subscribe',
+  yMusic = 'yMusic',
 }
 
 export enum ActionType {
@@ -62,6 +63,7 @@ export enum ActionType {
 
 export enum Displayname {
   AppleMusic = 'APPLE MUSIC',
+  yMusic = 'yMusic',
 }
 
 export interface Option {
@@ -99,6 +101,7 @@ export enum Listcaption {
 
 export enum HubType {
   Applemusic = 'APPLEMUSIC',
+  yMusic = 'yMusic',
 }
 
 export interface Images {

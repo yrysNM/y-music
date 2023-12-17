@@ -3,7 +3,6 @@ const Error = () => (
     <h1 className="font-bold text-2x1 text-white mt-2">
       Something went wrong. Please try again. Hello from REACT
     </h1>
-    Test
   </div>
 );
 
