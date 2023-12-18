@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {PageTitle, Error, Loader, SongCard} from '../components';
 import type {
   IShazamTopTracks,
@@ -21,7 +20,6 @@ export const Favorites = () => {
     properties: {},
     tracks: [],
   });
-  const [isLoading, setIsLoading] = useState(false);
   const {data, isFetching, error} = useGetTracksQuery();
 
   useEffect(() => {
@@ -41,69 +39,62 @@ export const Favorites = () => {
     if (!data || data.length === 0) return;
     if (!(index >= 0 && index < data.length)) return;
 
-    setIsLoading(true);
-    await axios
-      .get(`${import.meta.env.VITE_LOCAL_URL}tracks/${data[index].trackId}`)
-      .then((res) => {
-        setIsLoading(false);
+    const songUrl = `${import.meta.env.VITE_LOCAL_URL}/tracks/${
+      data[index].trackId
+    }`;
 
-        const trackObj: Track = {
-          attributes: '',
-          highlightsurls: {
-            artisthighlightsurl: '',
-            trackhighlighturl: '',
+    const trackObj: Track = {
+      attributes: '',
+      highlightsurls: {
+        artisthighlightsurl: '',
+        trackhighlighturl: '',
+      },
+      images: {
+        background: getUrl(data[index].picture),
+        coverart: getUrl(data[index].picture),
+      },
+      key: data[index]._id,
+      layout: 'y-music',
+      properties: {},
+      subtitle: data[index].genre,
+      title: data[index].title,
+      type: TrackType.Music,
+      url: songUrl,
+      hub: {
+        actions: [
+          {
+            name: Name.Apple,
+            type: ActionType.Applemusicplay,
           },
-          images: {
-            background: getUrl(data[index].picture),
-            coverart: getUrl(data[index].picture),
+          {
+            name: Name.yMusic,
+            type: ActionType.URI,
+            uri: songUrl,
           },
-          key: data[index]._id,
-          layout: 'y-music',
-          properties: {},
-          subtitle: data[index].genre,
-          title: data[index].title,
-          type: TrackType.Music,
-          url: res.data,
-          hub: {
-            actions: [
-              {
-                name: Name.Apple,
-                type: ActionType.Applemusicplay,
-              },
-              {
-                name: Name.yMusic,
-                type: ActionType.URI,
-                uri: res.data,
-              },
-            ],
-            displayname: Displayname.yMusic,
-            explicit: false,
-            image: '',
-            type: HubType.yMusic,
-          },
-          artists: [
-            {
-              adamid: data[index].year,
-              alias: data[index].artistName,
-              id: data[index].trackId,
-            },
-          ],
-        };
+        ],
+        displayname: Displayname.yMusic,
+        explicit: false,
+        image: '',
+        type: HubType.yMusic,
+      },
+      artists: [
+        {
+          adamid: data[index].year,
+          alias: data[index].artistName,
+          id: data[index].trackId,
+        },
+      ],
+    };
 
-        setTrack((tracksObj) => ({
-          properties: {},
-          tracks: tracksObj.tracks.concat([trackObj]),
-        }));
-        initalTrack((index += 1));
-      })
-      .catch((err) => {
-        console.error(err);
-        console.log(data[index]);
-      });
+    setTrack((tracksObj) => ({
+      properties: {},
+      tracks: tracksObj.tracks.concat([trackObj]),
+    }));
+
+    initalTrack((index += 1));
   }
 
-  if (isFetching || isLoading)
-    return <Loader title="Loading songs around you" />;
+  if (isFetching) return <Loader title="Loading songs around you" />;
   if (error) return <Error />;
 
   return (

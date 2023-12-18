@@ -30,7 +30,7 @@ export enum Type {
 export const localCoreApi = createApi({
   reducerPath: 'localApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_LOCAL_URL + 'tracks/',
+    baseUrl: import.meta.env.VITE_LOCAL_URL + '/tracks/',
   }),
   endpoints: (builder) => ({
     getTracks: builder.query<Track[], void>({

@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import PlayPause from './PlayPause';
-import { useAppDispatch } from '../hooks/redux.hook';
-import { playPause, setActiveSong } from '../redux/features/playerSlice';
+import {useAppDispatch} from '../hooks/redux.hook';
+import {playPause, setActiveSong} from '../redux/features/playerSlice';
 
 import type {
   Track,
@@ -19,7 +19,7 @@ export interface IPropsSongCard {
   data: IShazamTopTracks;
 }
 
-const SongCard = ({ song, isPlaying, activeSong, i, data }: IPropsSongCard) => {
+const SongCard = ({song, isPlaying, activeSong, i, data}: IPropsSongCard) => {
   const dispatch = useAppDispatch();
 
   const handlePauseClick = () => {
@@ -27,7 +27,7 @@ const SongCard = ({ song, isPlaying, activeSong, i, data }: IPropsSongCard) => {
   };
 
   const handlePlayClick = () => {
-    dispatch(setActiveSong({ song, data, i }));
+    dispatch(setActiveSong({song, data, i}));
     dispatch(playPause(true));
   };
 

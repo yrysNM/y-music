@@ -58,6 +58,20 @@ const MusicPlayer = () => {
     }
   };
 
+  function getDuration(url, next) {
+    let _player = new Audio(url);
+
+    _player.addEventListener("durationchange", function (e) {
+      if (this.duration !== Infinity && !isNaN(this.duration) && this.duration) {
+        let duration = this.duration;
+        next(duration);
+      }
+    }, false);
+
+    _player.load();
+    _player.currentTime = 24 * 60 * 60;
+    _player.volume = 0;
+  }
 
   return (
     <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
@@ -92,7 +106,11 @@ const MusicPlayer = () => {
           currentIndex={currentIndex}
           onEnded={handleNextSong}
           onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
-          onLoadedData={(event) => setDuration(event.target.duration)}
+          onLoadedData={(event) => {
+            getDuration(activeSong.url, (duration) => {
+              setDuration(duration)
+            })
+          }}
         />
       </div>
       <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
