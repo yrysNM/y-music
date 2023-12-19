@@ -4,7 +4,11 @@
     "lib": [
       "DOM",
       "DOM.Iterable",
-      "ESNext"
+      "ESNext",
+      "es5",
+      "es6",
+      "dom",
+      "dom.iterable"
     ],
     "module": "ESNext",
     "skipLibCheck": true,
@@ -22,9 +26,7 @@
     "noFallthroughCasesInSwitch": true,
     "allowJs": true
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "./tsconfig.node.json"
