@@ -80,24 +80,26 @@ export const UploadMusics = () => {
           },
         })
         .then(() => {
-          const uploaded = uploads.map((obj, i) => {
-            if (uploads.length - 1 === i) {
-              return {
-                ...obj,
-                variant: 'bg-green-400',
-                icon: 'fas fa-check',
-                textClass: 'text-green-400',
-              };
-            }
+          if (uploads.length !== 0) {
+            const uploaded = uploads.map((obj, i) => {
+              if (uploads.length - 1 === i) {
+                return {
+                  ...obj,
+                  variant: 'bg-green-400',
+                  icon: 'fas fa-check',
+                  textClass: 'text-green-400',
+                };
+              }
 
-            return obj;
-          });
-
-          /**
-           * @FIX react hook rules for loop
-           */
-          setUploads(uploaded);
-          initialUpload((index += 1));
+              return obj;
+            });
+            console.log(uploaded);
+            /**
+             * @FIX react hook rules for loop
+             */
+            setUploads(uploaded);
+            initialUpload((index += 1));
+          }
         })
         .catch(() => {
           setIsOffline(true);
@@ -105,11 +107,12 @@ export const UploadMusics = () => {
     }
   };
 
-  const onClickDropbox = (event: React.MouseEvent<HTMLInputElement>) => {
-    console.log(event);
-
+  const onClickDropbox = () => {
     if (uploadInput.current) {
-      console.log(uploadInput.current.click());
+      /**
+       * @FIX updefined
+       */
+      uploadInput.current.click();
     }
   };
 
