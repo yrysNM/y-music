@@ -49,6 +49,7 @@ class TrackController {
           as: "tracks.data",
           left: {
             file_id: "$_id",
+            files_id: "$trackId",
           },
           pipeline: [
             {
@@ -111,60 +112,64 @@ class TrackController {
         parts: 5,
       },
     });
-    const collection = _db.getDb().collection("tracks");
+    console.log(upload);
+    // const collection = _db.getDb().collection("tracks");
 
-    await upload.single("track")(req, res, (err) => {
-      if (err) {
-        return res.status(400).json({
-          message: "Upload request Validation failed " + err,
-        });
-      } else if (!req.body.name) {
-        return res.status(400).json({
-          message: "No track name in request body",
-        });
-      }
+    // await upload.single("track")(req, res, (err) => {
+    //   if (err) {
+    //     return res.status(400).json({
+    //       message: "Upload request Validation failed " + err,
+    //     });
+    //   } else if (!req.body.name) {
+    //     return res.status(400).json({
+    //       message: "No track name in request body",
+    //     });
+    //   }
 
-      let trackName = req.body.name;
+    //   let trackName = req.body.name;
 
-      //convert to buffer
-      const readableTeackStream = new Readable();
-      readableTeackStream.push(req.file.buffer);
-      readableTeackStream.push(null);
+    //   //convert to buffer
+    //   const readableTeackStream = new Readable();
+    //   readableTeackStream.push(req.file.buffer);
+    //   readableTeackStream.push(null);
 
-      let bucket = new mongoose.mongo.GridFSBucket(_db.getDb(), {
-        bucketName: "tracks",
-      });
+    //   let bucket = new mongoose.mongo.GridFSBucket(_db.getDb(), {
+    //     bucketName: "tracks",
+    //   });
 
-      let uploadStream = bucket.openUploadStream(trackName);
-      let id = uploadStream.id;
-      readableTeackStream.pipe(uploadStream);
+    //   let uploadStream = bucket.openUploadStream(trackName);
+    //   let id = uploadStream.id;
+    //   readableTeackStream.pipe(uploadStream);
 
-      //parse track data
-      jsmediatags.read(req.file.buffer, {
-        onSuccess: function (tag) {
-          const { tags } = tag;
-          console.log(tag);
-          collection.insertOne({
-            trackId: id,
-            title: tags.title,
-            artistName: tags.artist,
-            album: tags.album,
-            year: tags.year,
-            genre: tags.genre,
-            picture: tags.picture,
-          });
-        },
-        onError: function (error) {
-          console.log(":(", error.type, error.info);
-        },
-      });
+    //   //parse track data
+    //   jsmediatags.read(req.file.buffer, {
+    //     onSuccess: function (tag) {
+    //       const { tags } = tag;
+    //       console.log(tag);
+    //       collection.insertOne({
+    //         trackId: id,
+    //         title: tags.title,
+    //         artistName: tags.artist,
+    //         album: tags.album,
+    //         year: tags.year,
+    //         genre: tags.genre,
+    //         picture: tags.picture,
+    //       });
+    //     },
+    //     onError: function (error) {
+    //       console.log(":(", error.type, error.info);
+    //     },
+    //   });
 
-      uploadStream.on("finish", () => {
-        return res.status(201).json({
-          message:
-            "File  upload succesfully, stored under Mongo ObjectId: " + id,
-        });
-      });
+    // uploadStream.on("finish", () => {
+    //   return res.status(201).json({
+    //     message:
+    //       "File  upload succesfully, stored under Mongo ObjectId: " + id,
+    //   });
+    // });
+    // });
+    return res.status(201).json({
+      message: "File  upload succesfully, stored under Mongo ObjectId: test",
     });
   }
 }

@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {PageTitle, Error} from '../components';
 import {FaUpload} from 'react-icons/fa6';
 import axios from 'axios';
@@ -13,7 +13,8 @@ interface IUploadState {
 export const UploadMusics = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
-  const [uploads, setUploads] = useState<IUploadState[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [uploads, setUploads] = useState<IUploadState[] | []>([]);
   const [progress, setProgress] = useState<number>(0);
 
   const uploadInput: React.LegacyRef<HTMLInputElement> | undefined =
@@ -27,84 +28,81 @@ export const UploadMusics = () => {
 
     let files: File[] =
       'files' in event.target && event.target.files
-        ? [event.target.files[0]]
+        ? [...event.target.files]
         : [...(event as React.DragEvent<HTMLDivElement>).dataTransfer.files];
 
-    files.forEach(async (file) => {
-      if (file.type !== 'audio/mpeg') return;
+    setFiles(files);
+    initialUpload(0);
+  };
 
-      if (!navigator.onLine) {
-        setUploads((uploaded) => [
-          ...uploaded,
-          {
-            name: file.name,
-            icon: 'fas fa-times',
-            variant: 'bg-red-400',
-            textClass: 'text-red-400',
+  const initialUpload = async (index: number) => {
+    if (!files || files.length === 0) return;
+    if (!(index >= 0) && index < files.length) return;
+
+    const file = files[index];
+    const uploadObj: IUploadState = {
+      name: file.name,
+      variant: 'bg-red-400',
+      icon: 'fas fa-times',
+      textClass: 'text-red-400',
+    };
+
+    if (!navigator.onLine) {
+      setIsOffline(true);
+      setUploads((uploaded) => [...uploaded, uploadObj]);
+    } else {
+      setIsOffline(false);
+      const formData = new FormData();
+      formData.append('track', file);
+      formData.append(
+        'name',
+        file.name.substring(0, file.name.lastIndexOf('.'))
+      );
+
+      setUploads((uploaded) => [...uploaded, uploadObj]);
+
+      await axios
+        .post(`${import.meta.env.VITE_LOCAL_URL}/tracks`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
           },
-        ]);
-        return;
-      } else {
-        setIsOffline(false);
-        const formData = new FormData();
-        formData.append('track', file);
-        formData.append(
-          'name',
-          file.name.substring(0, file.name.lastIndexOf('.'))
-        );
-
-        setUploads((uploaded) => [
-          ...uploaded,
-          {
-            name: file.name,
-            variant: 'bg-red-400',
-            icon: 'fas fa-times',
-            textClass: 'text-red-400',
+          onUploadProgress: (progressEvent) => {
+            const progress =
+              (progressEvent.loaded / (progressEvent.total || 1)) * 50;
+            setProgress(progress);
           },
-        ]);
-
-        await axios
-          .post(`${import.meta.env.VITE_LOCAL_URL}/tracks`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-            onUploadProgress: (progressEvent) => {
+          onDownloadProgress: (progressEvent) => {
+            if (progressEvent.total) {
               const progress =
-                (progressEvent.loaded / (progressEvent.total || 1)) * 50;
+                50 + (progressEvent.loaded / (progressEvent.total || 1)) * 50;
               setProgress(progress);
-            },
-            onDownloadProgress: (progressEvent) => {
-              if (progressEvent.total) {
-                const progress =
-                  50 + (progressEvent.loaded / (progressEvent.total || 1)) * 50;
-                setProgress(progress);
-              }
-            },
-          })
-          .then(() => {
-            const uploaded = uploads.map((obj, i) => {
-              if (uploads.length - 1 === i) {
-                return {
-                  ...obj,
-                  variant: 'bg-green-400',
-                  icon: 'fas fa-check',
-                  textClass: 'text-green-400',
-                };
-              }
-              return obj;
-            });
+            }
+          },
+        })
+        .then(() => {
+          const uploaded = uploads.map((obj, i) => {
+            if (uploads.length - 1 === i) {
+              return {
+                ...obj,
+                variant: 'bg-green-400',
+                icon: 'fas fa-check',
+                textClass: 'text-green-400',
+              };
+            }
 
-            /**
-             * @TODO fix empty array (uploaded)
-             */
-            console.log(uploaded);
-            setUploads(uploaded);
-          })
-          .catch(() => {
-            setIsOffline(true);
+            return obj;
           });
-      }
-    });
+
+          /**
+           * @FIX react hook rules for loop
+           */
+          setUploads(uploaded);
+          initialUpload((index += 1));
+        })
+        .catch(() => {
+          setIsOffline(true);
+        });
+    }
   };
 
   const onClickDropbox = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -126,6 +124,8 @@ export const UploadMusics = () => {
       setIsDragOver(isDragOver);
     }
   };
+
+  useEffect(() => {}, [uploads]);
 
   if (isOffline) return <Error />;
 
