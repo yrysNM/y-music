@@ -1,5 +1,5 @@
-import {useEffect, useRef, useState} from 'react';
-import {PageTitle, Error} from '../components';
+import {useRef, useState} from 'react';
+import {PageTitle} from '../components';
 import {FaUpload} from 'react-icons/fa6';
 import axios from 'axios';
 
@@ -14,7 +14,7 @@ export const UploadMusics = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [uploads, setUploads] = useState<IUploadState[] | []>([]);
+  // const [uploads, setUploads] = useState<IUploadState[]>([]);
   const [progress, setProgress] = useState<number>(0);
 
   const uploadInput: React.LegacyRef<HTMLInputElement> | undefined =
@@ -37,29 +37,21 @@ export const UploadMusics = () => {
 
   const initialUpload = async (index: number) => {
     if (!files || files.length === 0) return;
-    if (!(index >= 0) && index < files.length) return;
+    if (!(index >= 0 && index < files.length)) return;
 
     const file = files[index];
-    const uploadObj: IUploadState = {
-      name: file.name,
-      variant: 'bg-red-400',
-      icon: 'fas fa-times',
-      textClass: 'text-red-400',
-    };
 
     if (!navigator.onLine) {
       setIsOffline(true);
-      setUploads((uploaded) => [...uploaded, uploadObj]);
     } else {
-      setIsOffline(false);
+      setIsOffline(true);
+
       const formData = new FormData();
       formData.append('track', file);
       formData.append(
         'name',
         file.name.substring(0, file.name.lastIndexOf('.'))
       );
-
-      setUploads((uploaded) => [...uploaded, uploadObj]);
 
       await axios
         .post(`${import.meta.env.VITE_LOCAL_URL}/tracks`, formData, {
@@ -80,26 +72,8 @@ export const UploadMusics = () => {
           },
         })
         .then(() => {
-          if (uploads.length !== 0) {
-            const uploaded = uploads.map((obj, i) => {
-              if (uploads.length - 1 === i) {
-                return {
-                  ...obj,
-                  variant: 'bg-green-400',
-                  icon: 'fas fa-check',
-                  textClass: 'text-green-400',
-                };
-              }
-
-              return obj;
-            });
-            console.log(uploaded);
-            /**
-             * @FIX react hook rules for loop
-             */
-            setUploads(uploaded);
-            initialUpload((index += 1));
-          }
+          setIsOffline(false);
+          initialUpload((index += 1));
         })
         .catch(() => {
           setIsOffline(true);
@@ -109,9 +83,6 @@ export const UploadMusics = () => {
 
   const onClickDropbox = () => {
     if (uploadInput.current) {
-      /**
-       * @FIX updefined
-       */
       uploadInput.current.click();
     }
   };
@@ -127,10 +98,6 @@ export const UploadMusics = () => {
       setIsDragOver(isDragOver);
     }
   };
-
-  useEffect(() => {}, [uploads]);
-
-  if (isOffline) return <Error />;
 
   return (
     <div className="flex flex-col">
@@ -176,16 +143,22 @@ export const UploadMusics = () => {
           />
 
           <hr className="my-6" />
-          {uploads.map((upload, i) => (
+          {files.map((upload, i) => (
             <div key={i}>
-              <div className={'font-bold text-sm' + ` ${upload.textClass}`}>
-                <i className={upload.icon}></i> {upload.name}
+              <div
+                className={
+                  'font-bold text-sm' +
+                  ` ${isOffline ? 'text-red-400' : 'text-green-400'}`
+                }
+              >
+                <i className={isOffline ? 'fas fa-times' : 'fas fa-check'}></i>
+                {upload.name}
               </div>
               <div className="flex h-4  overflow-hidden bg-gray-200 rounded">
                 <div
                   className={
                     'transition-all progress-bar bg-blue-400' +
-                    ` ${upload.variant}`
+                    ` ${isOffline ? 'bg-red-400' : 'bg-green-400'}`
                   }
                   style={{width: progress + '%'}}
                 ></div>
